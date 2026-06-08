@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>game_ryo - Developer Profile</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" />
+    
+    <style>
+        :root {
+            --bg-color: #0f172a; /* Slate 900 */
+            --bg-card: rgba(30, 41, 59, 0.7); /* Slate 800 with opacity */
+            --text-main: #f8fafc; /* Slate 50 */
+            --text-muted: #94a3b8; /* Slate 400 */
+            --primary: #3b82f6; /* Blue 500 */
+            --primary-glow: rgba(59, 130, 246, 0.5);
+            --accent: #06b6d4; /* Cyan 500 */
+            --border-color: rgba(255, 255, 255, 0.1);
+            --glass-blur: blur(12px);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Background Effects */
+        .bg-glow {
+            position: fixed;
+            top: -10%; left: -10%;
+            width: 50vw; height: 50vw;
+            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+            filter: blur(100px);
+            z-index: -1;
+            opacity: 0.4;
+            animation: float 10s infinite alternate ease-in-out;
+        }
+        .bg-glow-2 {
+            position: fixed;
+            bottom: -10%; right: -10%;
+            width: 40vw; height: 40vw;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.3) 0%, transparent 70%);
+            filter: blur(100px);
+            z-index: -1;
+            opacity: 0.4;
+            animation: float 8s infinite alternate-reverse ease-in-out;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(30px, 50px); }
+        }
+
+        /* Navbar */
+        nav {
+            position: fixed;
+            top: 0; width: 100%;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 100;
+        }
+
+        .nav-brand {
+            font-weight: 800;
+            font-size: 1.2rem;
+            letter-spacing: -0.5px;
+            background: linear-gradient(to right, var(--text-main), var(--text-muted));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .lang-switch {
+            display: flex;
+            background: rgba(0,0,0,0.2);
+            border-radius: 20px;
+            padding: 4px;
+            border: 1px solid var(--border-color);
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .lang-btn.active {
+            background: var(--primary);
+            color: #fff;
+            box-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        /* Main Container */
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 8rem 1.5rem 4rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            margin-bottom: 5rem;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .avatar-container {
+            position: relative;
+            width: 160px;
+            height: 160px;
+            margin: 0 auto 2rem;
+        }
+
+        .avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--bg-color);
+            box-shadow: 0 0 0 2px var(--primary), 0 10px 30px var(--primary-glow);
+            background-color: var(--bg-card);
+        }
+
+        .name {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            letter-spacing: -1px;
+        }
+
+        .role {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--accent);
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(6, 182, 212, 0.2);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .social-btn svg {
+            width: 20px; height: 20px;
+            fill: currentColor;
+        }
+
+        .social-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px var(--primary-glow);
+        }
+
+        /* Sections */
+        section {
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-title::before {
+            content: '';
+            display: block;
+            width: 8px;
+            height: 24px;
+            background: linear-gradient(to bottom, var(--accent), var(--primary));
+            border-radius: 4px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 2.5rem;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+        .card p:last-child { margin-bottom: 0; }
+
+        /* Skills */
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .skill-tag {
+            padding: 0.6rem 1.2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .skill-tag:hover {
+            background: rgba(59, 130, 246, 0.15);
+            border-color: var(--primary);
+            color: var(--accent);
+        }
+
+        /* Spotify */
+        .spotify-widget img {
+            width: 100%;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: var(--transition);
+        }
+        .spotify-widget img:hover {
+            transform: scale(1.02);
+        }
+
+        /* Links */
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .link-card {
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 1.5rem;
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .link-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.05), transparent);
+            transform: translateX(-100%);
+            transition: 0.5s;
+        }
+
+        .link-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .link-card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .link-image {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            background: #1e293b;
+        }
+        
+        .link-image.circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+        }
+
+        .link-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-main);
+        }
+
+        .link-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            flex-grow: 1;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .name { font-size: 2.5rem; }
+            .card { padding: 1.5rem; }
+            .avatar-container { width: 130px; height: 130px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background glow effects -->
+    <div class="bg-glow"></div>
+    <div class="bg-glow-2"></div>
+
+    <nav>
+        <a href="#" class="nav-brand">ryopc org</a>
+        <div class="lang-switch">
+            <button class="lang-btn active" id="btn-ja" onclick="setLang('ja')">JP</button>
+            <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+        </div>
+    </nav>
+
+    <main>
+        <div class="hero">
+            <div class="avatar-container">
+                <img src="https://res.cloudinary.com/dt0zmgv8k/image/upload/v1778741836/game_ryo%E6%96%B0%E3%81%97%E3%81%84%E3%83%AD%E3%82%B4-1-300x300_mvzzy9.png" alt="Profile" class="avatar">
+            </div>
+            <h1 class="name">game_ryo</h1>
+            <div class="role" data-i18n="role">小学生エンジニア</div>
+            
+            <div class="social-links">
+                <a href="https://github.com/ryotagtagtag-wq" target="_blank" class="social-btn" aria-label="GitHub" title="GitHub">
+                    <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                </a>
+                <a href="mailto:contact@ryopc.example" class="social-btn" aria-label="Email" title="Email">
+                    <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                </a>
+                <a href="https://open.spotify.com/user/31ixwiodsajlges5jolu2aa66quy" target="_blank" class="social-btn" aria-label="Spotify" title="Spotify">
+                    <svg viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.84.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.84.24 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.6.18-1.2.72-1.38 4.2-1.261 11.22-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.239.54-.959.72-1.56.3z"/></svg>
+                </a>
+                <a href="https://codepen.io/game_ryo" target="_blank" class="social-btn" aria-label="CodePen" title="CodePen">
+                    <svg viewBox="0 0 24 24"><path d="M24 8.242V15.76c0 .488-.276.924-.716 1.134l-10.665 5.86c-.38.21-.856.21-1.238 0L.717 16.893C.277 16.684 0 16.248 0 15.76V8.24c0-.488.276-.924.716-1.134l10.665-5.86c.38-.21.856-.21 1.238 0l10.665 5.86c.44.21.716.646.716 1.134zm-12.001 7.234l6.568-4.41-6.568-4.41-6.568 4.41 6.568 4.41zm1.001 1.666l8.471-5.69-8.471-4.654v10.344zm-2.002 0V6.804L2.527 11.46l8.471 5.69zm1.001-14.474l-7.794 4.28 7.794 5.234 7.794-5.234-7.794-4.28zm0 17.666l7.794-4.28-7.794-5.234-7.794 5.234 7.794 4.28z"/></svg>
+                </a>
+                <a href="https://scratch.mit.edu/users/game_ryo/" target="_blank" class="social-btn" aria-label="Scratch" title="Scratch">
+                    <svg viewBox="0 0 24 24"><path d="M15.4 6.7c-.5-.4-1.3-.3-1.7.3l-1.8 2.5-1.9-2.5c-.4-.6-1.2-.7-1.7-.3-.6.4-.7 1.2-.3 1.7l2.8 3.8v4.6c0 .7.6 1.3 1.3 1.3h.1c.7 0 1.3-.6 1.3-1.3v-4.6l2.8-3.8c.3-.6.1-1.4-.4-1.7zm6.7 4c-.1-5.1-4-9.3-9-9.5-6.5-.3-12 4.9-12 11.4 0 3 .1 5.4.1 5.4.1 1.7 1.4 3 3 3.1h.4c3.4 0 7.3-1.2 10.3-3.1 3-2 4.9-4.7 6-7.5.8-2.6.4-5.6-.3-7.8-1.5-4.4-5.3-7.5-10.1-7.8-5.7-.3-10.7 3.9-11.5 9.5-.6 3.9 1 7.7 4.1 9.9 1 .7 2.1 1.2 3.2 1.6.4.1.8-.1.9-.5.1-.4-.1-.8-.5-.9-2.7-.9-5.1-2.9-6.1-5.7-1.2-3.4-.1-7.2 2.8-9.4 3-2.3 7-2.9 10.5-1.5 3.3 1.3 5.7 4.3 6.3 7.8.6 3.2-.4 6.5-2.6 8.8-.3.3-.3.8 0 1.1.3.3.8.3 1.1 0 2.6-2.6 4-6.3 3.3-9.9z"/></svg>
+                </a>
+            </div>
+        </div>
+
+        <section>
+            <h2 class="section-title" data-i18n="about_title">自己紹介</h2>
+            <div class="card">
+                <p data-i18n="about_text">パソコンとかスマホいじるのが好きで、サーバー作ったりアプリ作ったりしてる人。Scratchでいろいろやったり、チャットとかSNSアプリを開発しています。</p>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title" data-i18n="skills_title">スキル・興味</h2>
+            <div class="skills-grid">
+                <span class="skill-tag">Scratch</span>
+                <span class="skill-tag">Python</span>
+                <span class="skill-tag">JavaScript</span>
+                <span class="skill-tag">Web Development</span>
+                <span class="skill-tag">AI / Machine Learning</span>
+                <span class="skill-tag" data-i18n="skill_server">サーバー構築</span>
+                <span class="skill-tag" data-i18n="skill_app">アプリ開発</span>
+                <span class="skill-tag">Chat & SNS</span>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title" data-i18n="activities_title">活動内容</h2>
+            <div class="card">
+                <p data-i18n="activities_text">AIとかも好きで、いろいろ試して「これ動くじゃん」ってなるのが楽しいタイプ。プログラミング学習を通じて、新しい技術に挑戦し、ryopcグループの活動に貢献しています。</p>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title" data-i18n="music_title">音楽 (Spotify)</h2>
+            <div class="spotify-widget">
+                <!-- VercelのSpotify APIラッパーはテーマパラメータが使える場合があるが、デザインに馴染むように配置 -->
+                <a href="https://open.spotify.com/user/31ixwiodsajlges5jolu2aa66quy" target="_blank">
+                    <img src="https://spotify-recently-played-readme.vercel.app/api?user=31ixwiodsajlges5jolu2aa66quy" alt="Recently Played on Spotify">
+                </a>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title" data-i18n="links_title">相互リンク</h2>
+            <div class="links-grid">
+                <a href="https://drsb.f5.si/" class="link-card" target="_blank">
+                    <img src="https://drsb.f5.si/img/banner.png" alt="Yu's Homepage" class="link-image">
+                    <div class="link-title" data-i18n="link_yu_title">ゆーのホームページ</div>
+                    <div class="link-desc" data-i18n="link_yu_desc">サイトがおしゃれ。しかもダークモードがある。</div>
+                </a>
+                <a href="https://nakasyou.how" class="link-card" target="_blank">
+                    <img src="https://nakasyou.how/assets/BkpmfslA-profile.webp" alt="Shotaro Nakamura" class="link-image circle" style="background: transparent;">
+                    <div class="link-title">Shotaro Nakamura / nakasyou</div>
+                    <div class="link-desc" data-i18n="link_naka_desc">大会で賞状色々持っているすごい人</div>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p data-i18n="footer_text">&copy; 2026 ryopc Global Initiative. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // --- i18n Dictionary ---
+        const translations = {
+            ja: {
+                role: "小学生エンジニア",
+                about_title: "自己紹介",
+                about_text: "パソコンとかスマホいじるのが好きで、サーバー作ったりアプリ作ったりしてる人。Scratchでいろいろやったり、チャットとかSNSアプリを開発しています。",
+                skills_title: "スキル・興味",
+                skill_server: "サーバー構築",
+                skill_app: "アプリ開発",
+                activities_title: "活動内容",
+                activities_text: "AIとかも好きで、いろいろ試して「これ動くじゃん」ってなるのが楽しいタイプ。プログラミング学習を通じて、新しい技術に挑戦し、ryopcグループの活動に貢献しています。",
+                music_title: "音楽 (Spotify)",
+                links_title: "相互リンク",
+                link_yu_title: "ゆーのホームページ",
+                link_yu_desc: "サイトがおしゃれ。しかもダークモードがある。",
+                link_naka_desc: "大会で賞状色々持っているすごい人",
+                footer_text: "&copy; 2026 ryopc Global Initiative. All Rights Reserved."
+            },
+            en: {
+                role: "Elementary School Engineer",
+                about_title: "About Me",
+                about_text: "I love tinkering with PCs and smartphones, building servers, and creating apps. I build various projects with Scratch and develop chat and SNS applications.",
+                skills_title: "Skills & Interests",
+                skill_server: "Server Setup",
+                skill_app: "App Development",
+                activities_title: "Activities",
+                activities_text: "I'm also into AI. I enjoy trying out new things and having that 'Wow, it actually works!' moment. Through learning programming, I challenge myself with new technologies and contribute to the ryopc group's initiatives.",
+                music_title: "Music (Spotify)",
+                links_title: "Friends & Links",
+                link_yu_title: "Yu's Homepage",
+                link_yu_desc: "Stylish website design. Plus, it has a cool dark mode.",
+                link_naka_desc: "An amazing developer with various awards from competitions.",
+                footer_text: "&copy; 2026 ryopc Global Initiative. All Rights Reserved."
+            }
+        };
+
+        // --- Language Toggle Logic ---
+        function setLang(lang) {
+            // Update buttons
+            document.getElementById('btn-ja').classList.toggle('active', lang === 'ja');
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+
+            // Update texts
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    // Using innerHTML for the footer to parse the &copy; entity properly
+                    if(key === 'footer_text') {
+                        el.innerHTML = translations[lang][key];
+                    } else {
+                        el.textContent = translations[lang][key];
+                    }
+                }
+            });
+
+            // Save preference to localStorage (optional, but good for UX)
+            localStorage.setItem('preferredLang', lang);
+        }
+
+        // Initialize language
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('preferredLang') || 'ja';
+            setLang(savedLang);
+        });
+    </script>
+</body>
+</html>
