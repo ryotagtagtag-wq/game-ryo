@@ -2,7 +2,7 @@ name: Deploy Eleventy to Pages
 
 on:
   push:
-    branches: ["main"] # メインブランチにpushされたら実行（masterの場合は変更してください）
+    branches: ["main"] # masterブランチの場合は "master" に書き換えてください
 
 permissions:
   contents: read
@@ -26,19 +26,20 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '20' # 使用するNode.jsのバージョン
-          cache: 'npm'
+          node-version: '20'
+          # 💡 エラーの原因だった cache 設定を完全に削除しました
 
+      # 💡 package-lock.json がなくても強制インストールできるように変更
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       - name: Build Eleventy
-        run: npx @11ty/eleventy # 余計なパス指定なしでクリーンにビルド
+        run: npx @11ty/eleventy
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '_site' # 出力フォルダ名（eleventy.config.jsのoutputと一致させてください）
+          path: '_site'
 
       - name: Deploy to GitHub Pages
         id: deployment
