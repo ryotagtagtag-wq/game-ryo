@@ -1,0 +1,399 @@
+---
+layout: ""
+permalink: "blog/index.html"
+---
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>Blog - game_ryo</title>
+
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/dt0zmgv8k/image/upload/v1778741836/game_ryo%E6%96%B0%E3%81%97%E3%81%84%E3%83%AD%E3%82%B4-1-300x300_mvzzy9.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" />
+    
+    <style>
+        :root {
+            --bg-color: #0f172a; /* Slate 900 */
+            --bg-card: rgba(30, 41, 59, 0.7); /* Slate 800 with opacity */
+            --text-main: #f8fafc; /* Slate 50 */
+            --text-muted: #94a3b8; /* Slate 400 */
+            --primary: #3b82f6; /* Blue 500 */
+            --primary-glow: rgba(59, 130, 246, 0.5);
+            --accent: #06b6d4; /* Cyan 500 */
+            --border-color: rgba(255, 255, 255, 0.1);
+            --glass-blur: blur(12px);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Background Effects */
+        .bg-glow {
+            position: fixed;
+            top: -10%; left: -10%;
+            width: 50vw; height: 50vw;
+            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+            filter: blur(100px);
+            z-index: -1;
+            opacity: 0.4;
+            animation: float 10s infinite alternate ease-in-out;
+        }
+        .bg-glow-2 {
+            position: fixed;
+            bottom: -10%; right: -10%;
+            width: 40vw; height: 40vw;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.3) 0%, transparent 70%);
+            filter: blur(100px);
+            z-index: -1;
+            opacity: 0.4;
+            animation: float 8s infinite alternate-reverse ease-in-out;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(30px, 50px); }
+        }
+
+        /* Navbar */
+        nav {
+            position: fixed;
+            top: 0; width: 100%;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 100;
+        }
+
+        .nav-brand {
+            font-weight: 800;
+            font-size: 1.2rem;
+            letter-spacing: -0.5px;
+            background: linear-gradient(to right, var(--text-main), var(--text-muted));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-logo-img {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+        }
+
+        .lang-switch {
+            display: flex;
+            background: rgba(0,0,0,0.2);
+            border-radius: 20px;
+            padding: 4px;
+            border: 1px solid var(--border-color);
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .lang-btn.active {
+            background: var(--primary);
+            color: #fff;
+            box-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        /* Main Container */
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 8rem 1.5rem 4rem;
+        }
+
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .page-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            letter-spacing: -1px;
+            background: linear-gradient(to right, var(--text-main), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .page-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+        }
+
+        /* Blog Card Styles */
+        .blog-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .blog-card {
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-card);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 2.5rem;
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .blog-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.02), transparent);
+            transform: translateX(-100%);
+            transition: 0.6s;
+        }
+
+        .blog-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.15);
+        }
+
+        .blog-card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .blog-date {
+            font-size: 0.9rem;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .blog-date::before {
+            content: '';
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background-color: var(--accent);
+            border-radius: 50%;
+        }
+
+        .blog-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-main);
+            line-height: 1.4;
+            transition: var(--transition);
+        }
+
+        .blog-card:hover .blog-title {
+            color: var(--accent);
+        }
+
+        .blog-img {
+            width: 100%;
+            max-height: 380px;
+            object-fit: cover;
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .blog-body {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.6;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* Fallback message */
+        .empty-fallback {
+            text-align: center;
+            padding: 3rem;
+            background: var(--bg-card);
+            border-radius: 24px;
+            border: 1px solid var(--border-color);
+        }
+
+        .empty-fallback p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 6rem;
+            background: rgba(15, 23, 42, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .page-title { font-size: 2.2rem; }
+            .blog-card { padding: 1.5rem; }
+            .blog-title { font-size: 1.3rem; }
+            main { padding: 7rem 1.25rem 3rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background glow effects -->
+    <div class="bg-glow"></div>
+    <div class="bg-glow-2"></div>
+
+    <nav>
+        <a href="/" class="nav-brand">
+            <img src="https://res.cloudinary.com/dt0zmgv8k/image/upload/v1778741836/game_ryo%E6%96%B0%E3%81%97%E3%81%84%E3%83%AD%E3%82%B4-1-300x300_mvzzy9.png" alt="Logo" class="nav-logo-img">
+            game_ryo
+        </a>
+        <div class="lang-switch">
+            <button class="lang-btn active" id="btn-ja" onclick="setLang('ja')">JP</button>
+            <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+        </div>
+    </nav>
+
+    <main>
+        <div class="page-header">
+    <h1 class="page-title" data-i18n="blog_header">Blog</h1>
+    <p class="page-subtitle" data-i18n="blog_subtitle">技術のログや、日々考えていることの発信</p>
+</div>
+
+<div id="blog-container" class="blog-list">
+    
+    <!-- 👇 microCMSから取得したデータを1件ずつループ処理 -->
+    {% for post in blogs %}
+    <a href="/blog/articles/{{ post.id }}/" class="blog-card">
+        <!-- 📅 公開日時（microCMSの標準的な日時を出力） -->
+        <div class="blog-date">{{ post.publishedAt }}</div>
+        
+        <!-- 👑 記事タイトル -->
+        <h2 class="blog-title">{{ post.title }}</h2>
+        
+        <!-- 🖼️ サムネイル画像がある場合だけ自動表示 -->
+        {% if post.eyecatch %}
+        <img src="{{ post.eyecatch.url }}" alt="{{ post.title }}" class="blog-img">
+        {% endif %}
+        
+        <!-- 📝 記事の冒頭（HTMLタグを消して最初の100文字だけを安全に表示） -->
+        <div class="blog-body">{{ post.content | replace(r/<[^>]*>/g, '') | truncate(100) }}</div>
+    </a>
+    {% else %}
+    <!-- 記事が1つもない場合のフォールバック表示 -->
+    <div class="empty-fallback">
+        <p id="empty-fallback-text" data-i18n="empty_blog_msg">まだ記事がありません。新しい記事が追加されるまでしばらくお待ちください。</p>
+    </div>
+    {% endfor %}
+    <!-- 👆 ここまで自動処理 -->
+</div>
+
+
+        </div>
+    </main>
+
+    <footer>
+        <p data-i18n="footer_text">&copy; 2026 game_ryo. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // --- i18n Dictionary ---
+        const translations = {
+            ja: {
+                blog_header: "ブログ",
+                blog_subtitle: "技術のログや、日々考えていることの発信",
+                empty_blog_msg: "まだ記事がありません。新しい記事が追加されるまでしばらくお待ちください。",
+                footer_text: "&copy; 2026 game_ryo. All Rights Reserved."
+            },
+            en: {
+                blog_header: "Blog",
+                blog_subtitle: "Logs of tech explorations and daily random thoughts.",
+                empty_blog_msg: "No posts yet. Please check back later for updates!",
+                footer_text: "&copy; 2026 game_ryo. All Rights Reserved."
+            }
+        };
+
+        // --- Language Toggle Logic ---
+        function setLang(lang) {
+            // Update buttons
+            document.getElementById('btn-ja').classList.toggle('active', lang === 'ja');
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+
+            // Update texts
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    if(key === 'footer_text') {
+                        el.innerHTML = translations[lang][key];
+                    } else {
+                        el.textContent = translations[lang][key];
+                    }
+                }
+            });
+
+            // Save preference to localStorage
+            localStorage.setItem('preferredLang', lang);
+        }
+
+        // Initialize language
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('preferredLang') || 'ja';
+            setLang(savedLang);
+        });
+    </script>
+</body>
+</html>
