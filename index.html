@@ -501,17 +501,22 @@
                     <div class="link-title">Shotaro Nakamura / nakasyou</div>
                     <div class="link-desc" data-i18n="link_naka_desc">大会で賞状色々持っているすごい人</div>
                 </a>
+
+            </div>
+        </section>
+<section>
+  <h2 class="section-title">Webring</h2>
 <div class="bucket-ring-container">
   <div class="bucket-ring-left">
     <!-- ドット絵のアイコン（好きな画像URLに変えてもOK！） -->
     <img src="https://avatars.githubusercontent.com/u/66538443?s=48&v=4" class="bucket-ring-icon" alt="icon">
-  <a href="https://webring.bucketfish.me/ target="_blank" class="bucket-ring-title-link">バケットリング</a>
+  <a href="https://webring.bucketfish.me/ target="_blank" class="bucket-ring-title-link">Bucket Ring</a>
   </div>
   <div class="bucket-ring-buttons">
     <!-- あなたのID（game-ryo）を組み込んだ公式の転送リンク -->
-    <a href="https://webring.bucketfish.me/redirect.html?to=prev&name=vuvien0000" target="_top" class="bucket-ring-btn">前へ</a>
-    <a href="https://webring.bucketfish.me/redirect.html?to=random&name=game-ryo" target="_top" class="bucket-ring-btn">ランダム</a>
-    <a href="https://webring.bucketfish.me/redirect.html?to=next&name=vuvien0000" target="_top" class="bucket-ring-btn">次</a>
+    <a href="https://webring.bucketfish.me/redirect.html?to=prev&name=vuvien0000" target="_top" class="bucket-ring-btn">Previous</a>
+    <a href="https://webring.bucketfish.me/redirect.html?to=random&name=game-ryo" target="_top" class="bucket-ring-btn">Random</a>
+    <a href="https://webring.bucketfish.me/redirect.html?to=next&name=vuvien0000" target="_top" class="bucket-ring-btn">Next</a>
   </div>
 </div>
 
@@ -596,8 +601,94 @@
 }
 
 </style>
-            </div>
-        </section>
+<div class="hotline-ring-container">
+  <div class="hotline-ring-left">
+    <!-- 自分で用意した画像を表示するタグ -->
+    <img src="https://res.cloudinary.com/dt0zmgv8k/image/upload/v1781392036/22266473_wpnet4.png" class="hotline-ring-custom-icon" alt="hotline-icon">
+    <!-- 文字リンク部分 -->
+    <a href="https://hotlinewebring.club/" target="_blank" class="hotline-ring-title-link">Hotline Ring</a>
+  </div>
+  <div class="hotline-ring-buttons">
+    <a href="https://hotlinewebring.clubredirect/game-ryo/previous" target="_top" class="hotline-ring-btn">Previous</a>
+    <a href="https://hotlinewebring.clubredirect/game-ryo/next" target="_top" class="hotline-ring-btn">Next</a>
+  </div>
+</div>
+
+<style>
+/* バケットリングとお揃いのすりガラス風デザイン */
+.hotline-ring-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 12px 24px;
+  width: 100%;
+  max-width: 600px;
+  margin: 10px auto; 
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  font-family: sans-serif;
+}
+
+.hotline-ring-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* 自分で用意したカスタムアイコン用のスタイル */
+.hotline-ring-custom-icon {
+  width: 26px; /* バケットリングのアイコンとサイズを揃えています */
+  height: 26px;
+  object-fit: contain;
+  image-rendering: pixelated; /* もしドット絵なら、これをいれておくとクッキリ綺麗に映ります */
+}
+
+.hotline-ring-title-link {
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  transition: color 0.2s ease, text-decoration 0.2s ease;
+}
+
+/* マウスを乗せたときにネオンレッドに光るエフェクト */
+.hotline-ring-title-link:hover {
+  color: #ff4757; 
+  text-decoration: underline;
+}
+
+.hotline-ring-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.hotline-ring-btn {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: #e0e0e0;
+  padding: 6px 14px;
+  font-size: 13px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.hotline-ring-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+</style>
+</div>
+</section>
+
 
     </main>
 
