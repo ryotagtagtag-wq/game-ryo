@@ -501,7 +501,85 @@
                     <div class="link-title">Shotaro Nakamura / nakasyou</div>
                     <div class="link-desc" data-i18n="link_naka_desc">大会で賞状色々持っているすごい人</div>
                 </a>
-<iframe id="bucket-webring" style="width: 100%; height: 3rem; border: none;" src="https://webring.bucketfish.me/embed.html?name=game-ryo"></iframe>
+<div class="bucket-ring-container">
+  <div class="bucket-ring-left">
+    <!-- ドット絵のアイコン（好きな画像URLに変えてもOK！） -->
+    <img src="https://avatars.githubusercontent.com/u/66538443?s=48&v=4" class="bucket-ring-icon" alt="icon">
+  <a href="https://webring.bucketfish.me/ target="_blank" class="bucket-ring-title-link">バケットリング</a>
+  </div>
+  <div class="bucket-ring-buttons">
+    <!-- あなたのID（game-ryo）を組み込んだ公式の転送リンク -->
+    <a href="https://webring.bucketfish.me/redirect.html?to=prev&name=vuvien0000" target="_top" class="bucket-ring-btn">前へ</a>
+    <a href="https://webring.bucketfish.me/redirect.html?to=random&name=game-ryo" target="_top" class="bucket-ring-btn">ランダム</a>
+    <a href="https://webring.bucketfish.me/redirect.html?to=next&name=vuvien0000" target="_top" class="bucket-ring-btn">次</a>
+  </div>
+</div>
+
+<style>
+/* 全体の枠のデザイン（すりガラスっぽく光るダークモード仕様） */
+.bucket-ring-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 12px 24px;
+  width: 100%;
+  max-width: 600px; /* 横幅はお好みで調整してください */
+  margin: 20px auto;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  font-family: sans-serif;
+}
+
+/* 左側のタイトルとアイコンエリア */
+.bucket-ring-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.bucket-ring-icon {
+  width: 28px;
+  height: 28px;
+  image-rendering: pixelated; /* ドット絵をクッキリ表示する魔法のコード */
+}
+
+.bucket-ring-title {
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+}
+
+/* 右側のボタンエリア */
+.bucket-ring-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+/* ボタン単体のデザイン */
+.bucket-ring-btn {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: #e0e0e0;
+  padding: 6px 14px;
+  font-size: 13px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+/* マウスを乗せたとき（ホバー）のエフェクト */
+.bucket-ring-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+</style>
             </div>
         </section>
 
