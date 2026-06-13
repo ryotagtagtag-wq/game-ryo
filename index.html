@@ -579,6 +579,22 @@
   color: #ffffff;
   transform: translateY(-1px);
 }
+    /* タイトルリンクのデザイン */
+.bucket-ring-title-link {
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+  text-decoration: none; /* 最初は下線を消しておく */
+  transition: color 0.2s ease, text-decoration 0.2s ease;
+}
+
+/* マウスを乗せたときに光って下線が出るエフェクト */
+.bucket-ring-title-link:hover {
+  color: #a5b4fc; /* あなたのダークテーマに似合う綺麗な青紫色に光ります */
+  text-decoration: underline; /* 下線を表示 */
+}
+
 </style>
             </div>
         </section>
