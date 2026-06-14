@@ -633,6 +633,66 @@
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
+        /* --- お問い合わせフォームのスタイル --- */
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-main);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 0.75rem 2.5rem;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 5px 15px var(--primary-glow);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px var(--primary-glow);
+        }
+
+        .submit-btn:disabled {
+            background: var(--text-muted);
+            box-shadow: none;
+            cursor: not-allowed;
+            transform: none;
+        }
     </style>
 </head>
 <body>
@@ -780,6 +840,34 @@
         </section>
 
         <section>
+            <h2 class="section-title" data-i18n="contact_title">お問い合わせ</h2>
+            <div class="card">
+                <form id="contact-form" action="/" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="_redirect" value="https://ryopc.f5.si">
+                    
+                    <div class="form-group">
+                        <label for="form-name" data-i18n="contact_name">お名前</label>
+                        <input type="text" id="form-name" name="name" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="form-email" data-i18n="contact_email">メールアドレス</label>
+                        <input type="email" id="form-email" name="email" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="form-message" data-i18n="contact_message">メッセージ</label>
+                        <textarea id="form-message" name="message" class="form-control" rows="5" required></textarea>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <button type="submit" class="submit-btn" id="submit-btn" data-i18n="contact_submit">送信する</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <section>
             <h2 class="section-title" data-i18n="webring_title">Webring</h2>
             
             <div class="bucket-ring-container">
@@ -867,6 +955,15 @@
                 ring_prev: "Previous",
                 ring_rand: "Random",
                 ring_next: "Next",
+                contact_title: "Contact",
+                contact_name: "Name",
+                contact_email: "Email Address",
+                contact_message: "Message",
+                contact_submit: "Submit",
+                contact_sending: "Sending...",
+                contact_success: "Your message has been sent successfully!",
+                contact_error: "An error occurred. Please try again.",
+                contact_failed: "Network communication failed."
                 footer_text: "© 2026 game_ryo. All Rights Reserved."
             }
         };
@@ -920,6 +1017,46 @@
             const savedLang = localStorage.getItem('preferredLang') || 'ja';
             setLang(savedLang);
         });
+        // --- Contact Form Submit Logic ---
+        const contactForm = document.getElementById('contact-form');
+        const submitBtn = document.getElementById('submit-btn');
+
+        if (contactForm && submitBtn) {
+            contactForm.addEventListener('submit', async (e) => {
+                e.preventDefault(); // 通常のページ遷移リダイレクトをブロックする
+
+                // 現在の選択言語（ja か en）を取得
+                const currentLang = localStorage.getItem('preferredLang') || 'ja';
+
+                // ボタンを無効化して多重送信を防ぐ
+                submitBtn.disabled = true;
+                submitBtn.textContent = translations[currentLang]['contact_sending'];
+
+                const formData = new FormData(contactForm);
+
+                try {
+                    // WorkersのAPIエンドポイントへ非同期リクエストを送信
+                    const response = await fetch(contactForm.action, {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    if (response.ok) {
+                        alert(translations[currentLang]['contact_success']);
+                        contactForm.reset(); // 入力欄をクリアする
+                    } else {
+                        alert(translations[currentLang]['contact_error']);
+                    }
+                } catch (error) {
+                    console.error('Submission error:', error);
+                    alert(translations[currentLang]['contact_failed']);
+                } finally {
+                    // ボタンの状態を元に戻す
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = translations[currentLang]['contact_submit'];
+                }
+            });
+        }
     </script>
 </body>
 </html>
