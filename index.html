@@ -575,6 +575,16 @@
                 padding: 16px;
             }
         }
+           /* Hamburger Active State */
+        .hamburger.active span:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
     </style>
 </head>
 <body>
@@ -734,6 +744,13 @@
 
     <footer>
         <p data-i18n="footer_text">© 2026 game_ryo. All Rights Reserved.</p>
+                  <div class="status-badge-container">
+                <div class="status-badge">
+                    <span class="status-dot"></span>
+                    <span id="statusText" data-i18n="status_text">ステータス: サイト運営中</span>
+                </div>
+            </div>
+        </div>
     </footer>
 
     <script>
