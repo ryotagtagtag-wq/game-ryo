@@ -1017,46 +1017,64 @@
             const savedLang = localStorage.getItem('preferredLang') || 'ja';
             setLang(savedLang);
         });
-        // --- Contact Form Submit Logic ---
-        const contactForm = document.getElementById('contact-form');
-        const submitBtn = document.getElementById('submit-btn');
+     // --- Contact Form Submit Logic ---
+const contactForm = document.getElementById('contact-form');
+const submitBtn = document.getElementById('submit-btn');
 
-        if (contactForm && submitBtn) {
-            contactForm.addEventListener('submit', async (e) => {
-                e.preventDefault(); // 通常のページ遷移リダイレクトをブロックする
+if (contactForm && submitBtn) {
+    contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault(); // 通常のページ遷移リダイレクトをブロックする
 
-                // 現在の選択言語（ja か en）を取得
-                const currentLang = localStorage.getItem('preferredLang') || 'ja';
+        // 現在の選択言語（ja か en）を取得
+        const currentLang = localStorage.getItem('preferredLang') || 'ja';
 
-                // ボタンを無効化して多重送信を防ぐ
-                submitBtn.disabled = true;
-                submitBtn.textContent = translations[currentLang]['contact_sending'];
+        // ボタンを無効化して多重送信を防ぐ
+        submitBtn.disabled = true;
+        submitBtn.textContent = translations[currentLang]['contact_sending'];
 
-                const formData = new FormData(contactForm);
+        const formData = new FormData(contactForm);
 
-                try {
-                    // WorkersのAPIエンドポイントへ非同期リクエストを送信
-                    const response = await fetch(contactForm.action, {
-                        method: 'POST',
-                        body: formData
-                    });
-
-                    if (response.ok) {
-                        alert(translations[currentLang]['contact_success']);
-                        contactForm.reset(); // 入力欄をクリアする
-                    } else {
-                        alert(translations[currentLang]['contact_error']);
-                    }
-                } catch (error) {
-                    console.error('Submission error:', error);
-                    alert(translations[currentLang]['contact_failed']);
-                } finally {
-                    // ボタンの状態を元に戻す
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = translations[currentLang]['contact_submit'];
-                }
+        try {
+            // WorkersのAPIエンドポイントへ非同期リクエストを送信
+            const response = await fetch(contactForm.action, {
+                method: 'POST',
+                body: formData
             });
+
+            if (response.ok) {
+                alert(translations[currentLang]['contact_success']);
+                contactForm.reset(); // 入力欄をクリアする
+
+                // HTMLの <input name="_redirect"> に書かれたURLを取得して移動
+                const redirectUrl = formData.get('_redirect');
+                if (redirectUrl) {
+                    window.location.href = redirectUrl;
+                }
+            } else {
+                alert(translations[currentLang]['contact_error']);
+            }
+        } catch (error) {
+            console.error('Submission error:', error);
+            alert(translations[currentLang]['contact_failed']);
+        } finally {
+            // ボタンの状態を元に戻す
+            submitBtn.disabled = false;
+            submitBtn.textContent = translations[currentLang]['contact_submit'];
         }
+    });
+}
+
+// Initialize language & setup event listeners
+document.addEventListener('DOMContentLoaded', () => {
+    const savedLang = localStorage.getItem('preferredLang') || 'ja';
+    setLang(savedLang);
+
+    // モバイルメニュー内のリンクをクリックしたときにドロワーを閉じる設定
+    const drawerLinks = document.querySelectorAll('#mobile-drawer a');
+    drawerLinks.forEach(link => {
+        link.addEventListener('click', closeMenu);
+    });
+});
     </script>
 </body>
 </html>
