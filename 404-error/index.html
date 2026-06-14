@@ -10,66 +10,6 @@
     <link href="https://github.com/ryotagtagtag-wq" rel="me">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" />
-
-    <!-- Silktide Consent Manager (Cookie Banner) -->
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-    <link rel="stylesheet" id="silktide-consent-manager-css" href="https://cdn.jsdelivr.net/gh/silktide/consent-manager@v2.0.0/silktide-consent-manager.css" xintegrity="sha384-IO1E/jCrQXyH5rwcI0SXP7OXw47JFqQNDQcKhbFvqnL2IunBxxwE2Ne5XyAmCqKs" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/gh/silktide/consent-manager@v2.0.0/silktide-consent-manager.js" xintegrity="sha384-j4NIMOecmtzMWe9GJADIIe5hTlHG63aiTQ/2XorW10RNyQJg+IU+xwFVDy45wBah" crossorigin="anonymous"></script>
-    <script>
-    window.silktideConsentManager.init({
-        backdrop: {
-            show: true
-        },
-        icon: {
-            position: "bottomLeft"
-        },
-        prompt: {
-            position: "bottomRight"
-        },
-        consentTypes: [
-            {
-                id: "essential",
-                label: "Essential",
-                description: "<p>These cookies are necessary for the website to function properly and cannot be switched off. They help with things like logging in and setting your privacy preferences.</p>",
-                required: true,
-                onAccept: function() {
-                    console.log('Essential consent accepted');
-                }
-            },
-            {
-                id: "analytics",
-                label: "Analytics",
-                description: "<p>These cookies help us improve the site by tracking which pages are most popular and how visitors move around the site.</p>",
-                required: false,
-                onAccept: function() {
-                    console.log('Analytics consent accepted');
-                },
-                onReject: function() {
-                    console.log('Analytics consent rejected');
-                }
-            }
-        ],
-        text: {
-            prompt: {
-                description: "<p>This site uses cookies to improve the user experience, provide personalized content, and analyze traffic.</p>",
-                acceptAllButtonText: "Accept all",
-                acceptAllButtonAccessibleLabel: "Accept all cookies",
-                rejectNonEssentialButtonText: "Reject non-essential",
-                rejectNonEssentialButtonAccessibleLabel: "Reject all non-essential cookies",
-                preferencesButtonText: "Preferences",
-                preferencesButtonAccessibleLabel: "Toggle preferences"
-            },
-            preferences: {
-                title: "Customize your cookie preferences",
-                description: "<p>We respect your right to privacy. You can choose not to allow some types of cookies. Your cookie preferences will apply across our website.</p>",
-                saveButtonText: "Save and close",
-                saveButtonAccessibleLabel: "Save your cookie preferences",
-                creditLinkText: "Get this banner for free",
-                creditLinkAccessibleLabel: "Get this banner for free"
-            }
-        }
-    });
-    </script>
     
     <style>
         :root {
@@ -576,7 +516,7 @@
             <div class="status-badge-container">
                 <div class="status-badge">
                     <span class="status-dot"></span>
-                    <span id="statusText" data-i18n="status_text">ステータス: 個人サイトとして運営中</span>
+                    <span id="statusText" data-i18n="status_text">ステータス: サイト運営中</span>
                 </div>
             </div>
         </div>
