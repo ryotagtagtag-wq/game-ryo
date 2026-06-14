@@ -585,6 +585,54 @@
         .hamburger.active span:nth-child(3) {
             transform: translateY(-8px) rotate(-45deg);
         }
+        /* --- 最新記事セクションのスタイル --- */
+        .blog-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .blog-preview-card {
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 1.5rem;
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition);
+        }
+
+        .blog-preview-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.15);
+        }
+
+        .blog-preview-date {
+            font-size: 0.85rem;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .blog-preview-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-main);
+            line-height: 1.4;
+        }
+
+        .blog-preview-body {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
     </style>
 </head>
 <body>
@@ -690,6 +738,23 @@
         </section>
 
         <section>
+            <h2 class="section-title" data-i18n="recent_blog_title">最新の記事</h2>
+            <div class="blog-preview-grid">
+                {% for post in blogs.slice(0, 3) %}
+                <a href="/blog/articles/{{ post.id }}/" class="blog-preview-card">
+                    <div class="blog-preview-date">{{ post.publishedAt }}</div>
+                    <h3 class="blog-preview-title">{{ post.title }}</h3>
+                    <div class="blog-preview-body">{{ post.content | replace(r/<[^>]*>/g, '') | truncate(70) }}</div>
+                </a>
+                {% else %}
+                <div class="card" style="width: 100%; text-align: center;">
+                    <p data-i18n="empty_blog_msg">まだ記事がありません。新しい記事が追加されるまでしばらくお待ちください。</p>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section>
             <h2 class="section-title" data-i18n="music_title">音楽 (Spotify)</h2>
             <div class="spotify-widget">
                 <a href="https://open.spotify.com/user/31ixwiodsajlges5jolu2aa66quy" target="_blank">
@@ -767,6 +832,8 @@
                 skill_app: "アプリ開発",
                 activities_title: "活動内容",
                 activities_text: "AIとかも好きで、いろいろ試して「これ動くじゃん」ってなるのが楽しいタイプ。プログラミング学習を通じて、新しい技術に挑戦し、ryopcグループの活動に貢献しています。",
+                recent_blog_title: "最新の記事",
+                empty_blog_msg: "まだ記事がありません。新しい記事が追加されるまでしばらくお待ちください。",
                 music_title: "音楽 (Spotify)",
                 links_title: "相互リンク",
                 link_yu_title: "ゆーのホームページ",
@@ -789,6 +856,8 @@
                 skill_app: "App Development",
                 activities_title: "Activities",
                 activities_text: "I'm also into AI. I enjoy trying out new things and having that 'Wow, it actually works!' moment. Through learning programming, I challenge myself with new technologies and contribute to the ryopc group's initiatives.",
+                recent_blog_title: "Latest Posts",
+                empty_blog_msg: "No posts yet. Please check back later for updates!",
                 music_title: "Music (Spotify)",
                 links_title: "Friends & Links",
                 link_yu_title: "Yu's Homepage",
