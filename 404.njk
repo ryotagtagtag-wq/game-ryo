@@ -2,4 +2,609 @@
 permalink: 404.html
 eleventyExcludeFromCollections: true
 ---
-<meta http-equiv="refresh" content="0; url=/404-error">
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>404 Page Not Found - game_ryo</title>
+
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/dt0zmgv8k/image/upload/v1778741836/game_ryo%E6%96%B0%E3%81%97%E3%81%84%E3%83%AD%E3%82%B4-1-300x300_mvzzy9.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://github.com/ryotagtagtag-wq" rel="me">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" />
+    
+    <style>
+        :root {
+            --bg-color: #0f172a; /* Slate 900 */
+            --bg-card: rgba(30, 41, 59, 0.7); /* Slate 800 with opacity */
+            --text-main: #f8fafc; /* Slate 50 */
+            --text-muted: #94a3b8; /* Slate 400 */
+            --primary: #3b82f6; /* Blue 500 */
+            --primary-glow: rgba(59, 130, 246, 0.5);
+            --accent: #06b6d4; /* Cyan 500 */
+            --border-color: rgba(255, 255, 255, 0.1);
+            --glass-blur: blur(12px);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Prevent scrolling when mobile menu is open */
+        body.menu-open {
+            overflow: hidden;
+        }
+
+        /* Background Effects */
+        .bg-glow {
+            position: fixed;
+            top: -10%; left: -10%;
+            width: 50vw; height: 50vw;
+            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+            filter: blur(100px);
+            z-index: -1;
+            opacity: 0.4;
+            animation: floatGlow 10s infinite alternate ease-in-out;
+        }
+        .bg-glow-2 {
+            position: fixed;
+            bottom: -10%; right: -10%;
+            width: 40vw; height: 40vw;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.3) 0%, transparent 70%);
+            filter: blur(100px);
+            z-index: -1;
+            opacity: 0.4;
+            animation: floatGlow 8s infinite alternate-reverse ease-in-out;
+        }
+
+        @keyframes floatGlow {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(30px, 50px); }
+        }
+
+        /* Navbar */
+        nav {
+            position: fixed;
+            top: 0; width: 100%;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 100;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-brand {
+            font-weight: 800;
+            font-size: 1.2rem;
+            letter-spacing: -0.5px;
+            background: linear-gradient(to right, var(--text-main), var(--text-muted));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            z-index: 102;
+        }
+
+        /* Menu Links (Desktop) */
+        .nav-menu {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-menu a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .nav-menu a:hover {
+            color: var(--text-main);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .lang-switch {
+            display: flex;
+            background: rgba(0,0,0,0.2);
+            border-radius: 20px;
+            padding: 4px;
+            border: 1px solid var(--border-color);
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .lang-btn.active {
+            background: var(--primary);
+            color: #fff;
+            box-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        /* Hamburger Button (Mobile only) */
+        .hamburger {
+            display: none;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            z-index: 102;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 25px;
+            height: 2px;
+            background-color: var(--text-main);
+            border-radius: 2px;
+            transition: var(--transition);
+        }
+
+        /* Hamburger Active State */
+        .hamburger.active span:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        /* Mobile Menu Drawer */
+        .mobile-drawer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 101;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 2.5rem;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-20px);
+            transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s;
+        }
+
+        .mobile-drawer.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .mobile-drawer-menu {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .mobile-drawer-menu a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            transition: var(--transition);
+        }
+
+        .mobile-drawer-menu a:hover {
+            color: var(--accent);
+            text-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
+        }
+
+        /* Main Container for 404 */
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 8rem 1.5rem 4rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Hero 404 Elements */
+        .error-container {
+            text-align: center;
+            animation: fadeIn 1s ease-out;
+            width: 100%;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 404サイバーホログラムイラスト */
+        .error-illustration {
+            width: clamp(140px, 20vw, 180px);
+            height: clamp(140px, 20vw, 180px);
+            margin: 0 auto 1.5rem;
+            opacity: 0.95;
+            filter: drop-shadow(0px 8px 30px var(--primary-glow));
+            animation: floatIllustration 6s ease-in-out infinite;
+        }
+
+        @keyframes floatIllustration {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(2deg); }
+        }
+
+        .error-code {
+            font-size: clamp(5rem, 15vw, 9rem);
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 1rem;
+            letter-spacing: -2px;
+            background: linear-gradient(135deg, var(--text-main) 30%, var(--accent), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .error-title {
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        .error-desc {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 550px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.8;
+        }
+
+        /* Card (Action Container) */
+        .card {
+            background: var(--bg-card);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 2rem;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Button Layout */
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-container a {
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #fff;
+            padding: 0.8rem 2rem;
+            border-radius: 14px;
+            box-shadow: 0 4px 15px var(--primary-glow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.7);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 0.8rem 2rem;
+            border-radius: 14px;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        /* Status Badge for Personal Operating */
+        .status-badge-container {
+            margin-top: 3rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            color: var(--accent);
+            padding: 0.6rem 1.2rem;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--accent);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.4; }
+            100% { opacity: 1; }
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 2rem;
+            z-index: 10;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            /* Toggle nav structures */
+            .nav-menu { display: none; }
+            .nav-right .lang-switch { display: none; } /* Hide desktop lang switch */
+            .hamburger { display: flex; } /* Show hamburger on mobile */
+            .btn-container { flex-direction: column; }
+            .btn-container a { width: 100%; }
+            .card { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-glow"></div>
+    <div class="bg-glow-2"></div>
+
+    <!-- ナビゲーションバー -->
+    <nav>
+        <div class="nav-left">
+            <a href="/" class="nav-brand">game_ryo</a>
+            <!-- Desktop Menu (Home and Blog Only) -->
+            <ul class="nav-menu">
+                <li><a href="/" data-i18n="menu_home">ホーム</a></li>
+                <li><a href="/blog/" data-i18n="menu_blog">ブログ</a></li>
+            </ul>
+        </div>
+        <div class="nav-right">
+            <!-- Desktop Language Switcher -->
+            <div class="lang-switch">
+                <button class="lang-btn active btn-ja" onclick="setLang('ja')">JP</button>
+                <button class="lang-btn btn-en" onclick="setLang('en')">EN</button>
+            </div>
+            <!-- Hamburger Menu Trigger -->
+            <button class="hamburger" id="hamburger-btn" aria-label="Menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Drawer Menu -->
+    <div class="mobile-drawer" id="mobile-drawer">
+        <ul class="mobile-drawer-menu">
+            <li><a href="/" data-i18n="menu_home" onclick="closeMenu()">ホーム</a></li>
+            <li><a href="/blog/" data-i18n="menu_blog" onclick="closeMenu()">ブログ</a></li>
+        </ul>
+        <!-- Mobile Language Switcher inside Drawer -->
+        <div class="lang-switch">
+            <button class="lang-btn active btn-ja" onclick="setLang('ja')">JP</button>
+            <button class="lang-btn btn-en" onclick="setLang('en')">EN</button>
+        </div>
+    </div>
+
+    <!-- 404 メインコンテンツ -->
+    <main>
+        <div class="error-container">
+            <!-- プロフィールのサイバーパレットに調和した近未来的SVG -->
+            <svg class="error-illustration" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- 外側の点線サイバーサークル -->
+                <circle cx="100" cy="100" r="85" stroke="url(#paint0_linear)" stroke-width="2.5" stroke-dasharray="8 12" />
+                <!-- 内側の回転リング -->
+                <circle cx="100" cy="100" r="65" stroke="#06b6d4" stroke-width="1.5" stroke-dasharray="50 15 90 25" opacity="0.6"/>
+                <!-- ネットワーク接続ノード（切断されたリンクを表現） -->
+                <circle cx="60" cy="80" r="5" fill="#06b6d4" />
+                <circle cx="140" cy="80" r="5" fill="#06b6d4" />
+                <circle cx="100" cy="145" r="5" fill="#3b82f6" />
+                <!-- 点線によるリンク -->
+                <path d="M60 80 L100 100" stroke="#06b6d4" stroke-width="2" stroke-dasharray="4 4" opacity="0.5"/>
+                <path d="M140 80 L100 100" stroke="#06b6d4" stroke-width="2" stroke-dasharray="4 4" opacity="0.5"/>
+                <path d="M100 145 L100 100" stroke="#3b82f6" stroke-width="2" stroke-dasharray="4 4" opacity="0.5"/>
+                <!-- 中央の3Dホログラム・キューブ -->
+                <path d="M100 65 L130 82 L130 118 L100 135 L70 118 L70 82 Z" stroke="url(#paint0_linear)" stroke-width="3" fill="rgba(6, 182, 212, 0.08)" />
+                <path d="M100 65 L100 135" stroke="url(#paint0_linear)" stroke-width="1.5" opacity="0.7" />
+                <path d="M70 82 L100 100 L130 82" stroke="url(#paint0_linear)" stroke-width="1.5" opacity="0.7" />
+                <!-- 中央のホワイト警告インジケーター -->
+                <path d="M100 85 V105" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round" />
+                <circle cx="100" cy="116" r="3" fill="#ffffff" />
+                <defs>
+                    <linearGradient id="paint0_linear" x1="20" y1="20" x2="180" y2="180" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#06b6d4"/>
+                        <stop offset="1" stop-color="#3b82f6"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+
+            <div class="error-code">404</div>
+            <h1 class="error-title" data-i18n="error_title">ページが見つかりません</h1>
+            <p class="error-desc" data-i18n="error_desc">お探しのページは、移動または削除されたか、最初から存在しない可能性があります。</p>
+            
+            <div class="card">
+                <div class="btn-container">
+                    <a href="/" class="btn-primary" data-i18n="btn_home">
+                        トップページへ戻る
+                    </a>
+                    <a href="/blog/" class="btn-secondary" data-i18n="btn_blog">
+                        ブログを読む
+                    </a>
+                </div>
+            </div>
+
+            <!-- 完全な個人サイト運営用バッジ -->
+            <div class="status-badge-container">
+                <div class="status-badge">
+                    <span class="status-dot"></span>
+                    <span id="statusText" data-i18n="status_text">ステータス: サイト運営中</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- フッター -->
+    <footer>
+        <p data-i18n="footer_text">© 2026 game_ryo. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // --- i18n 翻訳データマッピング ---
+        const translations = {
+            ja: {
+                menu_home: "ホーム",
+                menu_blog: "ブログ",
+                error_title: "ページが見つかりません",
+                error_desc: "お探しのページは、移動または削除されたか、最初から存在しない可能性があります。",
+                btn_home: "トップページへ戻る",
+                btn_blog: "ブログを読む",
+                status_text: "ステータス: 個人サイトとして運営中",
+                footer_text: "© 2026 game_ryo. All Rights Reserved."
+            },
+            en: {
+                menu_home: "Home",
+                menu_blog: "Blog",
+                error_title: "Page Not Found",
+                error_desc: "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.",
+                btn_home: "Back to Home",
+                btn_blog: "Read Blog",
+                status_text: "Status: Fully operating as a personal website",
+                footer_text: "© 2026 game_ryo. All Rights Reserved."
+            }
+        };
+
+        // --- Hamburger メニュー・ロジック ---
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const mobileDrawer = document.getElementById('mobile-drawer');
+
+        hamburgerBtn.addEventListener('click', () => {
+            const isOpen = hamburgerBtn.classList.toggle('active');
+            mobileDrawer.classList.toggle('active', isOpen);
+            document.body.classList.toggle('menu-open', isOpen);
+            hamburgerBtn.setAttribute('aria-expanded', isOpen);
+        });
+
+        function closeMenu() {
+            hamburgerBtn.classList.remove('active');
+            mobileDrawer.classList.remove('active');
+            document.body.classList.remove('menu-open');
+            hamburgerBtn.setAttribute('aria-expanded', false);
+        }
+
+        // --- 言語切り替えロジック ---
+        function setLang(lang) {
+            // JP / EN ボタンの状態を更新 (デスクトップ、モバイル両方)
+            const jaButtons = document.querySelectorAll('.btn-ja');
+            const enButtons = document.querySelectorAll('.btn-en');
+
+            jaButtons.forEach(btn => btn.classList.toggle('active', lang === 'ja'));
+            enButtons.forEach(btn => btn.classList.toggle('active', lang === 'en'));
+
+            // DOMテキスト要素のアップデート
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    if (key === 'footer_text') {
+                        el.innerHTML = translations[lang][key];
+                    } else {
+                        el.textContent = translations[lang][key];
+                    }
+                }
+            });
+
+            // 設定を localStorage に保存
+            localStorage.setItem('preferredLang', lang);
+        }
+
+        // 初期言語の設定
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('preferredLang') || 'ja';
+            setLang(savedLang);
+        });
+    </script>
+</body>
+</html>
