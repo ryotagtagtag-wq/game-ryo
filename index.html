@@ -40,6 +40,11 @@
             overflow-x: hidden;
         }
 
+        /* Prevent scrolling when mobile menu is open */
+        body.menu-open {
+            overflow: hidden;
+        }
+
         /* Background Effects */
         .bg-glow {
             position: fixed;
@@ -96,9 +101,10 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-decoration: none;
+            z-index: 102; /* ensure brand stays above mobile overlay if needed */
         }
 
-        /* Menu Links */
+        /* Menu Links (Desktop) */
         .nav-menu {
             display: flex;
             gap: 1.5rem;
@@ -120,6 +126,7 @@
         .nav-right {
             display: flex;
             align-items: center;
+            gap: 1rem;
         }
 
         .lang-switch {
@@ -146,6 +153,88 @@
             background: var(--primary);
             color: #fff;
             box-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        /* Hamburger Button (Mobile only) */
+        .hamburger {
+            display: none;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            z-index: 102;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 25px;
+            height: 2px;
+            background-color: var(--text-main);
+            border-radius: 2px;
+            transition: var(--transition);
+        }
+
+        /* Hamburger Active State (X conversion) */
+        .hamburger.active span:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        /* Mobile Menu Drawer */
+        .mobile-drawer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 101;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 2.5rem;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-20px);
+            transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s;
+        }
+
+        .mobile-drawer.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .mobile-drawer-menu {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .mobile-drawer-menu a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            transition: var(--transition);
+        }
+
+        .mobile-drawer-menu a:hover {
+            color: var(--accent);
+            text-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
         }
 
         /* Main Container */
@@ -378,6 +467,85 @@
             flex-grow: 1;
         }
 
+        /* Webrings Shared Style */
+        .bucket-ring-container, .hotline-ring-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 12px 24px;
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            font-family: sans-serif;
+        }
+
+        .bucket-ring-left, .hotline-ring-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .bucket-ring-icon {
+            width: 28px;
+            height: 28px;
+            image-rendering: pixelated;
+        }
+
+        .hotline-ring-custom-icon {
+            width: 26px;
+            height: 26px;
+            object-fit: contain;
+            image-rendering: pixelated;
+        }
+
+        .bucket-ring-title-link, .hotline-ring-title-link {
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 15px;
+            letter-spacing: 0.5px;
+            text-decoration: none;
+            transition: color 0.2s ease, text-decoration 0.2s ease;
+        }
+
+        .bucket-ring-title-link:hover {
+            color: #a5b4fc;
+            text-decoration: underline;
+        }
+
+        .hotline-ring-title-link:hover {
+            color: #ff4757;
+            text-decoration: underline;
+        }
+
+        .bucket-ring-buttons, .hotline-ring-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .bucket-ring-btn, .hotline-ring-btn {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #e0e0e0;
+            padding: 6px 14px;
+            font-size: 13px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .bucket-ring-btn:hover, .hotline-ring-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.4);
+            color: #ffffff;
+            transform: translateY(-1px);
+        }
+
         /* Footer */
         footer {
             text-align: center;
@@ -388,11 +556,24 @@
             margin-top: 2rem;
         }
 
+        /* Responsive Styles */
         @media (max-width: 768px) {
             .name { font-size: 2.5rem; }
             .card { padding: 1.5rem; }
             .avatar-container { width: 130px; height: 130px; }
-            .nav-menu { display: none; } /* スマホ時は簡易化のため一旦非表示 */
+            
+            /* Toggle nav structures */
+            .nav-menu { display: none; }
+            .nav-right .lang-switch { display: none; } /* Hide desktop lang switch */
+            .hamburger { display: flex; } /* Show hamburger on mobile */
+
+            /* Make webring layout stacked on small screens if needed */
+            .bucket-ring-container, .hotline-ring-container {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+                padding: 16px;
+            }
         }
     </style>
 </head>
@@ -404,18 +585,39 @@
     <nav>
         <div class="nav-left">
             <a href="#" class="nav-brand">game_ryo</a>
+            <!-- Desktop Menu -->
             <ul class="nav-menu">
                 <li><a href="#" data-i18n="menu_home">ホーム</a></li>
                 <li><a href="/blog/" data-i18n="menu_blog">ブログ</a></li>
             </ul>
         </div>
         <div class="nav-right">
+            <!-- Desktop Language Switcher -->
             <div class="lang-switch">
-                <button class="lang-btn active" id="btn-ja" onclick="setLang('ja')">JP</button>
-                <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+                <button class="lang-btn active btn-ja" onclick="setLang('ja')">JP</button>
+                <button class="lang-btn btn-en" onclick="setLang('en')">EN</button>
             </div>
+            <!-- Hamburger Menu Trigger -->
+            <button class="hamburger" id="hamburger-btn" aria-label="Menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
     </nav>
+
+    <!-- Mobile Drawer Menu -->
+    <div class="mobile-drawer" id="mobile-drawer">
+        <ul class="mobile-drawer-menu">
+            <li><a href="#" data-i18n="menu_home" onclick="closeMenu()">ホーム</a></li>
+            <li><a href="/blog/" data-i18n="menu_blog" onclick="closeMenu()">ブログ</a></li>
+        </ul>
+        <!-- Mobile Language Switcher inside Drawer -->
+        <div class="lang-switch">
+            <button class="lang-btn active btn-ja" onclick="setLang('ja')">JP</button>
+            <button class="lang-btn btn-en" onclick="setLang('en')">EN</button>
+        </div>
+    </div>
 
     <main>
         <div class="hero">
@@ -438,15 +640,13 @@
                 <a href="https://codepen.io/game_ryo" target="_blank" class="social-btn" aria-label="CodePen" title="CodePen">
                     <svg viewBox="0 0 24 24"><path d="M24 8.242V15.76c0 .488-.276.924-.716 1.134l-10.665 5.86c-.38.21-.856.21-1.238 0L.717 16.893C.277 16.684 0 16.248 0 15.76V8.24c0-.488.276-.924.716-1.134l10.665-5.86c.38-.21.856-.21 1.238 0l10.665 5.86c.44.21.716.646.716 1.134zm-12.001 7.234l6.568-4.41-6.568-4.41-6.568 4.41 6.568 4.41zm1.001 1.666l8.471-5.69-8.471-4.654v10.344zm-2.002 0V6.804L2.527 11.46l8.471 5.69zm1.001-14.474l-7.794 4.28 7.794 5.234 7.794-5.234-7.794-4.28zm0 17.666l7.794-4.28-7.794-5.234-7.794 5.234 7.794 4.28z"/></svg>
                 </a>
-              <a href="https://scratch.mit.edu/users/game_ryo/" target="_blank" class="social-btn" aria-label="Scratch" title="Scratch">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="29 29 133 205" width="24" height="24" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd">
-  <!-- オレンジの背景パーツ -->
-  <path fill="#f3a238" d="M 109.5,29.5 C 129.634,27.3078 143.134,35.6412 150,54.5 C 150.451,75.1749 150.117,95.8416 149,116.5 C 148.608,119.627 147.775,122.627 146.5,125.5 C 163.902,150.902 163.736,176.236 146,201.5 C 130.519,218.985 111.019,227.318 87.5,226.5 C 75.1427,239.582 60.8094,242.082 44.5,234 C 35.6971,228.185 30.5305,220.018 29,209.5 C 28.3336,188.486 28.667,167.486 30,146.5 C 31.8194,140.032 34.3194,133.865 37.5,128 C 34.6428,110.758 35.1428,93.5917 39,76.5 C 47.5544,48.1236 66.7211,34.9569 96.5,37 C 100.602,33.9539 104.935,31.4539 109.5,29.5 Z"/>
-  <!-- 白い「S」の文字パーツ -->
-  <path fill="#faf8f6" d="M 114.5,56.5 C 119.439,55.3519 122.939,57.0186 125,61.5 C 124.855,75.152 124.521,88.8186 124,102.5 C 123.891,107.614 123.224,112.614 122,117.5 C 116.926,121.886 112.592,121.219 109,115.5 C 108.99,102.453 104.156,91.6192 94.5,83 C 88.2131,77.6312 83.0465,78.4646 79,85.5 C 76.6714,96.3928 76.0048,107.393 77,118.5 C 77.8834,121.102 79.3834,123.269 81.5,125 C 91.5593,127.349 101.559,130.015 111.5,133 C 129.934,141.034 136.767,154.868 132,174.5 C 122.943,193.781 107.777,201.614 86.5,198 C 80.6872,196.177 75.1872,193.677 70,190.5 C 69.9173,196.942 69.2507,203.275 68,209.5 C 61.5358,214.423 56.8691,213.09 54,205.5 C 53.643,187.16 53.9763,168.827 55,150.5 C 58.2977,145.226 62.631,144.226 68,147.5 C 68.6667,148.833 69.3333,150.167 70,151.5 C 69.1265,169.78 77.6265,180.447 95.5,183.5 C 111.357,182.484 118.857,174.151 118,158.5 C 114.278,151.541 108.445,147.374 100.5,146 C 91.6242,144.302 82.9575,141.969 74.5,139 C 67.9914,134.478 63.8248,128.312 62,120.5 C 59.8317,105.849 61.1651,91.5153 66,77.5 C 71.4075,66.2459 80.2408,62.0793 92.5,65 C 99.3953,67.2306 105.229,71.0639 110,76.5 C 110.333,71.1667 110.667,65.8333 111,60.5C 112.376,59.2949 113.542,57.9616 114.5,56.5 Z"/>
-</svg>
-</a>
-
+                <a href="https://scratch.mit.edu/users/game_ryo/" target="_blank" class="social-btn" aria-label="Scratch" title="Scratch">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="29 29 133 205" width="24" height="24" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd">
+                        <!-- オレンジの背景パーツ -->
+                        <path fill="#f3a238" d="M 109.5,29.5 C 129.634,27.3078 143.134,35.6412 150,54.5 C 150.451,75.1749 150.117,95.8416 149,116.5 C 148.608,119.627 147.775,122.627 146.5,125.5 C 163.902,150.902 163.736,176.236 146,201.5 C 130.519,218.985 111.019,227.318 87.5,226.5 C 75.1427,239.582 60.8094,242.082 44.5,234 C 35.6971,228.185 30.5305,220.018 29,209.5 C 28.3336,188.486 28.667,167.486 30,146.5 C 31.8194,140.032 34.3194,133.865 37.5,128 C 34.6428,110.758 35.1428,93.5917 39,76.5 C 47.5544,48.1236 66.7211,34.9569 96.5,37 C 100.602,33.9539 104.935,31.4539 109.5,29.5 Z"/>
+                        <!-- 白い「S」の文字パーツ -->
+                        <path fill="#faf8f6" d="M 114.5,56.5 C 119.439,55.3519 122.939,57.0186 125,61.5 C 124.855,75.152 124.521,88.8186 124,102.5 C 123.891,107.614 123.224,112.614 122,117.5 C 116.926,121.886 112.592,121.219 109,115.5 C 108.99,102.453 104.156,91.6192 94.5,83 C 88.2131,77.6312 83.0465,78.4646 79,85.5 C 76.6714,96.3928 76.0048,107.393 77,118.5 C 77.8834,121.102 79.3834,123.269 81.5,125 C 91.5593,127.349 101.559,130.015 111.5,133 C 129.934,141.034 136.767,154.868 132,174.5 C 122.943,193.781 107.777,201.614 86.5,198 C 80.6872,196.177 75.1872,193.677 70,190.5 C 69.9173,196.942 69.2507,203.275 68,209.5 C 61.5358,214.423 56.8691,213.09 54,205.5 C 53.643,187.16 53.9763,168.827 55,150.5 C 58.2977,145.226 62.631,144.226 68,147.5 C 68.6667,148.833 69.3333,150.167 70,151.5 C 69.1265,169.78 77.6265,180.447 95.5,183.5 C 111.357,182.484 118.857,174.151 118,158.5 C 114.278,151.541 108.445,147.374 100.5,146 C 91.6242,144.302 82.9575,141.969 74.5,139 C 67.9914,134.478 63.8248,128.312 62,120.5 C 59.8317,105.849 61.1651,91.5153 66,77.5 C 71.4075,66.2459 80.2408,62.0793 92.5,65 C 99.3953,67.2306 105.229,71.0639 110,76.5 C 110.333,71.1667 110.667,65.8333 111,60.5C 112.376,59.2949 113.542,57.9616 114.5,56.5 Z"/>
+                    </svg>
                 </a>
             </div>
         </div>
@@ -501,195 +701,35 @@
                     <div class="link-title">Shotaro Nakamura / nakasyou</div>
                     <div class="link-desc" data-i18n="link_naka_desc">大会で賞状色々持っているすごい人</div>
                 </a>
-
             </div>
         </section>
-<section>
-  <h2 class="section-title">Webring</h2>
-<div class="bucket-ring-container">
-  <div class="bucket-ring-left">
-    <!-- ドット絵のアイコン（好きな画像URLに変えてもOK！） -->
-    <img src="https://avatars.githubusercontent.com/u/66538443?s=48&v=4" class="bucket-ring-icon" alt="icon">
-  <a href="https://webring.bucketfish.me/ target="_blank" class="bucket-ring-title-link">Bucket Ring</a>
-  </div>
-  <div class="bucket-ring-buttons">
-    <!-- あなたのID（game-ryo）を組み込んだ公式の転送リンク -->
-    <a href="https://webring.bucketfish.me/redirect.html?to=prev&name=game-ryo" target="_top" class="bucket-ring-btn">Previous</a>
-    <a href="https://webring.bucketfish.me/redirect.html?to=random&name=game-ryo" target="_top" class="bucket-ring-btn">Random</a>
-    <a href="https://webring.bucketfish.me/redirect.html?to=next&name=game-ryo" target="_top" class="bucket-ring-btn">Next</a>
-  </div>
-</div>
 
-<style>
-/* 全体の枠のデザイン（すりガラスっぽく光るダークモード仕様） */
-.bucket-ring-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 12px;
-  padding: 12px 24px;
-  width: 100%;
-  max-width: 600px; /* 横幅はお好みで調整してください */
-  margin: 20px auto;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  font-family: sans-serif;
-}
+        <section>
+            <h2 class="section-title" data-i18n="webring_title">Webring</h2>
+            
+            <div class="bucket-ring-container">
+                <div class="bucket-ring-left">
+                    <img src="https://avatars.githubusercontent.com/u/66538443?s=48&v=4" class="bucket-ring-icon" alt="icon">
+                    <a href="https://webring.bucketfish.me/" target="_blank" class="bucket-ring-title-link">Bucket Ring</a>
+                </div>
+                <div class="bucket-ring-buttons">
+                    <a href="https://webring.bucketfish.me/redirect.html?to=prev&name=game-ryo" target="_top" class="bucket-ring-btn" data-i18n="ring_prev">Previous</a>
+                    <a href="https://webring.bucketfish.me/redirect.html?to=random&name=game-ryo" target="_top" class="bucket-ring-btn" data-i18n="ring_rand">Random</a>
+                    <a href="https://webring.bucketfish.me/redirect.html?to=next&name=game-ryo" target="_top" class="bucket-ring-btn" data-i18n="ring_next">Next</a>
+                </div>
+            </div>
 
-/* 左側のタイトルとアイコンエリア */
-.bucket-ring-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.bucket-ring-icon {
-  width: 28px;
-  height: 28px;
-  image-rendering: pixelated; /* ドット絵をクッキリ表示する魔法のコード */
-}
-
-.bucket-ring-title {
-  color: #ffffff;
-  font-weight: bold;
-  font-size: 15px;
-  letter-spacing: 0.5px;
-}
-
-/* 右側のボタンエリア */
-.bucket-ring-buttons {
-  display: flex;
-  gap: 8px;
-}
-
-/* ボタン単体のデザイン */
-.bucket-ring-btn {
-  display: inline-block;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
-  color: #e0e0e0;
-  padding: 6px 14px;
-  font-size: 13px;
-  text-decoration: none;
-  transition: all 0.2s ease;
-}
-
-/* マウスを乗せたとき（ホバー）のエフェクト */
-.bucket-ring-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.4);
-  color: #ffffff;
-  transform: translateY(-1px);
-}
-    /* タイトルリンクのデザイン */
-.bucket-ring-title-link {
-  color: #ffffff;
-  font-weight: bold;
-  font-size: 15px;
-  letter-spacing: 0.5px;
-  text-decoration: none; /* 最初は下線を消しておく */
-  transition: color 0.2s ease, text-decoration 0.2s ease;
-}
-
-/* マウスを乗せたときに光って下線が出るエフェクト */
-.bucket-ring-title-link:hover {
-  color: #a5b4fc; /* あなたのダークテーマに似合う綺麗な青紫色に光ります */
-  text-decoration: underline; /* 下線を表示 */
-}
-
-</style>
-<div class="hotline-ring-container">
-  <div class="hotline-ring-left">
-    <!-- 自分で用意した画像を表示するタグ -->
-    <img src="https://res.cloudinary.com/dt0zmgv8k/image/upload/v1781392036/22266473_wpnet4.png" class="hotline-ring-custom-icon" alt="hotline-icon">
-    <!-- 文字リンク部分 -->
-    <a href="https://hotlinewebring.club/" target="_blank" class="hotline-ring-title-link">Hotline Ring</a>
-  </div>
-  <div class="hotline-ring-buttons">
-    <a href="https://hotlinewebring.club/game-ryo/previous" target="_top" class="hotline-ring-btn">Previous</a>
-    <a href="https://hotlinewebring.club/game-ryo/next" target="_top" class="hotline-ring-btn">Next</a>
-  </div>
-</div>
-
-<style>
-/* バケットリングとお揃いのすりガラス風デザイン */
-.hotline-ring-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 12px;
-  padding: 12px 24px;
-  width: 100%;
-  max-width: 600px;
-  margin: 10px auto; 
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  font-family: sans-serif;
-}
-
-.hotline-ring-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-/* 自分で用意したカスタムアイコン用のスタイル */
-.hotline-ring-custom-icon {
-  width: 26px; /* バケットリングのアイコンとサイズを揃えています */
-  height: 26px;
-  object-fit: contain;
-  image-rendering: pixelated; /* もしドット絵なら、これをいれておくとクッキリ綺麗に映ります */
-}
-
-.hotline-ring-title-link {
-  color: #ffffff;
-  font-weight: bold;
-  font-size: 15px;
-  letter-spacing: 0.5px;
-  text-decoration: none;
-  transition: color 0.2s ease, text-decoration 0.2s ease;
-}
-
-/* マウスを乗せたときにネオンレッドに光るエフェクト */
-.hotline-ring-title-link:hover {
-  color: #ff4757; 
-  text-decoration: underline;
-}
-
-.hotline-ring-buttons {
-  display: flex;
-  gap: 8px;
-}
-
-.hotline-ring-btn {
-  display: inline-block;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
-  color: #e0e0e0;
-  padding: 6px 14px;
-  font-size: 13px;
-  text-decoration: none;
-  transition: all 0.2s ease;
-}
-
-.hotline-ring-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.4);
-  color: #ffffff;
-  transform: translateY(-1px);
-}
-
-</style>
-</div>
-</section>
-
-
+            <div class="hotline-ring-container">
+                <div class="hotline-ring-left">
+                    <img src="https://res.cloudinary.com/dt0zmgv8k/image/upload/v1781392036/22266473_wpnet4.png" class="hotline-ring-custom-icon" alt="hotline-icon">
+                    <a href="https://hotlinewebring.club/" target="_blank" class="hotline-ring-title-link">Hotline Ring</a>
+                </div>
+                <div class="hotline-ring-buttons">
+                    <a href="https://hotlinewebring.club/game-ryo/previous" target="_top" class="hotline-ring-btn" data-i18n="ring_prev">Previous</a>
+                    <a href="https://hotlinewebring.club/game-ryo/next" target="_top" class="hotline-ring-btn" data-i18n="ring_next">Next</a>
+                </div>
+            </div>
+        </section>
     </main>
 
     <footer>
@@ -715,6 +755,10 @@
                 link_yu_title: "ゆーのホームページ",
                 link_yu_desc: "サイトがおしゃれ。しかもダークモードがある。",
                 link_naka_desc: "大会で賞状色々持っているすごい人",
+                webring_title: "ウェブリング",
+                ring_prev: "前へ",
+                ring_rand: "ランダム",
+                ring_next: "次へ",
                 footer_text: "© 2026 game_ryo. All Rights Reserved."
             },
             en: {
@@ -733,22 +777,46 @@
                 link_yu_title: "Yu's Homepage",
                 link_yu_desc: "Stylish website design. Plus, it has a cool dark mode.",
                 link_naka_desc: "An amazing developer with various awards from competitions.",
+                webring_title: "Webrings",
+                ring_prev: "Previous",
+                ring_rand: "Random",
+                ring_next: "Next",
                 footer_text: "© 2026 game_ryo. All Rights Reserved."
             }
         };
 
+        // --- Hamburger Menu Logic ---
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const mobileDrawer = document.getElementById('mobile-drawer');
+
+        hamburgerBtn.addEventListener('click', () => {
+            const isOpen = hamburgerBtn.classList.toggle('active');
+            mobileDrawer.classList.toggle('active', isOpen);
+            document.body.classList.toggle('menu-open', isOpen);
+            hamburgerBtn.setAttribute('aria-expanded', isOpen);
+        });
+
+        function closeMenu() {
+            hamburgerBtn.classList.remove('active');
+            mobileDrawer.classList.remove('active');
+            document.body.classList.remove('menu-open');
+            hamburgerBtn.setAttribute('aria-expanded', false);
+        }
+
         // --- Language Toggle Logic ---
         function setLang(lang) {
-            // Update buttons
-            document.getElementById('btn-ja').classList.toggle('active', lang === 'ja');
-            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+            // Update all button states (both Desktop and Mobile switches)
+            const jaButtons = document.querySelectorAll('.btn-ja');
+            const enButtons = document.querySelectorAll('.btn-en');
+
+            jaButtons.forEach(btn => btn.classList.toggle('active', lang === 'ja'));
+            enButtons.forEach(btn => btn.classList.toggle('active', lang === 'en'));
 
             // Update texts
             const elements = document.querySelectorAll('[data-i18n]');
             elements.forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if (translations[lang][key]) {
-                    // Using innerHTML for the footer to parse the © entity properly
                     if(key === 'footer_text') {
                         el.innerHTML = translations[lang][key];
                     } else {
@@ -757,7 +825,7 @@
                 }
             });
 
-            // Save preference to localStorage (optional, but good for UX)
+            // Save preference to localStorage
             localStorage.setItem('preferredLang', lang);
         }
 
