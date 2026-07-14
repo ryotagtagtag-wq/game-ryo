@@ -1,6 +1,8 @@
 require("dotenv").config();
 const Image = require("@11ty/eleventy-img");
 const fs = require("fs");
+// 🌟 1文字残さずコードを完全圧縮するパッケージ
+const htmlmin = require("html-minifier-terser");
 
 module.exports = function (eleventyConfig) {
   
@@ -9,6 +11,29 @@ module.exports = function (eleventyConfig) {
   if (!fs.existsSync("./_site/img/")) {
     fs.mkdirSync("./_site/img/", { recursive: true });
   }
+
+  // ==========================================
+  // 🗜️ [完全圧縮処理] 出力されるHTML/CSS/JSを限界までクランチ
+  // ==========================================
+  eleventyConfig.addTransform("htmlmin", function(content) {
+    // 出力されるファイルがHTMLの場合のみ処理を実行
+    if ((this.page.outputPath || "").endsWith(".html")) {
+      try {
+        let minified = htmlmin.minify(content, {
+          useShortDoctype: true,     // DOCTYPEを短縮
+          removeComments: true,       // HTMLコメントを完全削除
+          collapseWhitespace: true,   // 不要な改行・空白を完全削除（1行化）
+          minifyCSS: true,            // インラインで書かれたCSSも完全圧縮
+          minifyJS: true,             // インラインで書かれたJavaScriptも完全圧縮
+        });
+        return minified;
+      } catch (error) {
+        console.error("❌ HTMLの圧縮中にエラーが発生しました:", error);
+        return content;
+      }
+    }
+    return content;
+  });
 
   // ==========================================
   // 💡 [共通処理] 外部URLの画像をダウンロードしてWebPに変換する関数
