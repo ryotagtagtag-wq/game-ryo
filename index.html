@@ -1,810 +1,132 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" id="html-root">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <title>game_ryo - Developer Profile</title>
-
     <link rel="icon" type="image/png" href="https://res.cloudinary.com/dt0zmgv8k/image/upload/v1778741836/game_ryo%E6%96%B0%E3%81%97%E3%81%84%E3%83%AD%E3%82%B4-1-300x300_mvzzy9.png">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link href="https://github.com/ryotagtagtag-wq" rel="me">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" />
-    
     <style>
         :root {
-            --bg-color: #0f172a; /* Slate 900 */
-            --bg-card: rgba(30, 41, 59, 0.7); /* Slate 800 with opacity */
-            --text-main: #f8fafc; /* Slate 50 */
-            --text-muted: #94a3b8; /* Slate 400 */
-            --primary: #3b82f6; /* Blue 500 */
+            --bg-color: #0f172a;
+            --bg-card: rgba(30, 41, 59, 0.7);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --primary: #3b82f6;
             --primary-glow: rgba(59, 130, 246, 0.5);
-            --accent: #06b6d4; /* Cyan 500 */
+            --accent: #06b6d4;
             --border-color: rgba(255, 255, 255, 0.1);
             --glass-blur: blur(12px);
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'Inter', 'Noto Sans JP', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.7;
-            -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
-        }
-
-        /* Prevent scrolling when mobile menu is open */
-        body.menu-open {
-            overflow: hidden;
-        }
-
-        /* Background Effects */
-        .bg-glow {
-            position: fixed;
-            top: -10%; left: -10%;
-            width: 50vw; height: 50vw;
-            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
-            filter: blur(100px);
-            z-index: -1;
-            opacity: 0.4;
-            animation: float 10s infinite alternate ease-in-out;
-        }
-        .bg-glow-2 {
-            position: fixed;
-            bottom: -10%; right: -10%;
-            width: 40vw; height: 40vw;
-            background: radial-gradient(circle, rgba(6, 182, 212, 0.3) 0%, transparent 70%);
-            filter: blur(100px);
-            z-index: -1;
-            opacity: 0.4;
-            animation: float 8s infinite alternate-reverse ease-in-out;
-        }
-
-        @keyframes float {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(30px, 50px); }
-        }
-
-        /* Navbar */
-        nav {
-            position: fixed;
-            top: 0; width: 100%;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
-            border-bottom: 1px solid var(--border-color);
-            z-index: 100;
-        }
-
-        .nav-left {
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-        }
-
-        .nav-brand {
-            font-weight: 800;
-            font-size: 1.2rem;
-            letter-spacing: -0.5px;
-            background: linear-gradient(to right, var(--text-main), var(--text-muted));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-decoration: none;
-            z-index: 102; /* ensure brand stays above mobile overlay if needed */
-        }
-
-        /* Menu Links (Desktop) */
-        .nav-menu {
-            display: flex;
-            gap: 1.5rem;
-            list-style: none;
-        }
-
-        .nav-menu a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 500;
-            transition: var(--transition);
-        }
-
-        .nav-menu a:hover {
-            color: var(--text-main);
-        }
-
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .lang-switch {
-            display: flex;
-            background: rgba(0,0,0,0.2);
-            border-radius: 20px;
-            padding: 4px;
-            border: 1px solid var(--border-color);
-        }
-
-        .lang-btn {
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            padding: 4px 12px;
-            border-radius: 16px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .lang-btn.active {
-            background: var(--primary);
-            color: #fff;
-            box-shadow: 0 0 10px var(--primary-glow);
-        }
-
-        /* Hamburger Button (Mobile only) */
-        .hamburger {
-            display: none;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            padding: 8px;
-            z-index: 102;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .hamburger span {
-            display: block;
-            width: 25px;
-            height: 2px;
-            background-color: var(--text-main);
-            border-radius: 2px;
-            transition: var(--transition);
-        }
-
-        /* Hamburger Active State (X conversion) */
-        .hamburger.active span:nth-child(1) {
-            transform: translateY(8px) rotate(45deg);
-        }
-        .hamburger.active span:nth-child(2) {
-            opacity: 0;
-        }
-        .hamburger.active span:nth-child(3) {
-            transform: translateY(-8px) rotate(-45deg);
-        }
-
-        /* Mobile Menu Drawer */
-        .mobile-drawer {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            z-index: 101;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 2.5rem;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(-20px);
-            transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s;
-        }
-
-        .mobile-drawer.active {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .mobile-drawer-menu {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 2rem;
-        }
-
-        .mobile-drawer-menu a {
-            color: var(--text-main);
-            text-decoration: none;
-            font-size: 1.5rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            transition: var(--transition);
-        }
-
-        .mobile-drawer-menu a:hover {
-            color: var(--accent);
-            text-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
-        }
-
-        /* Main Container */
-        main {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 8rem 1.5rem 4rem;
-        }
-
-        /* Hero Section */
-        .hero {
-            text-align: center;
-            margin-bottom: 5rem;
-            animation: fadeIn 1s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .avatar-container {
-            position: relative;
-            width: 160px;
-            height: 160px;
-            margin: 0 auto 2rem;
-        }
-
-        .avatar {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid var(--bg-color);
-            box-shadow: 0 0 0 2px var(--primary), 0 10px 30px var(--primary-glow);
-            background-color: var(--bg-card);
-        }
-
-        .name {
-            font-size: 3rem;
-            font-weight: 800;
-            margin-bottom: 0.5rem;
-            letter-spacing: -1px;
-        }
-
-        .role {
-            display: inline-block;
-            padding: 0.5rem 1.5rem;
-            background: rgba(59, 130, 246, 0.1);
-            color: var(--accent);
-            border-radius: 30px;
-            font-weight: 600;
-            font-size: 1rem;
-            margin-bottom: 2rem;
-            border: 1px solid rgba(6, 182, 212, 0.2);
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .social-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            text-decoration: none;
-            transition: var(--transition);
-        }
-
-        .social-btn svg {
-            width: 20px; height: 20px;
-            fill: currentColor;
-        }
-
-        .social-btn:hover {
-            background: var(--primary);
-            border-color: var(--primary);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px var(--primary-glow);
-        }
-
-        /* Sections */
-        section {
-            margin-bottom: 4rem;
-        }
-
-        .section-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .section-title::before {
-            content: '';
-            display: block;
-            width: 8px;
-            height: 24px;
-            background: linear-gradient(to bottom, var(--accent), var(--primary));
-            border-radius: 4px;
-        }
-
-        .card {
-            background: var(--bg-card);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
-            border: 1px solid var(--border-color);
-            border-radius: 24px;
-            padding: 2.5rem;
-        }
-
-        .card p {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', 'Noto Sans JP', sans-serif; background-color: var(--bg-color); color: var(--text-main); line-height: 1.7; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+        body.menu-open { overflow: hidden; }
+        .bg-glow { position: fixed; top: -10%; left: -10%; width: 50vw; height: 50vw; background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%); filter: blur(100px); z-index: -1; opacity: 0.4; animation: float 10s infinite alternate ease-in-out; }
+        .bg-glow-2 { position: fixed; bottom: -10%; right: -10%; width: 40vw; height: 40vw; background: radial-gradient(circle, rgba(6, 182, 212, 0.3) 0%, transparent 70%); filter: blur(100px); z-index: -1; opacity: 0.4; animation: float 8s infinite alternate-reverse ease-in-out; }
+        @keyframes float { 0% { transform: translate(0, 0); } 100% { transform: translate(30px, 50px); } }
+        nav { position: fixed; top: 0; width: 100%; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; background: rgba(15, 23, 42, 0.8); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border-bottom: 1px solid var(--border-color); z-index: 100; }
+        .nav-left { display: flex; align-items: center; gap: 2rem; }
+        .nav-brand { font-weight: 800; font-size: 1.2rem; letter-spacing: -0.5px; background: linear-gradient(to right, var(--text-main), var(--text-muted)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; z-index: 102; }
+        .nav-menu { display: flex; gap: 1.5rem; list-style: none; }
+        .nav-menu a { color: var(--text-muted); text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: var(--transition); }
+        .nav-menu a:hover { color: var(--text-main); }
+        .nav-right { display: flex; align-items: center; gap: 1rem; }
+        .lang-switch { display: flex; background: rgba(0,0,0,0.2); border-radius: 20px; padding: 4px; border: 1px solid var(--border-color); }
+        .lang-btn { background: transparent; border: none; color: var(--text-muted); padding: 4px 12px; border-radius: 16px; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: var(--transition); }
+        .lang-btn.active { background: var(--primary); color: #fff; box-shadow: 0 0 10px var(--primary-glow); }
+        .hamburger { display: none; background: transparent; border: none; cursor: pointer; padding: 8px; z-index: 102; flex-direction: column; gap: 6px; }
+        .hamburger span { display: block; width: 25px; height: 2px; background-color: var(--text-main); border-radius: 2px; transition: var(--transition); }
+        .hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+        .mobile-drawer { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); z-index: 101; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 2.5rem; opacity: 0; visibility: hidden; transform: translateY(-20px); transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s; }
+        .mobile-drawer.active { opacity: 1; visibility: visible; transform: translateY(0); }
+        .mobile-drawer-menu { list-style: none; display: flex; flex-direction: column; align-items: center; gap: 2rem; }
+        .mobile-drawer-menu a { color: var(--text-main); text-decoration: none; font-size: 1.5rem; font-weight: 700; letter-spacing: 1px; transition: var(--transition); }
+        .mobile-drawer-menu a:hover { color: var(--accent); text-shadow: 0 0 10px rgba(6, 182, 212, 0.5); }
+        main { max-width: 900px; margin: 0 auto; padding: 8rem 1.5rem 4rem; }
+        .hero { text-align: center; margin-bottom: 5rem; animation: fadeIn 1s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .avatar-container { position: relative; width: 160px; height: 160px; margin: 0 auto 2rem; }
+        .avatar { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 4px solid var(--bg-color); box-shadow: 0 0 0 2px var(--primary), 0 10px 30px var(--primary-glow); background-color: var(--bg-card); }
+        .name { font-size: 3rem; font-weight: 800; margin-bottom: 0.5rem; letter-spacing: -1px; }
+        .role { display: inline-block; padding: 0.5rem 1.5rem; background: rgba(59, 130, 246, 0.1); color: var(--accent); border-radius: 30px; font-weight: 600; font-size: 1rem; margin-bottom: 2rem; border: 1px solid rgba(6, 182, 212, 0.2); }
+        .social-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+        .social-btn { display: flex; align-items: center; justify-content: center; width: 45px; height: 45px; border-radius: 50%; background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-main); text-decoration: none; transition: var(--transition); }
+        .social-btn svg { width: 20px; height: 20px; fill: currentColor; }
+        .social-btn:hover { background: var(--primary); border-color: var(--primary); transform: translateY(-3px); box-shadow: 0 5px 15px var(--primary-glow); }
+        section { margin-bottom: 4rem; }
+        .section-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem; }
+        .section-title::before { content: ''; display: block; width: 8px; height: 24px; background: linear-gradient(to bottom, var(--accent), var(--primary)); border-radius: 4px; }
+        .card { background: var(--bg-card); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--border-color); border-radius: 24px; padding: 2.5rem; }
+        .card p { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 1.5rem; }
         .card p:last-child { margin-bottom: 0; }
-
-        /* Skills */
-        .skills-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-        }
-
-        .skill-tag {
-            padding: 0.6rem 1.2rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            font-size: 0.95rem;
-            font-weight: 500;
-            transition: var(--transition);
-        }
-
-        .skill-tag:hover {
-            background: rgba(59, 130, 246, 0.15);
-            border-color: var(--primary);
-            color: var(--accent);
-        }
-
-        /* Spotify */
-        .spotify-widget img {
-            width: 100%;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            transition: var(--transition);
-        }
-        .spotify-widget img:hover {
-            transform: scale(1.02);
-        }
-
-        /* Links */
-        .links-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .link-card {
-            display: flex;
-            flex-direction: column;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 1.5rem;
-            text-decoration: none;
-            color: inherit;
-            transition: var(--transition);
-            overflow: hidden;
-            position: relative;
-        }
-
-        .link-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.05), transparent);
-            transform: translateX(-100%);
-            transition: 0.5s;
-        }
-
-        .link-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-
-        .link-card:hover::before {
-            transform: translateX(100%);
-        }
-
-        .link-image {
-            width: 100%;
-            height: 140px;
-            object-fit: cover;
-            border-radius: 12px;
-            margin-bottom: 1.5rem;
-            background: #1e293b;
-        }
-        
-        .link-image.circle {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            margin: 0 auto 1.5rem;
-        }
-
-        .link-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: var(--text-main);
-        }
-
-        .link-desc {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            flex-grow: 1;
-        }
-
-        /* Webrings Shared Style */
-        .bucket-ring-container, .hotline-ring-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 12px;
-            padding: 12px 24px;
-            width: 100%;
-            max-width: 600px;
-            margin: 20px auto;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            font-family: sans-serif;
-        }
-
-        .bucket-ring-left, .hotline-ring-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .bucket-ring-icon {
-            width: 28px;
-            height: 28px;
-            image-rendering: pixelated;
-        }
-
-        .hotline-ring-custom-icon {
-            width: 26px;
-            height: 26px;
-            object-fit: contain;
-            image-rendering: pixelated;
-        }
-
-        .bucket-ring-title-link, .hotline-ring-title-link {
-            color: #ffffff;
-            font-weight: bold;
-            font-size: 15px;
-            letter-spacing: 0.5px;
-            text-decoration: none;
-            transition: color 0.2s ease, text-decoration 0.2s ease;
-        }
-
-        .bucket-ring-title-link:hover {
-            color: #a5b4fc;
-            text-decoration: underline;
-        }
-
-        .hotline-ring-title-link:hover {
-            color: #ff4757;
-            text-decoration: underline;
-        }
-
-        .bucket-ring-buttons, .hotline-ring-buttons {
-            display: flex;
-            gap: 8px;
-        }
-
-        .bucket-ring-btn, .hotline-ring-btn {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            color: #e0e0e0;
-            padding: 6px 14px;
-            font-size: 13px;
-            text-decoration: none;
-            transition: all 0.2s ease;
-        }
-
-        .bucket-ring-btn:hover, .hotline-ring-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.4);
-            color: #ffffff;
-            transform: translateY(-1px);
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 2rem;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            border-top: 1px solid var(--border-color);
-            margin-top: 2rem;
-        }
-
-        /* Responsive Styles */
+        .summary-lead { color: var(--text-muted); font-size: 1.05rem; margin-bottom: 1.5rem; line-height: 1.7; }
+        .summary-lead strong { color: var(--text-main); }
+        .activity-list { list-style: none; margin-bottom: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem; }
+        .activity-list li { color: var(--text-muted); font-size: 1rem; padding-left: 1.2rem; position: relative; }
+        .activity-list li::before { content: '\25B8'; position: absolute; left: 0; color: var(--accent); }
+        .activity-list li strong { color: var(--text-main); }
+        .closing-text { color: var(--text-muted); font-size: 0.95rem; }
+        .skills-grid { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+        .skill-tag { padding: 0.6rem 1.2rem; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-color); border-radius: 12px; font-size: 0.95rem; font-weight: 500; transition: var(--transition); }
+        .skill-tag:hover { background: rgba(59, 130, 246, 0.15); border-color: var(--primary); color: var(--accent); }
+        .links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+        .link-card { display: flex; flex-direction: column; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; padding: 1.5rem; text-decoration: none; color: inherit; transition: var(--transition); overflow: hidden; position: relative; }
+        .link-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.05), transparent); transform: translateX(-100%); transition: 0.5s; }
+        .link-card:hover { border-color: var(--primary); transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .link-card:hover::before { transform: translateX(100%); }
+        .link-image { width: 100%; height: 140px; object-fit: cover; border-radius: 12px; margin-bottom: 1.5rem; background: #1e293b; }
+        .link-image.circle { width: 100px; height: 100px; border-radius: 50%; margin: 0 auto 1.5rem; }
+        .link-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-main); }
+        .link-desc { font-size: 0.9rem; color: var(--text-muted); flex-grow: 1; }
+        .blog-preview-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
+        .blog-preview-card { display: flex; flex-direction: column; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; padding: 1.5rem; text-decoration: none; color: inherit; transition: var(--transition); }
+        .blog-preview-card:hover { border-color: var(--primary); transform: translateY(-5px); box-shadow: 0 10px 30px rgba(59, 130, 246, 0.15); }
+        .blog-preview-date { font-size: 0.85rem; color: var(--accent); font-weight: 600; margin-bottom: 0.5rem; }
+        .blog-preview-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-main); line-height: 1.4; }
+        .blog-preview-body { font-size: 0.9rem; color: var(--text-muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .terminal-section { background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.8)); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 20px; padding: 2.5rem; }
+        .terminal-title { font-size: 1.1rem; font-weight: 700; color: var(--text-main); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem; }
+        .terminal-title::before { content: '\25B6'; color: var(--accent); font-weight: 900; }
+        .terminal-box { background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(6, 182, 212, 0.3); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; font-family: 'Courier New', monospace; position: relative; overflow-x: auto; }
+        .terminal-prompt { color: var(--accent); margin-bottom: 0.5rem; font-size: 0.95rem; }
+        .terminal-command { color: var(--text-main); font-weight: 500; word-break: break-all; font-size: 1rem; line-height: 1.6; user-select: all; }
+        .copy-btn { position: absolute; top: 1rem; right: 1rem; background: rgba(59, 130, 246, 0.2); border: 1px solid var(--primary); color: var(--primary); padding: 0.5rem 1.2rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: var(--transition); z-index: 10; }
+        .copy-btn:hover { background: var(--primary); color: #fff; box-shadow: 0 5px 15px var(--primary-glow); transform: translateY(-2px); }
+        .copy-btn.copied { background: rgba(34, 197, 94, 0.2); border-color: #22c55e; color: #22c55e; }
+        .terminal-description { color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; }
+        .terminal-description strong { color: var(--text-main); }
+        .form-group { margin-bottom: 1.5rem; text-align: left; }
+        .form-group label { display: block; margin-bottom: 0.5rem; color: var(--text-main); font-weight: 600; font-size: 0.95rem; }
+        .form-control { width: 100%; padding: 0.75rem 1rem; background: rgba(0, 0, 0, 0.3); border: 1px solid var(--border-color); border-radius: 12px; color: var(--text-main); font-family: inherit; font-size: 1rem; transition: var(--transition); }
+        .form-control:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 10px var(--primary-glow); }
+        textarea.form-control { resize: vertical; }
+        .submit-btn { background: var(--primary); color: #fff; border: none; padding: 0.75rem 2.5rem; border-radius: 30px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: var(--transition); box-shadow: 0 5px 15px var(--primary-glow); }
+        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px var(--primary-glow); }
+        .submit-btn:disabled { background: var(--text-muted); box-shadow: none; cursor: not-allowed; transform: none; }
+        .status-badge-container { margin-top: 1rem; }
+        .status-badge { display: inline-flex; align-items: center; gap: 0.5rem; }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; animation: pulse-dot 2s infinite; }
+        @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+        footer { text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.9rem; border-top: 1px solid var(--border-color); margin-top: 2rem; }
         @media (max-width: 768px) {
-            .name { font-size: 2.5rem; }
-            .card { padding: 1.5rem; }
-            .avatar-container { width: 130px; height: 130px; }
-            
-            /* Toggle nav structures */
-            .nav-menu { display: none; }
-            .nav-right .lang-switch { display: none; } /* Hide desktop lang switch */
-            .hamburger { display: flex; } /* Show hamburger on mobile */
-
-            /* Make webring layout stacked on small screens if needed */
-            .bucket-ring-container, .hotline-ring-container {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
-                padding: 16px;
-            }
-        }
-           /* Hamburger Active State */
-        .hamburger.active span:nth-child(1) {
-            transform: translateY(8px) rotate(45deg);
-        }
-        .hamburger.active span:nth-child(2) {
-            opacity: 0;
-        }
-        .hamburger.active span:nth-child(3) {
-            transform: translateY(-8px) rotate(-45deg);
-        }
-        /* --- 最新記事セクションのスタイル --- */
-        .blog-preview-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .blog-preview-card {
-            display: flex;
-            flex-direction: column;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 1.5rem;
-            text-decoration: none;
-            color: inherit;
-            transition: var(--transition);
-        }
-
-        .blog-preview-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.15);
-        }
-
-        .blog-preview-date {
-            font-size: 0.85rem;
-            color: var(--accent);
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .blog-preview-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: var(--text-main);
-            line-height: 1.4;
-        }
-
-        .blog-preview-body {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-        /* --- お問い合わせフォームのスタイル --- */
-        .form-group {
-            margin-bottom: 1.5rem;
-            text-align: left;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--text-main);
-            font-weight: 600;
-            font-size: 0.95rem;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            color: var(--text-main);
-            font-family: inherit;
-            font-size: 1rem;
-            transition: var(--transition);
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 10px var(--primary-glow);
-        }
-
-        textarea.form-control {
-            resize: vertical;
-        }
-
-        .submit-btn {
-            background: var(--primary);
-            color: #fff;
-            border: none;
-            padding: 0.75rem 2.5rem;
-            border-radius: 30px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            box-shadow: 0 5px 15px var(--primary-glow);
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px var(--primary-glow);
-        }
-
-        .submit-btn:disabled {
-            background: var(--text-muted);
-            box-shadow: none;
-            cursor: not-allowed;
-            transform: none;
-        }
-        /* --- ターミナル接続セクション --- */
-        .terminal-section {
-            background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.8));
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            border-radius: 20px;
-            padding: 2.5rem;
-        }
-
-        .terminal-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--text-main);
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .terminal-title::before {
-            content: '▶';
-            color: var(--accent);
-            font-weight: 900;
-        }
-
-        .terminal-box {
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(6, 182, 212, 0.3);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            font-family: 'Courier New', monospace;
-            position: relative;
-            overflow-x: auto;
-        }
-
-        .terminal-prompt {
-            color: var(--accent);
-            margin-bottom: 0.5rem;
-            font-size: 0.95rem;
-        }
-
-        .terminal-command {
-            color: var(--text-main);
-            font-weight: 500;
-            word-break: break-all;
-            font-size: 1rem;
-            line-height: 1.6;
-            user-select: all;
-        }
-
-        .copy-btn {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: rgba(59, 130, 246, 0.2);
-            border: 1px solid var(--primary);
-            color: var(--primary);
-            padding: 0.5rem 1.2rem;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            z-index: 10;
-        }
-
-        .copy-btn:hover {
-            background: var(--primary);
-            color: #fff;
-            box-shadow: 0 5px 15px var(--primary-glow);
-            transform: translateY(-2px);
-        }
-
-        .copy-btn.copied {
-            background: rgba(34, 197, 94, 0.2);
-            border-color: #22c55e;
-            color: #22c55e;
-        }
-
-        .terminal-description {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-
-        .terminal-description strong {
-            color: var(--text-main);
-        }
-
-        @media (max-width: 768px) {
-            .terminal-box {
-                padding: 1.2rem;
-            }
-
-            .copy-btn {
-                top: 0.75rem;
-                right: 0.75rem;
-                padding: 0.4rem 0.8rem;
-                font-size: 0.8rem;
-            }
+            .name { font-size: 2.5rem; } .card { padding: 1.5rem; } .avatar-container { width: 130px; height: 130px; }
+            .nav-menu { display: none; } .nav-right .lang-switch { display: none; } .hamburger { display: flex; }
+            .terminal-box { padding: 1.2rem; } .copy-btn { top: 0.75rem; right: 0.75rem; padding: 0.4rem 0.8rem; font-size: 0.8rem; }
         }
     </style>
 </head>
 <body>
-
     <div class="bg-glow"></div>
     <div class="bg-glow-2"></div>
-
     <nav>
         <div class="nav-left">
             <a href="#" class="nav-brand">game_ryo</a>
-            <!-- Desktop Menu -->
             <ul class="nav-menu">
                 <li><a href="https://ryopc.f5.si" data-i18n="menu_ryopchome">ryopcホーム</a></li>
                 <li><a href="#" data-i18n="menu_home">ホーム</a></li>
@@ -812,34 +134,26 @@
             </ul>
         </div>
         <div class="nav-right">
-            <!-- Desktop Language Switcher -->
             <div class="lang-switch">
                 <button class="lang-btn active btn-ja" onclick="setLang('ja')">JP</button>
                 <button class="lang-btn btn-en" onclick="setLang('en')">EN</button>
             </div>
-            <!-- Hamburger Menu Trigger -->
             <button class="hamburger" id="hamburger-btn" aria-label="Menu" aria-expanded="false">
-                <span></span>
-                <span></span>
-                <span></span>
+                <span></span><span></span><span></span>
             </button>
         </div>
     </nav>
-
-    <!-- Mobile Drawer Menu -->
     <div class="mobile-drawer" id="mobile-drawer">
         <ul class="mobile-drawer-menu">
             <li><a href="https://ryopc.f5.si" data-i18n="menu_ryopchome" onclick="closeMenu()">ryopcホーム</a></li>
             <li><a href="#" data-i18n="menu_home" onclick="closeMenu()">ホーム</a></li>
             <li><a href="/blog/" data-i18n="menu_blog" onclick="closeMenu()">ブログ</a></li>
         </ul>
-        <!-- Mobile Language Switcher inside Drawer -->
         <div class="lang-switch">
             <button class="lang-btn active btn-ja" onclick="setLang('ja')">JP</button>
             <button class="lang-btn btn-en" onclick="setLang('en')">EN</button>
         </div>
     </div>
-
     <main>
         <div class="hero">
             <div class="avatar-container">
@@ -847,93 +161,57 @@
             </div>
             <h1 class="name">game_ryo</h1>
             <div class="role" data-i18n="role">趣味エンジニア</div>
-            
             <div class="social-links">
-                <a href="https://github.com/ryotagtagtag-wq" target="_blank" class="social-btn" aria-label="GitHub" title="GitHub">
-                    <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-                </a>
-                <a href="mailto:ryotagtagtag@gmail.com" class="social-btn" aria-label="Email" title="Email">
-                    <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-                </a>
-                <a href="https://open.spotify.com/user/31ixwiodsajlges5jolu2aa66quy" target="_blank" class="social-btn" aria-label="Spotify" title="Spotify">
-                    <svg viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.84.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.84.24 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.6.18-1.2.72-1.38 4.2-1.261 11.22-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.239.54-.959.72-1.56.3z"/></svg>
-                </a>
-                <a href="https://codepen.io/game_ryo" target="_blank" class="social-btn" aria-label="CodePen" title="CodePen">
-                    <svg viewBox="0 0 24 24"><path d="M24 8.242V15.76c0 .488-.276.924-.716 1.134l-10.665 5.86c-.38.21-.856.21-1.238 0L.717 16.893C.277 16.684 0 16.248 0 15.76V8.24c0-.488.276-.924.716-1.134l10.665-5.86c.38-.21.856-.21 1.238 0l10.665 5.86c.44.21.716.646.716 1.134zm-12.001 7.234l6.568-4.41-6.568-4.41-6.568 4.41 6.568 4.41zm1.001 1.666l8.471-5.69-8.471-4.654v10.344zm-2.002 0V6.804L2.527 11.46l8.471 5.69zm1.001-14.474l-7.794 4.28 7.794 5.234 7.794-5.234-7.794-4.28zm0 17.666l7.794-4.28-7.794-5.234-7.794 5.234 7.794 4.28z"/></svg>
-                </a>
-                <a href="https://scratch.mit.edu/users/game_ryo/" target="_blank" class="social-btn" aria-label="Scratch" title="Scratch">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="29 29 133 205" width="24" height="24" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd">
-                        <!-- オレンジの背景パーツ -->
-                        <path fill="#f3a238" d="M 109.5,29.5 C 129.634,27.3078 143.134,35.6412 150,54.5 C 150.451,75.1749 150.117,95.8416 149,116.5 C 148.608,119.627 147.775,122.627 146.5,125.5 C 163.902,150.902 163.736,176.236 146,201.5 C 130.519,218.985 111.019,227.318 87.5,226.5 C 75.1427,239.582 60.8094,242.082 44.5,234 C 35.6971,228.185 30.5305,220.018 29,209.5 C 28.3336,188.486 28.667,167.486 30,146.5 C 31.8194,140.032 34.3194,133.865 37.5,128 C 34.6428,110.758 35.1428,93.5917 39,76.5 C 47.5544,48.1236 66.7211,34.9569 96.5,37 C 100.602,33.9539 104.935,31.4539 109.5,29.5 Z"/>
-                        <!-- 白い「S」の文字パーツ -->
-                        <path fill="#faf8f6" d="M 114.5,56.5 C 119.439,55.3519 122.939,57.0186 125,61.5 C 124.855,75.152 124.521,88.8186 124,102.5 C 123.891,107.614 123.224,112.614 122,117.5 C 116.926,121.886 112.592,121.219 109,115.5 C 108.99,102.453 104.156,91.6192 94.5,83 C 88.2131,77.6312 83.0465,78.4646 79,85.5 C 76.6714,96.3928 76.0048,107.393 77,118.5 C 77.8834,121.102 79.3834,123.269 81.5,125 C 91.5593,127.349 101.559,130.015 111.5,133 C 129.934,141.034 136.767,154.868 132,174.5 C 122.943,193.781 107.777,201.614 86.5,198 C 80.6872,196.177 75.1872,193.677 70,190.5 C 69.9173,196.942 69.2507,203.275 68,209.5 C 61.5358,214.423 56.8691,213.09 54,205.5 C 53.643,187.16 53.9763,168.827 55,150.5 C 58.2977,145.226 62.631,144.226 68,147.5 C 68.6667,148.833 69.3333,150.167 70,151.5 C 69.1265,169.78 77.6265,180.447 95.5,183.5 C 111.357,182.484 118.857,174.151 118,158.5 C 114.278,151.541 108.445,147.374 100.5,146 C 91.6242,144.302 82.9575,141.969 74.5,139 C 67.9914,134.478 63.8248,128.312 62,120.5 C 59.8317,105.849 61.1651,91.5153 66,77.5 C 71.4075,66.2459 80.2408,62.0793 92.5,65 C 99.3953,67.2306 105.229,71.0639 110,76.5 C 110.333,71.1667 110.667,65.8333 111,60.5C 112.376,59.2949 113.542,57.9616 114.5,56.5 Z"/>
-                    </svg>
-                </a>
+                <a href="https://github.com/ryotagtagtag-wq" target="_blank" class="social-btn" aria-label="GitHub" title="GitHub"><svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg></a>
+                <a href="mailto:ryotagtagtag@gmail.com" class="social-btn" aria-label="Email" title="Email"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></a>
+                <a href="https://open.spotify.com/user/31ixwiodsajlges5jolu2aa66quy" target="_blank" class="social-btn" aria-label="Spotify" title="Spotify"><svg viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.84.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.84.24 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.6.18-1.2.72-1.38 4.2-1.261 11.22-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.239.54-.959.72-1.56.3z"/></svg></a>
+                <a href="https://codepen.io/game_ryo" target="_blank" class="social-btn" aria-label="CodePen" title="CodePen"><svg viewBox="0 0 24 24"><path d="M24 8.242V15.76c0 .488-.276.924-.716 1.134l-10.665 5.86c-.38.21-.856.21-1.238 0L.717 16.893C.277 16.684 0 16.248 0 15.76V8.24c0-.488.276-.924.716-1.134l10.665-5.86c.38-.21.856-.21 1.238 0l10.665 5.86c.44.21.716.646.716 1.134zm-12.001 7.234l6.568-4.41-6.568-4.41-6.568 4.41 6.568 4.41zm1.001 1.666l8.471-5.69-8.471-4.654v10.344zm-2.002 0V6.804L2.527 11.46l8.471 5.69zm1.001-14.474l-7.794 4.28 7.794 5.234 7.794-5.234-7.794-4.28zm0 17.666l7.794-4.28-7.794-5.234-7.794 5.234 7.794 4.28z"/></svg></a>
+                <a href="https://scratch.mit.edu/users/game_ryo/" target="_blank" class="social-btn" aria-label="Scratch" title="Scratch"><svg xmlns="http://www.w3.org/2000/svg" viewBox="29 29 133 205" width="24" height="24" style="shape-rendering:geometricPrecision;fill-rule:evenodd;clip-rule:evenodd"><path fill="#f3a238" d="M 109.5,29.5 C 129.634,27.3078 143.134,35.6412 150,54.5 C 150.451,75.1749 150.117,95.8416 149,116.5 C 148.608,119.627 147.775,122.627 146.5,125.5 C 163.902,150.902 163.736,176.236 146,201.5 C 130.519,218.985 111.019,227.318 87.5,226.5 C 75.1427,239.582 60.8094,242.082 44.5,234 C 35.6971,228.185 30.5305,220.018 29,209.5 C 28.3336,188.486 28.667,167.486 30,146.5 C 31.8194,140.032 34.3194,133.865 37.5,128 C 34.6428,110.758 35.1428,93.5917 39,76.5 C 47.5544,48.1236 66.7211,34.9569 96.5,37 C 100.602,33.9539 104.935,31.4539 109.5,29.5 Z"/><path fill="#faf8f6" d="M 114.5,56.5 C 119.439,55.3519 122.939,57.0186 125,61.5 C 124.855,75.152 124.521,88.8186 124,102.5 C 123.891,107.614 123.224,112.614 122,117.5 C 116.926,121.886 112.592,121.219 109,115.5 C 108.99,102.453 104.156,91.6192 94.5,83 C 88.2131,77.6312 83.0465,78.4646 79,85.5 C 76.6714,96.3928 76.0048,107.393 77,118.5 C 77.8834,121.102 79.3834,123.269 81.5,125 C 91.5593,127.349 101.559,130.015 111.5,133 C 129.934,141.034 136.767,154.868 132,174.5 C 122.943,193.781 107.777,201.614 86.5,198 C 80.6872,196.177 75.1872,193.677 70,190.5 C 69.9173,196.942 69.2507,203.275 68,209.5 C 61.5358,214.423 56.8691,213.09 54,205.5 C 53.643,187.16 53.9763,168.827 55,150.5 C 58.2977,145.226 62.631,144.226 68,147.5 C 68.6667,148.833 69.3333,150.167 70,151.5 C 69.1265,169.78 77.6265,180.447 95.5,183.5 C 111.357,182.484 118.857,174.151 118,158.5 C 114.278,151.541 108.445,147.374 100.5,146 C 91.6242,144.302 82.9575,141.969 74.5,139 C 67.9914,134.478 63.8248,128.312 62,120.5 C 59.8317,105.849 61.1651,91.5153 66,77.5 C 71.4075,66.2459 80.2408,62.0793 92.5,65 C 99.3953,67.2306 105.229,71.0639 110,76.5 C 110.333,71.1667 110.667,65.8333 111,60.5C 112.376,59.2949 113.542,57.9616 114.5,56.5 Z"/></svg></a>
             </div>
         </div>
-
         <section>
             <h2 class="section-title" data-i18n="about_title">自己紹介</h2>
-            <div class="card">
-                <p data-i18n="about_text">パソコンとかスマホいじるのが好きで、サーバー作ったりアプリ作ったりしてる人。 Scratchでちょっといろいろやったり、チャットとかSNSっぽいの作ったりして遊んでます。 AIとかも好きで、いろいろ試して「これ動くじゃん」ってなるのが楽しいタイプ。</p>
-            </div>
+            <div class="card"><p data-i18n="about_text">パソコンとかスマホいじるのが好きで、サーバー作ったりアプリ作ったりしてる人。 Scratchでちょっといろいろやったり、チャットとかSNSっぽいの作ったりして遊んでます。 AIとかも好きで、いろいろ試して「これ動くじゃん」ってなるのが楽しいタイプ。</p></div>
         </section>
-
         <section>
             <h2 class="section-title" data-i18n="skills_title">スキル・興味</h2>
             <div class="skills-grid">
-                <span class="skill-tag">Scratch</span>
-                <span class="skill-tag">Python</span>
-                <span class="skill-tag">JavaScript</span>
-                <span class="skill-tag">Web Development</span>
-                <span class="skill-tag">AI / Machine Learning</span>
+                <span class="skill-tag">Scratch</span><span class="skill-tag">Python</span><span class="skill-tag">JavaScript</span>
+                <span class="skill-tag">Web Development</span><span class="skill-tag">AI / Machine Learning</span>
                 <span class="skill-tag" data-i18n="skill_server">サーバー構築</span>
                 <span class="skill-tag" data-i18n="skill_app">アプリ開発</span>
-                <span class="skill-tag">Chat & SNS</span>
+                <span class="skill-tag">Chat &amp; SNS</span>
             </div>
         </section>
-
-<section>
-    <h2 class="section-title" data-i18n="activities_title">活動内容</h2>
-    <div class="card">
-        <p class="summary-lead" data-i18n="activities_lead">
-            <strong>「どういう仕組みで動いているんだろう？」を形にする。</strong><br>
-            Web開発、インフラ、AI活用など、新しい技術に失敗を恐れず挑戦しています。
-        </p>
-        
-        <ul class="activity-list">
-            <li><strong>Web・アプリ開発：</strong>JavaScriptやクラウドを活用した個人サイト・オリジナルサービスの制作</li>
-            <li><strong>Scratch開発：</strong>ゲームからチャット、SNS風システム、オンライン同期の仕組みまで構築</li>
-            <li><strong>モダンインフラ研究：</strong>Cloudflare、GitHub、Netlifyを組み合わせた低コスト・高性能なシステム運用</li>
-            <li><strong>最新技術・AI活用：</strong>生成AIを使った記事執筆、プログラミング支援、リアルタイム通信（WebSocket）の実験</li>
-            <li><strong>コミュニティ運営：</strong>全国PCサポートネットワーク「ryopc」を運営し、ITの楽しさを発信</li>
-        </ul>
-
-        <p class="closing-text" data-i18n="activities_closing">
-            年齢に関係なく、自分のアイデアを形にしながら、日々いろいろな技術へ試行錯誤しながら挑戦しています。
-        </p>
-    </div>
-</section>
-
         <section>
-            <h2 class="section-title">メッセージシステム接続</h2>
+            <h2 class="section-title" data-i18n="activities_title">活動内容</h2>
+            <div class="card">
+                <p class="summary-lead" id="activities-lead"><strong>「どういう仕組みで動いているんだろう？」を形にする。</strong><br>Web開発、インフラ、AI活用など、新しい技術に失敗を恐れず挑戦しています。</p>
+                <ul class="activity-list">
+                    <li><strong data-i18n="act1_label">Web・アプリ開発：</strong><span data-i18n="act1_body">JavaScriptやクラウドを活用した個人サイト・オリジナルサービスの制作</span></li>
+                    <li><strong data-i18n="act2_label">Scratch開発：</strong><span data-i18n="act2_body">ゲームからチャット、SNS風システム、オンライン同期の仕組みまで構築</span></li>
+                    <li><strong data-i18n="act3_label">モダンインフラ研究：</strong><span data-i18n="act3_body">Cloudflare、GitHub、Netlifyを組み合わせた低コスト・高性能なシステム運用</span></li>
+                    <li><strong data-i18n="act4_label">最新技術・AI活用：</strong><span data-i18n="act4_body">生成AIを使った記事執筆、プログラミング支援、リアルタイム通信（WebSocket）の実験</span></li>
+                    <li><strong data-i18n="act5_label">コミュニティ運営：</strong><span data-i18n="act5_body">全国PCサポートネットワーク「ryopc」を運営し、ITの楽しさを発信</span></li>
+                </ul>
+                <p class="closing-text" data-i18n="activities_closing">年齢に関係なく、自分のアイデアを形にしながら、日々いろいろな技術へ試行錯誤しながら挑戦しています。</p>
+            </div>
+        </section>
+        <section>
+            <h2 class="section-title" data-i18n="terminal_title">メッセージシステム接続</h2>
             <div class="terminal-section">
-                <h3 class="terminal-title">コマンドをコピー</h3>
-                
-                <div class="terminal-box" id="terminal-box">
+                <h3 class="terminal-title" data-i18n="terminal_copy_label">コマンドをコピー</h3>
+                <div class="terminal-box">
                     <div class="terminal-prompt">$ </div>
                     <div class="terminal-command" id="terminal-command">npx kb dm game_ryo "メッセージ"</div>
-                    <button class="copy-btn" id="copy-btn" onclick="copyCommand()">コピー</button>
+                    <button class="copy-btn" id="copy-btn" onclick="copyCommand()" data-i18n="copy_btn">コピー</button>
                 </div>
-
                 <p class="terminal-description">
-                    <strong>ryopcのターミナルSNSに接続します。</strong><br>
-                    上記のコマンドを Termux や任意のターミナルで実行してください。
+                    <strong data-i18n="terminal_desc_strong">ryopcのターミナルSNSに接続します。</strong><br>
+                    <span data-i18n="terminal_desc_body">上記のコマンドを Termux や任意のターミナルで実行してください。</span>
                 </p>
             </div>
         </section>
-
-
         <section>
             <h2 class="section-title" data-i18n="recent_blog_title">最新の記事</h2>
             <div class="blog-preview-grid">
@@ -944,13 +222,10 @@
                     <div class="blog-preview-body">{{ post.content | replace(r/<[^>]*>/g, '') | truncate(70) }}</div>
                 </a>
                 {% else %}
-                <div class="card" style="width: 100%; text-align: center;">
-                    <p data-i18n="empty_blog_msg">まだ記事がありません。新しい記事が追加されるまでしばらくお待ちください。</p>
-                </div>
+                <div class="card" style="width: 100%; text-align: center;"><p data-i18n="empty_blog_msg">まだ記事がありません。新しい記事が追加されるまでしばらくお待ちください。</p></div>
                 {% endfor %}
             </div>
         </section>
-
         <section>
             <h2 class="section-title" data-i18n="links_title">相互リンク</h2>
             <div class="links-grid">
@@ -964,200 +239,167 @@
                     <div class="link-title">Shotaro Nakamura / nakasyou</div>
                     <div class="link-desc" data-i18n="link_naka_desc">大会で賞状色々持っているすごい人</div>
                 </a>
+                <a href="https://www.activetk.jp/" class="link-card" target="_blank">
+                    <img src="https://www.activetk.jp/icon/index_32_32.ico" alt="ActiveTK" class="link-image circle" style="background: transparent;">
+                    <div class="link-title">ActiveTK</div>
+                    <div class="link-desc" data-i18n="link_activetk_desc">ほんと色々ツール開発しててすごい方。うちの憧れ。</div>
+                </a>
             </div>
         </section>
-
         <section>
             <h2 class="section-title" data-i18n="contact_title">お問い合わせ</h2>
             <div class="card">
                 <form id="contact-form" action="https://form-api.ryopc.f5.si/" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="_redirect" value="https://game-ryo.is-a.dev">
-                    
-                    <div class="form-group">
-                        <label for="form-name" data-i18n="contact_name">お名前</label>
-                        <input type="text" id="form-name" name="name" class="form-control" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="form-email" data-i18n="contact_email">メールアドレス</label>
-                        <input type="email" id="form-email" name="email" class="form-control" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="form-message" data-i18n="contact_message">メッセージ</label>
-                        <textarea id="form-message" name="message" class="form-control" rows="5" required></textarea>
-                    </div>
-                    
-                    <div style="text-align: center; margin-top: 2rem;">
-                        <button type="submit" class="submit-btn" id="submit-btn" data-i18n="contact_submit">送信する</button>
-                    </div>
+                    <div class="form-group"><label for="form-name" data-i18n="contact_name">お名前</label><input type="text" id="form-name" name="name" class="form-control" required></div>
+                    <div class="form-group"><label for="form-email" data-i18n="contact_email">メールアドレス</label><input type="email" id="form-email" name="email" class="form-control" required></div>
+                    <div class="form-group"><label for="form-message" data-i18n="contact_message">メッセージ</label><textarea id="form-message" name="message" class="form-control" rows="5" required></textarea></div>
+                    <div style="text-align: center; margin-top: 2rem;"><button type="submit" class="submit-btn" id="submit-btn" data-i18n="contact_submit">送信する</button></div>
                 </form>
             </div>
         </section>
-
         <section>
             <h2 class="section-title" data-i18n="webring_title">Webring</h2>
-
-            <div style="width: 135px; /* <- Set any width you'd like! */">
-<iframe style="border: none; width: 100%" src="https://wiiring.jeith.com/snippet?site=https://game-ryo.is-a.dev&variant=standard"></iframe>
-</div>
+            <div style="width: 135px;"><iframe style="border: none; width: 100%" src="https://wiiring.jeith.com/snippet?site=https://game-ryo.is-a.dev&variant=standard"></iframe></div>
         </section>
     </main>
-
     <footer>
         <p data-i18n="footer_text">© 2026 game_ryo. All Rights Reserved.</p>
-                  <div class="status-badge-container">
-                <div class="status-badge">
-                    <span class="status-dot"></span>
-                    <span id="statusText" data-i18n="status_text">ステータス: サイト運営中</span>
-                </div>
+        <div class="status-badge-container">
+            <div class="status-badge">
+                <span class="status-dot"></span>
+                <span id="statusText" data-i18n="status_text">ステータス: サイト運営中</span>
             </div>
         </div>
     </footer>
-
     <script>
-const translations = {
-    ja: {
-        menu_ryopchome: "ryopcホーム",
-        menu_home: "ホーム",
-        menu_blog: "ブログ",
-        role: "趣味エンジニア",
-        about_title: "自己紹介",
-        about_text: "パソコンとかスマホいじるのが好きで、サーバー作ったりアプリ作ったりしてる人。 Scratchでちょっといろいろやったり、チャットとかSNSっぽいの作ったりして遊んでます。 AIとかも好きで、いろいろ試して「これ動くじゃん」ってなるのが楽しいタイプ。",
-        skills_title: "スキル・興味",
-        skill_server: "サーバー構築",
-        skill_app: "アプリ開発",
-        activities_title: "活動内容",
-        activities_text: "AIとかも好きで、いろいろ試して「これ動くじゃん」ってなるのが楽しいタイプ。プログラミング学習を通じて、新しい技術に挑戦し、ryopcグループの活動に貢献しています。",
-        recent_blog_title: "最新の記事",
-        empty_blog_msg: "まだ記事がありません。新しい記事が追加されるまでしばらくお待ちください。",
-        music_title: "音楽 (Spotify)",
-        links_title: "相互リンク",
-        link_yu_title: "ゆーのホームページ",
-        link_yu_desc: "サイトがおしゃれ。しかもダークモードがある。",
-        link_naka_desc: "大会で賞状色々持っているすごい人",
-        webring_title: "ウェブリング",
-        contact_title: "お問い合わせ",
-        contact_name: "お名前",
-        contact_email: "メールアドレス",
-        contact_message: "メッセージ",
-        contact_submit: "送信する",
-        contact_sending: "送信中...",
-        contact_success: "メッセージが正常に送信されました！",
-        contact_error: "エラーが発生しました。もう一度お試しください。",
-        contact_failed: "ネットワーク通信に失敗しました。",
-        footer_text: "© 2026 game_ryo. All Rights Reserved."
-    },
-    en: {
-        menu_ryopchome: "ryopc-home",
-        menu_home: "Home",
-        menu_blog: "Blog",
-        role: "Hobbyist Engineer",
-        about_title: "About Me",
-        about_text: "I'm someone who enjoys tinkering with computers and smartphones, and I build servers and create apps. I like to play around with Scratch, doing various things and creating chat and SNS-like applications. I also like AI, and I enjoy experimenting with different things and realizing, Hey, this works!",
-        skills_title: "Skills & Interests",
-        skill_server: "Server Setup",
-        skill_app: "App Development",
-        activities_title: "Activities",
-        activities_text: "I'm also into AI. I enjoy trying out new things and having that 'Wow, it actually works!' moment. Through learning programming, I challenge myself with new technologies and contribute to the ryopc group's initiatives.",
-        recent_blog_title: "Latest Posts",
-        empty_blog_msg: "No posts yet. Please check back later for updates!",
-        music_title: "Music (Spotify)",
-        links_title: "Friends & Links",
-        link_yu_title: "Yu's Homepage",
-        link_yu_desc: "Stylish website design. Plus, it has a cool dark mode.",
-        link_naka_desc: "An amazing developer with various awards from competitions.",
-        webring_title: "Webrings",
-        contact_title: "Contact",
-        contact_name: "Name",
-        contact_email: "Email Address",
-        contact_message: "Message",
-        contact_submit: "Submit",
-        contact_sending: "Sending...",
-        contact_success: "Your message has been sent successfully!",
-        contact_error: "An error occurred. Please try again.",
-        contact_failed: "Network communication failed.",
-        footer_text: "© 2026 game_ryo. All Rights Reserved."
-    }
-};
-
-
-        // --- Hamburger Menu Logic ---
-        const hamburgerBtn = document.getElementById('hamburger-btn');
-        const mobileDrawer = document.getElementById('mobile-drawer');
-
-        hamburgerBtn.addEventListener('click', () => {
-            const isOpen = hamburgerBtn.classList.toggle('active');
-            mobileDrawer.classList.toggle('active', isOpen);
-            document.body.classList.toggle('menu-open', isOpen);
-            hamburgerBtn.setAttribute('aria-expanded', isOpen);
-        });
-
-        function closeMenu() {
-            hamburgerBtn.classList.remove('active');
-            mobileDrawer.classList.remove('active');
-            document.body.classList.remove('menu-open');
-            hamburgerBtn.setAttribute('aria-expanded', false);
+    const translations = {
+        ja: {
+            menu_ryopchome: 'ryopcホーム', menu_home: 'ホーム', menu_blog: 'ブログ',
+            role: '趣味エンジニア',
+            about_title: '自己紹介',
+            about_text: 'パソコンとかスマホいじるのが好きで、サーバー作ったりアプリ作ったりしてる人。 Scratchでちょっといろいろやったり、チャットとかSNSっぽいの作ったりして遊んでます。 AIとかも好きで、いろいろ試して「これ動くじゃん」ってなるのが楽しいタイプ。',
+            skills_title: 'スキル・興味', skill_server: 'サーバー構築', skill_app: 'アプリ開発',
+            activities_title: '活動内容',
+            activities_lead_strong: '「どういう仕組みで動いているんだろう？」を形にする。',
+            activities_lead_sub: 'Web開発、インフラ、AI活用など、新しい技術に失敗を恐れず挑戦しています。',
+            act1_label: 'Web・アプリ開発：', act1_body: 'JavaScriptやクラウドを活用した個人サイト・オリジナルサービスの制作',
+            act2_label: 'Scratch開発：', act2_body: 'ゲームからチャット、SNS風システム、オンライン同期の仕組みまで構築',
+            act3_label: 'モダンインフラ研究：', act3_body: 'Cloudflare、GitHub、Netlifyを組み合わせた低コスト・高性能なシステム運用',
+            act4_label: '最新技術・AI活用：', act4_body: '生成AIを使った記事執筆、プログラミング支援、リアルタイム通信（WebSocket）の実験',
+            act5_label: 'コミュニティ運営：', act5_body: '全国PCサポートネットワーク「ryopc」を運営し、ITの楽しさを発信',
+            activities_closing: '年齢に関係なく、自分のアイデアを形にしながら、日々いろいろな技術へ試行錯誤しながら挑戦しています。',
+            terminal_title: 'メッセージシステム接続', terminal_copy_label: 'コマンドをコピー',
+            copy_btn: 'コピー', copy_btn_done: 'コピーしました！',
+            terminal_command: 'npx kb dm game_ryo "メッセージ"',
+            terminal_desc_strong: 'ryopcのターミナルSNSに接続します。',
+            terminal_desc_body: '上記のコマンドを Termux や任意のターミナルで実行してください。',
+            recent_blog_title: '最新の記事',
+            empty_blog_msg: 'まだ記事がありません。新しい記事が追加されるまでしばらくお待ちください。',
+            links_title: '相互リンク',
+            link_yu_title: 'ゆーのホームページ', link_yu_desc: 'サイトがおしゃれ。しかもダークモードがある。',
+            link_naka_desc: '大会で賞状色々持っているすごい人',
+            link_activetk_desc: 'ほんと色々ツール開発しててすごい方。うちの憧れ。',
+            webring_title: 'ウェブリング',
+            contact_title: 'お問い合わせ', contact_name: 'お名前', contact_email: 'メールアドレス',
+            contact_message: 'メッセージ', contact_submit: '送信する',
+            footer_text: '© 2026 game_ryo. All Rights Reserved.',
+            status_text: 'ステータス: サイト運営中'
+        },
+        en: {
+            menu_ryopchome: 'ryopc Home', menu_home: 'Home', menu_blog: 'Blog',
+            role: 'Hobbyist Engineer',
+            about_title: 'About Me',
+            about_text: "I enjoy tinkering with computers and smartphones — building servers, creating apps, and exploring what makes things tick. I play around with Scratch, build chat and SNS-like systems, and experiment with AI. That 'Hey, it actually works!' moment is what drives me.",
+            skills_title: 'Skills & Interests', skill_server: 'Server Setup', skill_app: 'App Development',
+            activities_title: 'Activities',
+            activities_lead_strong: 'Turning curiosity into working things.',
+            activities_lead_sub: 'I dive into web dev, infrastructure, and AI without fear of failure.',
+            act1_label: 'Web & App Development: ', act1_body: 'Building personal sites and original services using JavaScript and cloud platforms',
+            act2_label: 'Scratch: ', act2_body: 'Creating games, chat systems, SNS-like apps, and real-time sync mechanisms',
+            act3_label: 'Modern Infrastructure: ', act3_body: 'Running low-cost, high-performance systems combining Cloudflare, GitHub, and Netlify',
+            act4_label: 'AI & Emerging Tech: ', act4_body: 'Writing with generative AI, coding assistance, and experimenting with WebSocket real-time comms',
+            act5_label: 'Community: ', act5_body: "Running 'ryopc', a nationwide PC support network, to share the joy of IT",
+            activities_closing: 'Regardless of age, I keep building my ideas and experimenting with new tech every day.',
+            terminal_title: 'Connect via Terminal', terminal_copy_label: 'Copy Command',
+            copy_btn: 'Copy', copy_btn_done: 'Copied!',
+            terminal_command: 'npx kb dm game_ryo "your message"',
+            terminal_desc_strong: "Connect to ryopc's Terminal SNS.",
+            terminal_desc_body: 'Run the command above in Termux or any terminal.',
+            recent_blog_title: 'Latest Posts',
+            empty_blog_msg: 'No posts yet. Check back soon!',
+            links_title: 'Friends & Links',
+            link_yu_title: "Yu's Homepage", link_yu_desc: 'Stylish site with a great dark mode.',
+            link_naka_desc: 'An amazing developer with multiple competition awards.',
+            link_activetk_desc: 'An incredible tool developer and one of my biggest inspirations.',
+            webring_title: 'Webrings',
+            contact_title: 'Contact', contact_name: 'Name', contact_email: 'Email Address',
+            contact_message: 'Message', contact_submit: 'Send',
+            footer_text: '© 2026 game_ryo. All Rights Reserved.',
+            status_text: 'Status: Site Active'
         }
-            // --- ターミナルコマンドコピー機能 ---
-        function copyCommand() {
-            const btn = document.getElementById('copy-btn');
-            const command = 'npx wscat -c wss://me.ryopc.f5.si/ws';
-            
-            navigator.clipboard.writeText(command).then(() => {
-                btn.textContent = 'コピーしました！';
-                btn.classList.add('copied');
-                
-                setTimeout(() => {
-                    btn.textContent = 'コピー';
-                    btn.classList.remove('copied');
-                }, 2000);
-            });
-        }
+    };
 
-        // --- Language Toggle Logic ---
-        function setLang(lang) {
-            // Update all button states (both Desktop and Mobile switches)
-            const jaButtons = document.querySelectorAll('.btn-ja');
-            const enButtons = document.querySelectorAll('.btn-en');
+    let currentLang = 'ja';
 
-            jaButtons.forEach(btn => btn.classList.toggle('active', lang === 'ja'));
-            enButtons.forEach(btn => btn.classList.toggle('active', lang === 'en'));
-
-            // Update texts
-            const elements = document.querySelectorAll('[data-i18n]');
-            elements.forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (translations[lang][key]) {
-                    if(key === 'footer_text') {
-                        el.innerHTML = translations[lang][key];
-                    } else {
-                        el.textContent = translations[lang][key];
-                    }
-                }
-            });
-
-            // Save preference to localStorage
-            localStorage.setItem('preferredLang', lang);
-        }
-
-        // Initialize language
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedLang = localStorage.getItem('preferredLang') || 'ja';
-            setLang(savedLang);
-        });
-
-// Initialize language & setup event listeners
-document.addEventListener('DOMContentLoaded', () => {
-    const savedLang = localStorage.getItem('preferredLang') || 'ja';
-    setLang(savedLang);
-
-    // モバイルメニュー内のリンクをクリックしたときにドロワーを閉じる設定
-    const drawerLinks = document.querySelectorAll('#mobile-drawer a');
-    drawerLinks.forEach(link => {
-        link.addEventListener('click', closeMenu);
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const mobileDrawer = document.getElementById('mobile-drawer');
+    hamburgerBtn.addEventListener('click', () => {
+        const isOpen = hamburgerBtn.classList.toggle('active');
+        mobileDrawer.classList.toggle('active', isOpen);
+        document.body.classList.toggle('menu-open', isOpen);
+        hamburgerBtn.setAttribute('aria-expanded', isOpen);
     });
-});
+    function closeMenu() {
+        hamburgerBtn.classList.remove('active');
+        mobileDrawer.classList.remove('active');
+        document.body.classList.remove('menu-open');
+        hamburgerBtn.setAttribute('aria-expanded', false);
+    }
+
+    function copyCommand() {
+        const btn = document.getElementById('copy-btn');
+        const command = document.getElementById('terminal-command').textContent;
+        navigator.clipboard.writeText(command).then(() => {
+            btn.textContent = translations[currentLang].copy_btn_done;
+            btn.classList.add('copied');
+            setTimeout(() => {
+                btn.textContent = translations[currentLang].copy_btn;
+                btn.classList.remove('copied');
+            }, 2000);
+        });
+    }
+
+    function setLang(lang) {
+        currentLang = lang;
+        document.getElementById('html-root').setAttribute('lang', lang === 'ja' ? 'ja' : 'en');
+        document.querySelectorAll('.btn-ja').forEach(b => b.classList.toggle('active', lang === 'ja'));
+        document.querySelectorAll('.btn-en').forEach(b => b.classList.toggle('active', lang === 'en'));
+
+        // activities_lead: innerHTML needed for <strong> + <br>
+        const leadEl = document.getElementById('activities-lead');
+        if (leadEl) {
+            leadEl.innerHTML = '<strong>' + translations[lang].activities_lead_strong + '</strong><br>' + translations[lang].activities_lead_sub;
+        }
+
+        // terminal command text
+        const cmdEl = document.getElementById('terminal-command');
+        if (cmdEl) cmdEl.textContent = translations[lang].terminal_command;
+
+        // all other data-i18n
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (translations[lang][key] !== undefined) el.textContent = translations[lang][key];
+        });
+
+        localStorage.setItem('preferredLang', lang);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const savedLang = localStorage.getItem('preferredLang') || 'ja';
+        setLang(savedLang);
+        document.querySelectorAll('#mobile-drawer a').forEach(link => link.addEventListener('click', closeMenu));
+    });
     </script>
 </body>
 </html>
