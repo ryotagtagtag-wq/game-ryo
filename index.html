@@ -782,6 +782,27 @@
             color: var(--text-main);
         }
 
+        .activity-list {
+            list-style: none;
+            margin: 1.5rem 0;
+            padding: 0;
+        }
+
+        .activity-list li {
+            margin-bottom: 1rem;
+            color: var(--text-muted);
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .activity-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
         @media (max-width: 768px) {
             .terminal-box {
                 padding: 1.2rem;
@@ -893,27 +914,22 @@
             </div>
         </section>
 
-<section>
-    <h2 class="section-title" data-i18n="activities_title">活動内容</h2>
-    <div class="card">
-        <p class="summary-lead" data-i18n="activities_lead">
-            <strong>「どういう仕組みで動いているんだろう？」を形にする。</strong><br>
-            Web開発、インフラ、AI活用など、新しい技術に失敗を恐れず挑戦しています。
-        </p>
-        
-        <ul class="activity-list">
-            <li><strong>Web・アプリ開発：</strong>JavaScriptやクラウドを活用した個人サイト・オリジナルサービスの制作</li>
-            <li><strong>Scratch開発：</strong>ゲームからチャット、SNS風システム、オンライン同期の仕組みまで構築</li>
-            <li><strong>モダンインフラ研究：</strong>Cloudflare、GitHub、Netlifyを組み合わせた低コスト・高性能なシステム運用</li>
-            <li><strong>最新技術・AI活用：</strong>生成AIを使った記事執筆、プログラミング支援、リアルタイム通信（WebSocket）の実験</li>
-            <li><strong>コミュニティ運営：</strong>全国PCサポートネットワーク「ryopc」を運営し、ITの楽しさを発信</li>
-        </ul>
+        <section>
+            <h2 class="section-title" data-i18n="activities_title">活動内容</h2>
+            <div class="card">
+                <p class="summary-lead" data-i18n="activities_lead"></p>
+                
+                <ul class="activity-list" id="activity-list">
+                    <li data-i18n="activity_list_1"></li>
+                    <li data-i18n="activity_list_2"></li>
+                    <li data-i18n="activity_list_3"></li>
+                    <li data-i18n="activity_list_4"></li>
+                    <li data-i18n="activity_list_5"></li>
+                </ul>
 
-        <p class="closing-text" data-i18n="activities_closing">
-            年齢に関係なく、自分のアイデアを形にしながら、日々いろいろな技術へ試行錯誤しながら挑戦しています。
-        </p>
-    </div>
-</section>
+                <p class="closing-text" data-i18n="activities_closing"></p>
+            </div>
+        </section>
 
         <section>
             <h2 class="section-title">メッセージシステム接続</h2>
@@ -922,12 +938,12 @@
                 
                 <div class="terminal-box" id="terminal-box">
                     <div class="terminal-prompt">$ </div>
-                    <div class="terminal-command" id="terminal-command">npx wscat -c wss://me.ryopc.f5.si/ws</div>
+                    <div class="terminal-command" id="terminal-command">npx kb dm game_ryo "メッセージ"</div>
                     <button class="copy-btn" id="copy-btn" onclick="copyCommand()">コピー</button>
                 </div>
 
                 <p class="terminal-description">
-                    <strong>game_ryoの匿名メッセージングシステムに接続します。</strong><br>
+                    <strong>ryopcのターミナルSNSに接続します。</strong><br>
                     上記のコマンドを Termux や任意のターミナルで実行してください。
                 </p>
             </div>
@@ -937,17 +953,9 @@
         <section>
             <h2 class="section-title" data-i18n="recent_blog_title">最新の記事</h2>
             <div class="blog-preview-grid">
-                {% for post in blogs.slice(0, 3) %}
-                <a href="/blog/articles/{{ post.id }}/" class="blog-preview-card">
-                    <div class="blog-preview-date">{{ post.publishedAt }}</div>
-                    <h3 class="blog-preview-title">{{ post.title }}</h3>
-                    <div class="blog-preview-body">{{ post.content | replace(r/<[^>]*>/g, '') | truncate(70) }}</div>
-                </a>
-                {% else %}
                 <div class="card" style="width: 100%; text-align: center;">
                     <p data-i18n="empty_blog_msg">まだ記事がありません。新しい記事が追加されるまでしばらくお待ちください。</p>
                 </div>
-                {% endfor %}
             </div>
         </section>
 
@@ -963,6 +971,11 @@
                     <img src="https://nakasyou.how/assets/BkpmfslA-profile.webp" alt="Shotaro Nakamura" class="link-image circle" style="background: transparent;">
                     <div class="link-title">Shotaro Nakamura / nakasyou</div>
                     <div class="link-desc" data-i18n="link_naka_desc">大会で賞状色々持っているすごい人</div>
+                </a>
+                <a href="https://www.activetk.jp/" class="link-card" target="_blank">
+                    <img src="https://www.activetk.jp/icon/index_32_32.ico" alt="ActiveTK" class="link-image circle" style="background: transparent;">
+                    <div class="link-title">ActiveTK</div>
+                    <div class="link-desc" data-i18n="link_activetk_desc">ほんと色々ツール開発しててすごい方。うちの憧れ。</div>
                 </a>
             </div>
         </section>
@@ -1006,13 +1019,6 @@
 
     <footer>
         <p data-i18n="footer_text">© 2026 game_ryo. All Rights Reserved.</p>
-                  <div class="status-badge-container">
-                <div class="status-badge">
-                    <span class="status-dot"></span>
-                    <span id="statusText" data-i18n="status_text">ステータス: サイト運営中</span>
-                </div>
-            </div>
-        </div>
     </footer>
 
     <script>
@@ -1028,7 +1034,13 @@ const translations = {
         skill_server: "サーバー構築",
         skill_app: "アプリ開発",
         activities_title: "活動内容",
-        activities_text: "AIとかも好きで、いろいろ試して「これ動くじゃん」ってなるのが楽しいタイプ。プログラミング学習を通じて、新しい技術に挑戦し、ryopcグループの活動に貢献しています。",
+        activities_lead: "<strong>「どういう仕組みで動いているんだろう？」を形にする。</strong><br>Web開発、インフラ、AI活用など、新しい技術に失敗を恐れず挑戦しています。",
+        activity_list_1: "<strong>Web・アプリ開発：</strong>JavaScriptやクラウドを活用した個人サイト・オリジナルサービスの制作",
+        activity_list_2: "<strong>Scratch開発：</strong>ゲームからチャット、SNS風システム、オンライン同期の仕組みまで構築",
+        activity_list_3: "<strong>モダンインフラ研究：</strong>Cloudflare、GitHub、Netlifyを組み合わせた低コスト・高性能なシステム運用",
+        activity_list_4: "<strong>最新技術・AI活用：</strong>生成AIを使った記事執筆、プログラミング支援、リアルタイム通信（WebSocket）の実験",
+        activity_list_5: "<strong>コミュニティ運営：</strong>全国PCサポートネットワーク「ryopc」を運営し、ITの楽しさを発信",
+        activities_closing: "年齢に関係なく、自分のアイデアを形にしながら、日々いろいろな技術へ試行錯誤しながら挑戦しています。",
         recent_blog_title: "最新の記事",
         empty_blog_msg: "まだ記事がありません。新しい記事が追加されるまでしばらくお待ちください。",
         music_title: "音楽 (Spotify)",
@@ -1036,6 +1048,7 @@ const translations = {
         link_yu_title: "ゆーのホームページ",
         link_yu_desc: "サイトがおしゃれ。しかもダークモードがある。",
         link_naka_desc: "大会で賞状色々持っているすごい人",
+        link_activetk_desc: "ほんと色々ツール開発しててすごい方。うちの憧れ。",
         webring_title: "ウェブリング",
         contact_title: "お問い合わせ",
         contact_name: "お名前",
@@ -1046,20 +1059,27 @@ const translations = {
         contact_success: "メッセージが正常に送信されました！",
         contact_error: "エラーが発生しました。もう一度お試しください。",
         contact_failed: "ネットワーク通信に失敗しました。",
-        footer_text: "© 2026 game_ryo. All Rights Reserved."
+        footer_text: "© 2026 game_ryo. All Rights Reserved.",
+        status_text: "ステータス: サイト運営中"
     },
     en: {
-        menu_ryopchome: "ryopc-home",
+        menu_ryopchome: "ryopc Home",
         menu_home: "Home",
         menu_blog: "Blog",
         role: "Hobbyist Engineer",
         about_title: "About Me",
-        about_text: "I'm someone who enjoys tinkering with computers and smartphones, and I build servers and create apps. I like to play around with Scratch, doing various things and creating chat and SNS-like applications. I also like AI, and I enjoy experimenting with different things and realizing, Hey, this works!",
+        about_text: "I'm someone who enjoys tinkering with computers and smartphones, and I build servers and create apps. I like to play around with Scratch, doing various things and creating chat and SNS-like applications. I also like AI, and I enjoy experimenting with different things and realizing, 'Hey, this works!'",
         skills_title: "Skills & Interests",
         skill_server: "Server Setup",
         skill_app: "App Development",
         activities_title: "Activities",
-        activities_text: "I'm also into AI. I enjoy trying out new things and having that 'Wow, it actually works!' moment. Through learning programming, I challenge myself with new technologies and contribute to the ryopc group's initiatives.",
+        activities_lead: "<strong>Turning 'How does this work?' into reality.</strong><br>I challenge new technologies without fear of failure in web development, infrastructure, and AI utilization.",
+        activity_list_1: "<strong>Web & App Development:</strong> Creating personal websites and original services using JavaScript and cloud technologies",
+        activity_list_2: "<strong>Scratch Development:</strong> Building everything from games to chat systems, SNS-like platforms, and online synchronization mechanisms",
+        activity_list_3: "<strong>Modern Infrastructure Research:</strong> Operating high-performance, low-cost systems by combining Cloudflare, GitHub, and Netlify",
+        activity_list_4: "<strong>Latest Technology & AI Utilization:</strong> Experimenting with generative AI for article writing, programming support, and real-time communication (WebSocket)",
+        activity_list_5: "<strong>Community Management:</strong> Operating 'ryopc' (National PC Support Network) and sharing the joy of IT",
+        activities_closing: "Regardless of age, I continue to challenge various technologies through trial and error while turning my ideas into reality.",
         recent_blog_title: "Latest Posts",
         empty_blog_msg: "No posts yet. Please check back later for updates!",
         music_title: "Music (Spotify)",
@@ -1067,6 +1087,7 @@ const translations = {
         link_yu_title: "Yu's Homepage",
         link_yu_desc: "Stylish website design. Plus, it has a cool dark mode.",
         link_naka_desc: "An amazing developer with various awards from competitions.",
+        link_activetk_desc: "An incredible developer who creates a wide variety of tools. My inspiration.",
         webring_title: "Webrings",
         contact_title: "Contact",
         contact_name: "Name",
@@ -1077,10 +1098,10 @@ const translations = {
         contact_success: "Your message has been sent successfully!",
         contact_error: "An error occurred. Please try again.",
         contact_failed: "Network communication failed.",
-        footer_text: "© 2026 game_ryo. All Rights Reserved."
+        footer_text: "© 2026 game_ryo. All Rights Reserved.",
+        status_text: "Status: Site in operation"
     }
 };
-
 
         // --- Hamburger Menu Logic ---
         const hamburgerBtn = document.getElementById('hamburger-btn');
@@ -1099,7 +1120,8 @@ const translations = {
             document.body.classList.remove('menu-open');
             hamburgerBtn.setAttribute('aria-expanded', false);
         }
-            // --- ターミナルコマンドコピー機能 ---
+
+        // --- ターミナルコマンドコピー機能 ---
         function copyCommand() {
             const btn = document.getElementById('copy-btn');
             const command = 'npx wscat -c wss://me.ryopc.f5.si/ws';
@@ -1124,12 +1146,14 @@ const translations = {
             jaButtons.forEach(btn => btn.classList.toggle('active', lang === 'ja'));
             enButtons.forEach(btn => btn.classList.toggle('active', lang === 'en'));
 
-            // Update texts
+            // Update texts with HTML support for activity list
             const elements = document.querySelectorAll('[data-i18n]');
             elements.forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if (translations[lang][key]) {
-                    if(key === 'footer_text') {
+                    if(key === 'footer_text' || key === 'activities_lead') {
+                        el.innerHTML = translations[lang][key];
+                    } else if(key.startsWith('activity_list_')) {
                         el.innerHTML = translations[lang][key];
                     } else {
                         el.textContent = translations[lang][key];
@@ -1145,19 +1169,13 @@ const translations = {
         document.addEventListener('DOMContentLoaded', () => {
             const savedLang = localStorage.getItem('preferredLang') || 'ja';
             setLang(savedLang);
+
+            // Setup mobile drawer link closure
+            const drawerLinks = document.querySelectorAll('#mobile-drawer a');
+            drawerLinks.forEach(link => {
+                link.addEventListener('click', closeMenu);
+            });
         });
-
-// Initialize language & setup event listeners
-document.addEventListener('DOMContentLoaded', () => {
-    const savedLang = localStorage.getItem('preferredLang') || 'ja';
-    setLang(savedLang);
-
-    // モバイルメニュー内のリンクをクリックしたときにドロワーを閉じる設定
-    const drawerLinks = document.querySelectorAll('#mobile-drawer a');
-    drawerLinks.forEach(link => {
-        link.addEventListener('click', closeMenu);
-    });
-});
     </script>
 </body>
 </html>
