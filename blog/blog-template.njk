@@ -16,6 +16,13 @@ permalink: "blog/articles/{{ post.id }}/index.html"
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+    <!-- Nostr comments (disgus) -->
+    <link rel="canonical" href="https://game-ryo.f5.si/blog/articles/{{ post.id }}/" />
+    <meta property="nostr:pubkey" content="003e790b1e0ad37313603234331c377810dfe09b633d2808402dd3c6c6461b69" />
+    <meta property="nostr:relay" content="wss://relay.damus.io" />
+    <meta property="nostr:relay" content="wss://nos.lol" />
+    <meta property="nostr:relay" content="wss://relay.nostr.band" />
+    <link rel="stylesheet" href="https://unpkg.com/disgus/dist/style.css" />
     <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "a0053a763aa049bab4f930160dc54c7a"}'></script><!-- End Cloudflare Web Analytics -->
     <style>
         :root {
@@ -150,6 +157,9 @@ permalink: "blog/articles/{{ post.id }}/index.html"
 
         </div>
     </article>
+
+    <!-- 💬 Nostr コメント欄（disgus） -->
+    <div id="disgus"></div>
 </div>
 
 <a href="/blog" class="back-button">
@@ -171,5 +181,8 @@ permalink: "blog/articles/{{ post.id }}/index.html"
             document.getElementById("scroll-progress").style.width = scrolled + "%";
         };
     </script>
+
+    <!-- 💬 disgus 本体 -->
+    <script type="module" src="https://unpkg.com/disgus/dist/index.js" async></script>
 </body>
 </html>
