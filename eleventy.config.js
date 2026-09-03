@@ -3,6 +3,8 @@ const Image = require("@11ty/eleventy-img");
 const fs = require("fs");
 // 🌟 1文字残さずコードを完全圧縮するパッケージ
 const htmlmin = require("html-minifier-terser");
+// 🛡️ XSS対策: HTMLサニタイズ（許可リスト方式）
+const sanitizeHtml = require("sanitize-html");
 
 module.exports = function (eleventyConfig) {
   
@@ -11,6 +13,45 @@ module.exports = function (eleventyConfig) {
   if (!fs.existsSync("./_site/img/")) {
     fs.mkdirSync("./_site/img/", { recursive: true });
   }
+
+  // ==========================================
+  // 🛡️ [XSS対策] HTMLサニタイズフィルター
+  // microCMSリッチエディタの内容を安全なタグのみ許可して出力
+  // ==========================================
+  eleventyConfig.addFilter("sanitizeHtml", function(htmlContent) {
+    if (!htmlContent) return "";
+    return sanitizeHtml(htmlContent, {
+      allowedTags: [
+        "p", "br", "strong", "em", "u", "s", "code", "pre",
+        "h1", "h2", "h3", "h4", "h5", "h6",
+        "ul", "ol", "li", "dl", "dt", "dd",
+        "blockquote", "hr",
+        "a", "img", "figure", "figcaption",
+        "table", "thead", "tbody", "tr", "th", "td",
+        "div", "span"
+      ],
+      allowedAttributes: {
+        "a": ["href", "title", "target", "rel"],
+        "img": ["src", "alt", "title", "width", "height", "loading", "decoding"],
+        "code": ["class"],
+        "pre": ["class"],
+        "div": ["class"],
+        "span": ["class"],
+        "blockquote": ["cite"],
+        "th": ["scope"],
+        "td": ["colspan", "rowspan"],
+        "*": ["class", "id"]
+      },
+      allowedSchemes: ["http", "https", "mailto", "tel"],
+      allowedSchemesByTag: {},
+      allowedSchemesAppliedToAttributes: ["href", "src"],
+      selfClosing: ["img", "br", "hr"],
+      enforceHtmlBoundary: true,
+      parserOptions: {
+        lowerCaseTags: true
+      }
+    });
+  });
 
   // ==========================================
   // 🗜️ [完全圧縮処理] 出力されるHTML/CSS/JSを限界までクランチ
@@ -73,8 +114,12 @@ module.exports = function (eleventyConfig) {
         console.log(`📸 画像を発見しました: ${remoteSrc}`);
         let metadata = await processImage(remoteSrc);
 
+        // 元のimgタグからalt属性を抽出
+        const altMatch = originalTag.match(/alt=["']([^"']*)["']/);
+        const altText = altMatch ? altMatch[1] : "ブログ本文の画像";
+
         const imageHtml = Image.generateHTML(metadata, {
-          alt: "ブログ本文の画像",
+          alt: altText,
           loading: "lazy", 
           decoding: "async"
         });
