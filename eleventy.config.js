@@ -1,22 +1,20 @@
 require("dotenv").config();
 const Image = require("@11ty/eleventy-img");
 const fs = require("fs");
-// 🌟 1文字残さずコードを完全圧縮するパッケージ
 const htmlmin = require("html-minifier-terser");
-// 🛡️ XSS対策: HTMLサニタイズ（許可リスト方式）
 const sanitizeHtml = require("sanitize-html");
+
+// 並列処理の同時実行数制限（ネットワーク負荷対策）
+const CONCURRENCY_LIMIT = 5;
 
 module.exports = function (eleventyConfig) {
   
-  // 🌟 【Cloudflare Pages対策】
-  // ビルド前に必ず出力先フォルダを作っておく
   if (!fs.existsSync("./_site/img/")) {
     fs.mkdirSync("./_site/img/", { recursive: true });
   }
 
   // ==========================================
   // 🛡️ [XSS対策] HTMLサニタイズフィルター
-  // microCMSリッチエディタの内容を安全なタグのみ許可して出力
   // ==========================================
   eleventyConfig.addFilter("sanitizeHtml", function(htmlContent) {
     if (!htmlContent) return "";
@@ -47,29 +45,25 @@ module.exports = function (eleventyConfig) {
       allowedSchemesAppliedToAttributes: ["href", "src"],
       selfClosing: ["img", "br", "hr"],
       enforceHtmlBoundary: true,
-      parserOptions: {
-        lowerCaseTags: true
-      }
+      parserOptions: { lowerCaseTags: true }
     });
   });
 
   // ==========================================
-  // 🗜️ [完全圧縮処理] 出力されるHTML/CSS/JSを限界までクランチ
+  // 🗜️ [完全圧縮処理] HTML/CSS/JS圧縮
   // ==========================================
   eleventyConfig.addTransform("htmlmin", function(content) {
-    // 出力されるファイルがHTMLの場合のみ処理を実行
     if ((this.page.outputPath || "").endsWith(".html")) {
       try {
-        let minified = htmlmin.minify(content, {
-          useShortDoctype: true,     // DOCTYPEを短縮
-          removeComments: true,       // HTMLコメントを完全削除
-          collapseWhitespace: true,   // 不要な改行・空白を完全削除（1行化）
-          minifyCSS: true,            // インラインで書かれたCSSも完全圧縮
-          minifyJS: true,             // インラインで書かれたJavaScriptも完全圧縮
+        return htmlmin.minify(content, {
+          useShortDoctype: true,
+          removeComments: true,
+          collapseWhitespace: true,
+          minifyCSS: true,
+          minifyJS: true,
         });
-        return minified;
       } catch (error) {
-        console.error("❌ HTMLの圧縮中にエラーが発生しました:", error);
+        console.error("❌ HTML圧縮エラー:", error);
         return content;
       }
     }
@@ -77,7 +71,7 @@ module.exports = function (eleventyConfig) {
   });
 
   // ==========================================
-  // 💡 [共通処理] 外部URLの画像をダウンロードしてWebPに変換する関数
+  // 💡 画像処理関数（キャッシュ活用）
   // ==========================================
   async function processImage(srcUrl) {
     if (!srcUrl) return null;
@@ -94,59 +88,74 @@ module.exports = function (eleventyConfig) {
     });
   }
 
+  // 並列実行ヘルパー（同時実行数制限付き）
+  async function pMap(arr, fn, concurrency = CONCURRENCY_LIMIT) {
+    const results = [];
+    for (let i = 0; i < arr.length; i += concurrency) {
+      const chunk = arr.slice(i, i + concurrency);
+      const chunkResults = await Promise.all(chunk.map(fn));
+      results.push(...chunkResults);
+    }
+    return results;
+  }
+
   // ==========================================
-  // 💡 本文の中の外部画像をダウンロードして置換する関数
+  // 💡 本文画像の一括置換（並列化）
   // ==========================================
   async function downloadAndReplaceImages(htmlContent) {
     if (!htmlContent) return "";
 
     const imgRegex = /<img[^>]+src=["']([^"']+)["'][^>]*>/g;
-    let match;
-    const replacements = [];
+    const matches = [...htmlContent.matchAll(imgRegex)];
+    const uniqueSrcs = [...new Set(matches.map(m => m[1]))];
 
-    while ((match = imgRegex.exec(htmlContent)) !== null) {
-      const originalTag = match[0]; 
-      const remoteSrc = match[1];   
-
-      if (replacements.some((r) => r.remoteSrc === remoteSrc)) continue;
-
+    // 並列で画像処理
+    const replacementMap = await pMap(uniqueSrcs, async (remoteSrc) => {
       try {
-        console.log(`📸 画像を発見しました: ${remoteSrc}`);
-        let metadata = await processImage(remoteSrc);
+        console.log(`📸 画像処理: ${remoteSrc}`);
+        const metadata = await processImage(remoteSrc);
+        return { remoteSrc, metadata, error: null };
+      } catch (error) {
+        console.error(`❌ 画像処理失敗 (${remoteSrc}):`, error.message);
+        return { remoteSrc, metadata: null, error };
+      }
+    });
 
-        // 元のimgタグからalt属性を抽出
-        const altMatch = originalTag.match(/alt=["']([^"']*)["']/);
-        const altText = altMatch ? altMatch[1] : "ブログ本文の画像";
-
+    // 置換マップ作成
+    const replacements = {};
+    for (const { remoteSrc, metadata } of replacementMap) {
+      if (metadata) {
         const imageHtml = Image.generateHTML(metadata, {
-          alt: altText,
+          alt: "ブログ本文の画像",
           loading: "lazy", 
           decoding: "async"
         });
-
-        replacements.push({ originalTag, imageHtml, remoteSrc });
-      } catch (error) {
-        console.error(`❌ 画像のダウンロードに失敗しました (${remoteSrc}):`, error);
+        replacements[remoteSrc] = imageHtml;
       }
     }
 
+    // 一括置換
     let updatedHtml = htmlContent;
-    for (const item of replacements) {
-      updatedHtml = updatedHtml.split(item.originalTag).join(item.imageHtml);
+    for (const [remoteSrc, imageHtml] of Object.entries(replacements)) {
+      updatedHtml = updatedHtml.split(`src="${remoteSrc}"`).join(`src="${imageHtml.match(/src="([^"]+)"/)?.[1] || remoteSrc}"`);
+      updatedHtml = updatedHtml.split(`src='${remoteSrc}'`).join(`src='${imageHtml.match(/src="([^"]+)"/)?.[1] || remoteSrc}'`);
+      // 元のimgタグ全体を置換（より確実）
+      const imgTagRegex = new RegExp(`<img[^>]+src=["']${remoteSrc.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}["'][^>]*>`, 'g');
+      updatedHtml = updatedHtml.replace(imgTagRegex, imageHtml);
     }
 
     return updatedHtml;
   }
 
   // ==========================================
-  // microCMSから安全にデータを取得（画像＆アイキャッチ置換つき）
+  // 🚀 microCMSデータ取得（並列化で高速化）
   // ==========================================
   eleventyConfig.addGlobalData("blogs", async () => {
     const apiDomain = process.env.MICROCMS_DOMAIN;
     const apiKey = process.env.MICROCMS_API_KEY;
 
     if (!apiDomain || !apiKey) {
-      console.log("⚠️ microCMSの環境変数が見つからないため、データ取得をスキップします。");
+      console.log("⚠️ microCMS環境変数なし、スキップ");
       return [];
     }
 
@@ -157,52 +166,41 @@ module.exports = function (eleventyConfig) {
       );
       const data = await response.json();
 
-      for (let blog of data.contents) {
-        // 1. 本文内の画像をローカル化
+      // 全記事を並列で処理
+      const processed = await pMap(data.contents, async (blog) => {
+        // 本文画像
         if (blog.content) {
           blog.content = await downloadAndReplaceImages(blog.content);
         }
-
-        // 2. アイキャッチ画像をローカル化
+        // アイキャッチ
         if (blog.eyecatch && blog.eyecatch.url) {
           try {
-            console.log(`🖼️ アイキャッチ画像を発見しました: ${blog.eyecatch.url}`);
-            let eyecatchMetadata = await processImage(blog.eyecatch.url);
-            blog.eyecatch.url = eyecatchMetadata.webp[0].url;
-          } catch (error) {
-            console.error(`❌ アイキャッチ画像のダウンロードに失敗しました (${blog.eyecatch.url}):`, error);
+            const metadata = await processImage(blog.eyecatch.url);
+            blog.eyecatch.url = metadata.webp[0].url;
+          } catch (e) {
+            console.error(`❌ アイキャッチ失敗: ${e.message}`);
           }
         }
-      }
+        return blog;
+      });
 
-      console.log(`✅ microCMSから ${data.contents.length} 件の記事を取得し、画像ローカル化を完了しました！`);
-      return data.contents;
+      console.log(`✅ ${processed.length}件取得・並列処理完了`);
+      return processed;
     } catch (error) {
-      console.error("❌ microCMSからのデータ取得に失敗しました:", error);
+      console.error("❌ microCMS取得失敗:", error);
       return [];
     }
   });
 
-  // （パススルー設定）
-  eleventyConfig.addPassthroughCopy("CNAME");
-  eleventyConfig.addPassthroughCopy("_redirects");
-  eleventyConfig.addPassthroughCopy("_headers");
-  eleventyConfig.addPassthroughCopy("css");
-  eleventyConfig.addPassthroughCopy("images");
-  eleventyConfig.addPassthroughCopy("js");
-  eleventyConfig.addPassthroughCopy("fonts");
-  eleventyConfig.addPassthroughCopy(".well-known");
+  // パススルー
+  ["CNAME", "_redirects", "_headers", "css", "images", "js", "fonts", ".well-known"]
+    .forEach(p => eleventyConfig.addPassthroughCopy(p));
 
   return {
     pathPrefix: "/",
     markdownTemplateEngine: "njk",
     htmlTemplateEngine: "njk",
     dataTemplateEngine: "njk",
-    dir: {
-      input: ".",
-      includes: "_includes",
-      layouts: "_layouts",
-      output: "_site",
-    },
+    dir: { input: ".", includes: "_includes", layouts: "_layouts", output: "_site" },
   };
 };
