@@ -963,7 +963,7 @@
             <h2 class="section-title" data-i18n="recent_blog_title">最新の記事</h2>
             <div class="blog-preview-grid">
                 {% if blogs and blogs.length > 0 %}
-                    {% for post in blogs | reverse | slice(0, 3) %}
+                    {% for post in blogs | reverse | first(3) %}
                     <a href="/blog/articles/{{ post.id }}/" class="blog-preview-card">
                         <div class="blog-preview-date">{{ post.publishedAt }}</div>
                         <h3 class="blog-preview-title">{{ post.title }}</h3>

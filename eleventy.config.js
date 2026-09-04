@@ -4,7 +4,6 @@ const fs = require("fs");
 const htmlmin = require("html-minifier-terser");
 const sanitizeHtml = require("sanitize-html");
 
-// 並列処理の同時実行数制限（ネットワーク負荷対策）
 const CONCURRENCY_LIMIT = 5;
 
 module.exports = function (eleventyConfig) {
@@ -12,6 +11,19 @@ module.exports = function (eleventyConfig) {
   if (!fs.existsSync("./_site/img/")) {
     fs.mkdirSync("./_site/img/", { recursive: true });
   }
+
+  // ==========================================
+  // 🔧 Nunjucks フィルタ追加（reverse, slice, first 等）
+  // ==========================================
+  eleventyConfig.addFilter("reverse", function(arr) {
+    return [...arr].reverse();
+  });
+  eleventyConfig.addFilter("slice", function(arr, start, end) {
+    return arr.slice(start, end);
+  });
+  eleventyConfig.addFilter("first", function(arr, n) {
+    return arr.slice(0, n);
+  });
 
   // ==========================================
   // 🛡️ [XSS対策] HTMLサニタイズフィルター
@@ -88,7 +100,7 @@ module.exports = function (eleventyConfig) {
     });
   }
 
-  // 並列実行ヘルパー（同時実行数制限付き）
+  // 並列実行ヘルパー
   async function pMap(arr, fn, concurrency = CONCURRENCY_LIMIT) {
     const results = [];
     for (let i = 0; i < arr.length; i += concurrency) {
@@ -109,7 +121,6 @@ module.exports = function (eleventyConfig) {
     const matches = [...htmlContent.matchAll(imgRegex)];
     const uniqueSrcs = [...new Set(matches.map(m => m[1]))];
 
-    // 並列で画像処理
     const replacementMap = await pMap(uniqueSrcs, async (remoteSrc) => {
       try {
         console.log(`📸 画像処理: ${remoteSrc}`);
@@ -121,7 +132,6 @@ module.exports = function (eleventyConfig) {
       }
     });
 
-    // 置換マップ作成
     const replacements = {};
     for (const { remoteSrc, metadata } of replacementMap) {
       if (metadata) {
@@ -134,12 +144,10 @@ module.exports = function (eleventyConfig) {
       }
     }
 
-    // 一括置換
     let updatedHtml = htmlContent;
     for (const [remoteSrc, imageHtml] of Object.entries(replacements)) {
       updatedHtml = updatedHtml.split(`src="${remoteSrc}"`).join(`src="${imageHtml.match(/src="([^"]+)"/)?.[1] || remoteSrc}"`);
       updatedHtml = updatedHtml.split(`src='${remoteSrc}'`).join(`src='${imageHtml.match(/src="([^"]+)"/)?.[1] || remoteSrc}'`);
-      // 元のimgタグ全体を置換（より確実）
       const imgTagRegex = new RegExp(`<img[^>]+src=["']${remoteSrc.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}["'][^>]*>`, 'g');
       updatedHtml = updatedHtml.replace(imgTagRegex, imageHtml);
     }
@@ -166,13 +174,10 @@ module.exports = function (eleventyConfig) {
       );
       const data = await response.json();
 
-      // 全記事を並列で処理
       const processed = await pMap(data.contents, async (blog) => {
-        // 本文画像
         if (blog.content) {
           blog.content = await downloadAndReplaceImages(blog.content);
         }
-        // アイキャッチ
         if (blog.eyecatch && blog.eyecatch.url) {
           try {
             const metadata = await processImage(blog.eyecatch.url);
