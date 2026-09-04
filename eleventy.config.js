@@ -38,7 +38,10 @@ module.exports = function (eleventyConfig) {
         "blockquote", "hr",
         "a", "img", "figure", "figcaption",
         "table", "thead", "tbody", "tr", "th", "td",
-        "div", "span"
+        "div", "span",
+        "figure", "figcaption",
+        "section", "article", "header", "footer",
+        "nav", "aside", "main"
       ],
       allowedAttributes: {
         "a": ["href", "title", "target", "rel"],
@@ -50,7 +53,7 @@ module.exports = function (eleventyConfig) {
         "blockquote": ["cite"],
         "th": ["scope"],
         "td": ["colspan", "rowspan"],
-        "*": ["class", "id"]
+        "*": ["class", "id", "style"]
       },
       allowedSchemes: ["http", "https", "mailto", "tel"],
       allowedSchemesByTag: {},
