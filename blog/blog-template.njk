@@ -146,7 +146,7 @@ permalink: "blog/articles/{{ post.id }}/index.html"
         <div class="blog-body">
             
             <!-- 📝 本文（リッチエディタの中身）を丸ごと自動注入 -->
-            {{ post.content | sanitizeHtml }}
+            {{ post.content | sanitizeHtml | safe }}
 
         </div>
     </article>
