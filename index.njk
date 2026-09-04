@@ -806,6 +806,39 @@
             font-weight: bold;
         }
 
+        /* Sponsor Section */
+        .sponsor-section {
+            margin: 3rem 0;
+            padding: 1.5rem;
+            background: var(--bg-card);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .sponsor-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+        }
+
+        .sponsor-widget {
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sponsor-widget ins {
+            display: block;
+            min-height: 90px;
+        }
+
         @media (max-width: 768px) {
             .terminal-box {
                 padding: 1.2rem;
@@ -902,6 +935,17 @@
                                                         </a>
             </div>
         </div>
+
+        <!-- Amazon Associates Widget -->
+        <section class="sponsor-section" aria-label="スポンサー">
+            <div class="sponsor-label" data-i18n="sponsor_label">Sponsored</div>
+            <div class="sponsor-widget">
+                <script async src="https://ar-cdn.net/widget/v1.js" 
+                        data-site-id="505f611f-55b4-4968-914f-faf32ef5e8c7" 
+                        data-variant="leaderboard">
+                </script>
+            </div>
+        </section>
 
         <section>
             <h2 class="section-title" data-i18n="about_title">自己紹介</h2>
@@ -1071,6 +1115,7 @@ const translations = {
         activities_closing: "年齢に関係なく、自分のアイデアを形にしながら、日々いろいろな技術へ試行錯誤しながら挑戦しています。",
         recent_blog_title: "最新の記事",
         empty_blog_msg: "まだ記事がありません。新しい記事が追加されるまでしばらくお待ちください。",
+        sponsor_label: "Sponsored",
         music_title: "音楽 (Spotify)",
         links_title: "相互リンク",
         link_yu_title: "ゆーのホームページ",
@@ -1110,6 +1155,7 @@ const translations = {
         activities_closing: "Regardless of age, I continue to challenge various technologies through trial and error while turning my ideas into reality.",
         recent_blog_title: "Latest Posts",
         empty_blog_msg: "No posts yet. Please check back later for updates!",
+        sponsor_label: "Sponsored",
         music_title: "Music (Spotify)",
         links_title: "Friends & Links",
         link_yu_title: "Yu's Homepage",
