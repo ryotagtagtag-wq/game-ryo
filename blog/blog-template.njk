@@ -115,6 +115,17 @@ permalink: "blog/articles/{{ post.id }}/index.html"
         }
         .back-button:hover { background: var(--primary); transform: translateY(-2px); }
 
+        /* Article Banner */
+        .article-banner {
+            margin: 3rem auto 2rem;
+            max-width: 728px;
+            text-align: center;
+        }
+        .article-banner ins {
+            display: block;
+            min-height: 90px;
+        }
+
         footer { background-color: var(--dark); color: var(--text-light); padding: 4rem 1.5rem; text-align: center; }
 
         @media (max-width: 768px) {
@@ -159,7 +170,9 @@ permalink: "blog/articles/{{ post.id }}/index.html"
     ></zap-threads>
 </div>
 
-<script async src="https://ar-cdn.net/widget/v1.js" data-site-id="505f611f-55b4-4968-914f-faf32ef5e8c7" data-variant="leaderboard"></script>
+<div class="article-banner">
+    <script async src="https://ar-cdn.net/widget/v1.js" data-site-id="505f611f-55b4-4968-914f-faf32ef5e8c7" data-variant="leaderboard"></script>
+</div>
 
 <a href="/blog" class="back-button">
     <span>➔ 記事一覧へ戻る</span>
