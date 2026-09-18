@@ -201,7 +201,7 @@ module.exports = function (eleventyConfig) {
   });
 
   // パススルー
-  ["CNAME", "_redirects", "_headers", "css", "images", "js", "fonts", ".well-known"]
+  ["CNAME", "_redirects", "_headers", "css", "images", "js", "fonts", ".well-known", "404.html"]
     .forEach(p => eleventyConfig.addPassthroughCopy(p));
 
   return {
