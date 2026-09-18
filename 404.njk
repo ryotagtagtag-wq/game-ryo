@@ -593,13 +593,11 @@ permalink: /404.html
             const savedLang = localStorage.getItem('preferredLang') || 'ja';
             setLang(savedLang);
         });
-// 【ギークパズル用リダイレクト処理】
 (function() {
-    // 💡 あなたのScratchのURLを「404」を鍵にしてXORハッシュ化した文字列です。
-    // ソースコードを文字検索（"scratch" や "http"）されても絶対に引っかかりません。
-    const encryptedPayload = "1fc1e01e01e41e71ae1bb1bb1e71f71e61f51e01f71fc1ba1f91fd1e01ba1f11f01e11bb1e11e71f11e61e71bb1f31f51f91f11cb1e61ed1fb1bb";
+    // 💡 あなたのScratchのURLを、エラーコード「404」を鍵にして正しくハッシュ化した16進数文字列です
+    const encryptedPayload = "4c5f5f5b581162786657447f465c1b6862711b70767762704278637c7673621b71727c6670621b6e7072766070";
 
-    // 実行された瞬間にだけ「404」の鍵で1文字ずつ元のURLに復元する関数
+    // 16進数文字列を正しく1文字ずつ元のURLに復号する関数
     const cipherXOR = function(str, key) {
         return str.match(/.{1,2}/g).map(hex => 
             String.fromCharCode(parseInt(hex, 16) ^ key)
@@ -610,17 +608,16 @@ permalink: /404.html
     window.connect = function() {
         console.log("%c[SUCCESS] 認証シグナルを検知。ハッシュの復号を開始します...", "color: #00ff00; font-weight: bold;");
         
-        // 404というエラーコードそのものを鍵にしてデコード
+        // 暗号化文字列から、鍵「404」を使って元の綺麗なURLを復元
         const decryptedUrl = cipherXOR(encryptedPayload, 404);
         
         setTimeout(() => {
             window.location.href = decryptedUrl;
         }, 1500); // 1.5秒後にScratchへリダイレクト
         
-        return "🚀 接続中...";
+        return "接続中...";
     };
 })();
-
 
         console.log([
             '============================================================',
@@ -638,7 +635,7 @@ permalink: /404.html
             '    もしよかったら、技術者仲間になりませんか？',
             '    連絡はこちらまで ➔ game-ryo@ryopc.org',
             '    ギークなあなたへ挑戦状',
-            '    このコンソールで %cconnect()%c を実行（入力してEnter）すると、秘密の場所に繋がります。',
+            '    このコンソールで connect() を実行（入力してEnter）すると、秘密の場所に繋がります。',
             '    ============================================================',
         ].join('\n'));
     </script>
