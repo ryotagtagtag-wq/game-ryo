@@ -593,29 +593,25 @@ permalink: /404.html
             const savedLang = localStorage.getItem('preferredLang') || 'ja';
             setLang(savedLang);
         });
-(function() {
-    // 💡 あなたのScratchのURLを、エラーコード「404」を鍵にして正しくハッシュ化した16進数文字列です
-    const encryptedPayload = "4c5f5f5b581162786657447f465c1b6862711b70767762704278637c7673621b71727c6670621b6e7072766070";
 
-    // 16進数文字列を正しく1文字ずつ元のURLに復号する関数
-    const cipherXOR = function(str, key) {
-        return str.match(/.{1,2}/g).map(hex => 
-            String.fromCharCode(parseInt(hex, 16) ^ key)
-        ).join('');
-    };
+        // 【ギークパズル用リダイレクト処理】
+(function() {
+    // 💡 あなたのScratchのURLを完全にカモフラージュした難読化データです。
+    // 文字列検索（"scratch"など）をされても100%バレません。
+    const securePayload = "aHR0cHM6Ly9zY3JhdGNoLm1pdC5lZHUvdXNlcnMvZ2FtZV9yeW8v";
 
     // グローバルコンソールから叩けるように関数を登録
     window.connect = function() {
-        console.log("%c[SUCCESS] 認証シグナルを検知。ハッシュの復号を開始します...", "color: #00ff00; font-weight: bold;");
+        console.log("%c[SUCCESS] 認証シグナルを検知。難読化データの復元を開始します...", "color: #00ff00; font-weight: bold;");
         
-        // 暗号化文字列から、鍵「404」を使って元の綺麗なURLを復元
-        const decryptedUrl = cipherXOR(encryptedPayload, 404);
+        // 実行された瞬間にだけ元の綺麗なURLを生成
+        const targetUrl = atob(securePayload);
         
         setTimeout(() => {
-            window.location.href = decryptedUrl;
-        }, 1500); // 1.5秒後にScratchへリダイレクト
+            window.location.href = targetUrl;
+        }, 1200); // 1.2秒後にScratchへリダイレクト
         
-        return "接続中...";
+        return "🚀 接続中...";
     };
 })();
 
@@ -633,7 +629,7 @@ permalink: /404.html
             '    さて、このコンソールを見ているということは……おそらくだいぶ優秀な技術者ですね？',
             '    こんなエラー画面の裏側まで覗きにくるなんて、さては僕みたいな人だな？',
             '    もしよかったら、技術者仲間になりませんか？',
-            '    連絡はこちらまで ➔ game-ryo@ryopc.org',
+            '    連絡はこのコマンドで ➔ ssh gest@sns.ryopc.org -p 2221',
             '    ギークなあなたへ挑戦状',
             '    このコンソールで connect() を実行（入力してEnter）すると、秘密の場所に繋がります。',
             '    ============================================================',
