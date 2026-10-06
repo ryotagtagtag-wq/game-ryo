@@ -1,24 +1,26 @@
-# Eleventyのビルド出力フォルダ（必須）
-_site/
-
-# Node.jsの依存関係フォルダ（必須）
-node_modules/
-
-# Cloudflare / Wrangler のキャッシュや一時ファイル（必須）
-.wrangler/
-.cache/
-.husky/
-
-# ログファイル
-*.log
-npm-debug.log*
-
-# OSが自動生成するシステムファイル
+# --- OS / IDE (環境依存のゴミ箱ファイル) ---
 .DS_Store
 Thumbs.db
+.vscode/
+.idea/
 
-# ローカルの開発環境用設定ファイル（環境変数などがある場合）
+# --- Node.js / パッケージ管理 ---
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# --- 静的サイトジェネレーター (Eleventy / 11ty) ---
+# ビルド出力ディレクトリ（通常は _site や dist）
+_site/
+dist/
+.11ty-cache/
+
+# --- テスト / 自動化 / MCP (今回除外したもの) ---
+.playwright-mcp/
+playwright-report/
+test-results/
 .env
 .env.local
-.vscan/
-.vscan-findings.json
+.env.*.local
