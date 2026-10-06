@@ -785,6 +785,42 @@
             color: var(--text-main);
         }
 
+        .command-card {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .command-grid {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .command-label {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .ssh-input {
+            flex: 1 1 220px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(59, 130, 246, 0.4);
+            border-radius: 10px;
+            color: var(--text-main);
+            padding: 0.8rem 1rem;
+            font-size: 1rem;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .ssh-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.2);
+        }
+
         .activity-list {
             list-style: none;
             margin: 1.5rem 0;
@@ -975,6 +1011,24 @@
             </div>
         </section>
 
+        <section id="ssh-chat">
+            <h2 class="section-title" data-i18n="ssh_title">SSH チャット鯖</h2>
+            <div class="card command-card">
+                <div class="command-grid">
+                    <label for="ssh-username" class="command-label" data-i18n="ssh_user_label">ユーザー名</label>
+                    <input id="ssh-username" class="ssh-input" type="text" value="guest" placeholder="game_ryo" autocomplete="off" spellcheck="false">
+                </div>
+
+                <div class="terminal-box">
+                    <button type="button" class="copy-btn" id="ssh-copy-btn" data-i18n="ssh_copy">コピー</button>
+                    <div class="terminal-prompt">$</div>
+                    <div class="terminal-command" id="ssh-command">ssh guest@sns.ryopc.org -p 2221</div>
+                </div>
+
+                <p class="terminal-description" data-i18n="ssh_description">ユーザー名を入力すると、接続コマンドが自動で更新されます。</p>
+            </div>
+        </section>
+
  <section class="sponsor-section" aria-label="スポンサー">
             <div class="sponsor-label" data-i18n="sponsor_label">Sponsored</div>
             <div class="sponsor-widget">
@@ -1096,6 +1150,11 @@ const translations = {
         activity_list_4: "<strong>最新技術・AI活用：</strong>生成AIを使った記事執筆、プログラミング支援、リアルタイム通信（WebSocket）の実験",
         activity_list_5: "<strong>コミュニティ運営：</strong>全国PCサポートネットワーク「ryopc」を運営し、ITの楽しさを発信",
         activities_closing: "年齢に関係なく、自分のアイデアを形にしながら、日々いろいろな技術へ試行錯誤しながら挑戦しています。",
+        ssh_title: "SSH チャット鯖",
+        ssh_user_label: "ユーザー名",
+        ssh_description: "ユーザー名を入力すると、接続コマンドが自動で更新されます。",
+        ssh_copy: "コピー",
+        ssh_copied: "コピーしました！",
         recent_blog_title: "最新の記事",
         empty_blog_msg: "まだ記事がありません。新しい記事が追加されるまでしばらくお待ちください。",
         sponsor_label: "Sponsored",
@@ -1136,6 +1195,11 @@ const translations = {
         activity_list_4: "<strong>Latest Technology & AI Utilization:</strong> Experimenting with generative AI for article writing, programming support, and real-time communication (WebSocket)",
         activity_list_5: "<strong>Community Management:</strong> Operating 'ryopc' (National PC Support Network) and sharing the joy of IT",
         activities_closing: "Regardless of age, I continue to challenge various technologies through trial and error while turning my ideas into reality.",
+        ssh_title: "SSH Chat Server",
+        ssh_user_label: "Username",
+        ssh_description: "Enter a username and the connection command updates automatically.",
+        ssh_copy: "Copy",
+        ssh_copied: "Copied!",
         recent_blog_title: "Latest Posts",
         empty_blog_msg: "No posts yet. Please check back later for updates!",
         sponsor_label: "Sponsored",
@@ -1178,20 +1242,52 @@ const translations = {
             hamburgerBtn.setAttribute('aria-expanded', false);
         }
 
-        // --- ターミナルコマンドコピー機能 ---
-        function copyCommand() {
-            const btn = document.getElementById('copy-btn');
-            const command = 'npx wscat -c wss://me.ryopc.f5.si/ws';
-            
-            navigator.clipboard.writeText(command).then(() => {
-                btn.textContent = 'コピーしました！';
-                btn.classList.add('copied');
-                
-                setTimeout(() => {
-                    btn.textContent = 'コピー';
-                    btn.classList.remove('copied');
-                }, 2000);
+        // --- SSH チャット鯖コマンド生成 ---
+        const sshUsernameInput = document.getElementById('ssh-username');
+        const sshCommandEl = document.getElementById('ssh-command');
+        const sshCopyBtn = document.getElementById('ssh-copy-btn');
+
+        function buildSshCommand(username) {
+            const normalized = (username || '').trim().replace(/\s+/g, '');
+            const safeUser = normalized || 'guest';
+            return `ssh ${safeUser}@sns.ryopc.org -p 2221`;
+        }
+
+        function updateSshCommand() {
+            if (!sshUsernameInput || !sshCommandEl) return;
+            sshUsernameInput.value = sshUsernameInput.value.replace(/\s+/g, '');
+            sshCommandEl.textContent = buildSshCommand(sshUsernameInput.value);
+        }
+
+        async function copyTextToClipboard(text, btn) {
+            if (navigator.clipboard && window.isSecureContext) {
+                await navigator.clipboard.writeText(text);
+            } else {
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                textArea.style.position = 'fixed';
+                textArea.style.opacity = '0';
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+            }
+
+            btn.textContent = 'コピーしました！';
+            btn.classList.add('copied');
+            setTimeout(() => {
+                btn.textContent = 'コピー';
+                btn.classList.remove('copied');
+            }, 2000);
+        }
+
+        if (sshUsernameInput && sshCopyBtn && sshCommandEl) {
+            sshUsernameInput.addEventListener('input', updateSshCommand);
+            sshCopyBtn.addEventListener('click', () => {
+                copyTextToClipboard(sshCommandEl.textContent, sshCopyBtn);
             });
+            updateSshCommand();
         }
 
         // --- Language Toggle Logic ---
@@ -1212,11 +1308,21 @@ const translations = {
                         el.innerHTML = translations[lang][key];
                     } else if(key.startsWith('activity_list_')) {
                         el.innerHTML = translations[lang][key];
+                    } else if (key === 'ssh_copy' || key === 'ssh_copied') {
+                        if (el.id === 'ssh-copy-btn') {
+                            el.textContent = translations[lang][key === 'ssh_copy' ? 'ssh_copy' : 'ssh_copied'];
+                        }
                     } else {
                         el.textContent = translations[lang][key];
                     }
                 }
             });
+
+            if (sshCopyBtn && sshCopyBtn.classList.contains('copied')) {
+                sshCopyBtn.textContent = translations[lang].ssh_copied;
+            } else if (sshCopyBtn) {
+                sshCopyBtn.textContent = translations[lang].ssh_copy;
+            }
 
             // Save preference to localStorage
             localStorage.setItem('preferredLang', lang);
