@@ -12,7 +12,6 @@ permalink: "blog/articles/{{ post.id }}/index.html"
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
 <title>{{ post.title }} | game_ryo blog</title>    
-<script src="https://keepandroidopen.org/banner.js"></script>
     <link rel="icon" type="image/png" href="/images/favicon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -137,6 +136,9 @@ permalink: "blog/articles/{{ post.id }}/index.html"
 </head>
 <body>
 
+    <div id="banner"></div>
+    <script src="https://keepandroidopen.org/banner.js?id=banner"></script>
+
     <div id="scroll-progress"></div>
 
     <nav class="navbar">
@@ -165,7 +167,7 @@ permalink: "blog/articles/{{ post.id }}/index.html"
 
     <!-- 💬 Nostr コメント欄（zapthreads） -->
     <zap-threads
-        anchor="https://game-ryo.f5.si/blog/articles/{{ post.id }}/"
+        anchor="https://game-ryo.is-a.dev/blog/articles/{{ post.id }}/"
         relays="wss://relay.damus.io,wss://relay.primal.net,wss://offchain.pub,wss://relay.snort.social"
         author="npub1qql8jzc7ptfhxymqxg6rx8ph0qgdlcymvv7jszzq9hfud3jxrd5sy2lqpc"
     ></zap-threads>
