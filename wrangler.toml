@@ -1,15 +1,30 @@
-name = "game-ryo-comments"
+name = "game-ryo"
 compatibility_date = "2026-10-21"
 pages_build_output_dir = "_site"
+
+[vars]
+ALLOWED_ORIGIN = "https://game-ryo.is-a.dev"
+MICROCMS_DOMAIN = "game-ryo"
+MAX_COMMENT_LENGTH = "2000"
 
 [[kv_namespaces]]
 binding = "COMMENTS_KV"
 id = "d1aa468a8224415f9724ddfe64ae821e"
 preview_id = "d1aa468a8224415f9724ddfe64ae821e"
 
+[env.production.vars]
+ALLOWED_ORIGIN = "https://game-ryo.is-a.dev"
+MICROCMS_DOMAIN = "game-ryo"
+MAX_COMMENT_LENGTH = "2000"
+
 [[env.production.kv_namespaces]]
 binding = "COMMENTS_KV"
 id = "d1aa468a8224415f9724ddfe64ae821e"
+
+[env.preview.vars]
+ALLOWED_ORIGIN = "https://game-ryo.is-a.dev"
+MAX_COMMENT_LENGTH = "2000"
+MICROCMS_DOMAIN = "game-ryo"
 
 [[env.preview.kv_namespaces]]
 binding = "COMMENTS_KV"
