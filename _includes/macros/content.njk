@@ -1,0 +1,44 @@
+{# Content macros — blog cards, post cards #}
+
+{# Blog card for list page - mock compliant #}
+{% macro blogCard(post) %}
+<a href="/blog/articles/{{ post.id }}/" class="blog-card card-link">
+  <div class="card">
+    <div class="blog-date mono">{{ post.publishedAt }}</div>
+    <h2 class="blog-title">{{ post.title }}</h2>
+    {% if post.eyecatch and post.eyecatch.url %}
+    <img src="{{ post.eyecatch.url }}" alt="{{ post.title }}" class="blog-img" style="width:100%;height:auto;border-radius:var(--r-field);margin-top:var(--space-3);" loading="lazy" decoding="async">
+    {% endif %}
+    <div class="blog-excerpt">{{ post.content | stripHtml | truncate(100) }}</div>
+  </div>
+</a>
+{% endmacro %}
+
+{# Post card for homepage latest 3 #}
+{% macro postCard(post) %}
+<a href="/blog/articles/{{ post.id }}/" class="post-card card-link">
+  <div class="card" style="padding:24px">
+    <div class="post-date mono">{{ post.publishedAt }}</div>
+    <h3 class="post-title">{{ post.title }}</h3>
+  </div>
+</a>
+{% endmacro %}
+
+{# Link card for mutual links #}
+{% macro linkCard(link) %}
+<li class="link-card">
+  <div class="card" style="padding:18px 20px">
+    <a href="{{ link.url }}" target="_blank" rel="noopener" class="link-title">{{ link.name }}</a>
+    <span class="link-desc">{{ link.desc }}</span>
+  </div>
+</li>
+{% endmacro %}
+
+{# Latest posts grid (3 items) #}
+{% macro latestPosts(posts) %}
+<div class="grid-auto">
+  {% for post in posts | slice(0, 3) %}
+    {{ postCard(post) }}
+  {% endfor %}
+</div>
+{% endmacro %}

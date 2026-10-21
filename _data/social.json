@@ -1,0 +1,51 @@
+[
+  {
+    "name": "GitHub",
+    "url": "https://github.com/ryotagtagtag-wq",
+    "icon": "github",
+    "label": "GitHub",
+    "i18n": "social_github"
+  },
+  {
+    "name": "Email",
+    "url": "mailto:ryotagtagtag@gmail.com",
+    "icon": "email",
+    "label": "Email",
+    "i18n": "social_email"
+  },
+  {
+    "name": "Spotify",
+    "url": "https://open.spotify.com/user/31ixwiodsajlges5jolu2aa66quy",
+    "icon": "spotify",
+    "label": "Spotify",
+    "i18n": "social_spotify"
+  },
+  {
+    "name": "CodePen",
+    "url": "https://codepen.io/game_ryo",
+    "icon": "codepen",
+    "label": "CodePen",
+    "i18n": "social_codepen"
+  },
+  {
+    "name": "Scratch",
+    "url": "https://scratch.mit.edu/users/game_ryo/",
+    "icon": "scratch",
+    "label": "Scratch",
+    "i18n": "social_scratch"
+  },
+  {
+    "name": "Keybase",
+    "url": "https://keybase.io/game_ryo",
+    "icon": "keybase",
+    "label": "Keybase",
+    "i18n": "social_keybase"
+  },
+  {
+    "name": "Matrix",
+    "url": "https://matrix.to/#/@game_ryo:matrix.org",
+    "icon": "matrix",
+    "label": "Matrix",
+    "i18n": "social_matrix"
+  }
+]

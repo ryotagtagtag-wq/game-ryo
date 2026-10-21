@@ -1,0 +1,18 @@
+<section class="section" style="padding:48px 0;border-top:1px solid var(--border)">
+  <p class="label mono">// latest</p>
+  <h2 class="section-title" style="margin:0 0 20px;font-size:24px" data-i18n="recent_blog_title">最新の記事</h2>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px">
+    {% if blogs and blogs.length > 0 %}
+      {% for post in blogs | reverse | first(3) %}
+      <a href="/blog/articles/{{ post.id }}/" class="card" style="display:block;text-decoration:none;color:inherit;padding:24px">
+        <div class="mono" style="font-size:12px;color:var(--text-dim)">{{ post.publishedAt }}</div>
+        <h3 style="margin:8px 0 0;font-size:17px;line-height:1.5">{{ post.title }}</h3>
+      </a>
+      {% endfor %}
+    {% else %}
+    <div class="card" style="width: 100%; text-align: center; padding: 24px;">
+      <p data-i18n="empty_blog_msg"></p>
+    </div>
+    {% endif %}
+  </div>
+</section>

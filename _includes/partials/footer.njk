@@ -1,0 +1,10 @@
+<footer class="footer">
+  <span data-i18n="footer_text">&copy; 2026 game_ryo. All Rights Reserved.</span>
+  <span class="mono">
+    {% if page.url.indexOf("/blog/") === 0 %}
+      <a href="/" data-i18n="footer_home">← ホームへ</a>
+    {% else %}
+      webring
+    {% endif %}
+  </span>
+</footer>

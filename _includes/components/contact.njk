@@ -1,0 +1,24 @@
+<section class="section" style="padding:48px 0;border-top:1px solid var(--border)">
+  <p class="label mono">// contact</p>
+  <h2 class="section-title" style="margin:0 0 20px;font-size:24px" data-i18n="contact_title">お問い合わせ</h2>
+  <form id="contact-form" class="card" style="display:grid;gap:16px" action="https://formsubmit.co/game-ryo@ryopc.org" method="POST">
+    <input type="hidden" name="_next" value="{{ '/' | url }}">
+    <input type="hidden" name="_subject" value="game_ryoサイトからのお問い合わせ">
+    <input type="hidden" name="_captcha" value="false">
+    <div>
+      <label for="form-name" style="display:block;font-size:13px;color:var(--text-muted);margin-bottom:6px" data-i18n="contact_name">お名前</label>
+      <input id="form-name" class="field" type="text" name="name" required>
+    </div>
+    <div>
+      <label for="form-email" style="display:block;font-size:13px;color:var(--text-muted);margin-bottom:6px" data-i18n="contact_email">メールアドレス</label>
+      <input id="form-email" class="field" type="email" name="email" required>
+    </div>
+    <div>
+      <label for="form-message" style="display:block;font-size:13px;color:var(--text-muted);margin-bottom:6px" data-i18n="contact_message">メッセージ</label>
+      <textarea id="form-message" class="field" name="message" rows="5" required style="resize:vertical"></textarea>
+    </div>
+    <div>
+      <button type="submit" class="btn btn-primary" style="border:0;border-radius:10px;padding:12px 24px;background:var(--accent);color:#0F1117;font:inherit;font-weight:700;cursor:pointer" data-i18n="contact_submit">送信する</button>
+    </div>
+  </form>
+</section>

@@ -7,7 +7,6 @@ const sanitizeHtml = require("sanitize-html");
 const CONCURRENCY_LIMIT = 5;
 
 module.exports = function (eleventyConfig) {
-  
   if (!fs.existsSync("./_site/img/")) {
     fs.mkdirSync("./_site/img/", { recursive: true });
   }
@@ -15,59 +14,113 @@ module.exports = function (eleventyConfig) {
   // ==========================================
   // 🔧 Nunjucks フィルタ追加（reverse, slice, first 等）
   // ==========================================
-  eleventyConfig.addFilter("reverse", function(arr) {
+  eleventyConfig.addFilter("reverse", function (arr) {
     return [...arr].reverse();
   });
-  eleventyConfig.addFilter("slice", function(arr, start, end) {
+  eleventyConfig.addFilter("slice", function (arr, start, end) {
     return arr.slice(start, end);
   });
-  eleventyConfig.addFilter("first", function(arr, n) {
+  eleventyConfig.addFilter("first", function (arr, n) {
     return arr.slice(0, n);
   });
+  // ISO 8601 日付フィルタ（sitemap 用）
+  eleventyConfig.addFilter("dateIso", function (date) {
+    if (!date) return "";
+    const d = new Date(date);
+    return d.toISOString().split("T")[0];
+  });
+  // RFC 822 日付フィルタ（RSS 用）
+  eleventyConfig.addFilter("dateRfc822", function (date) {
+    if (!date) return "";
+    return new Date(date).toUTCString();
+  });
+
+  // ビルド日時をグローバルデータとして追加
+  eleventyConfig.addGlobalData("buildDate", new Date().toUTCString());
 
   // ==========================================
   // 🛡️ [XSS対策] HTMLサニタイズフィルター
   // ==========================================
-  eleventyConfig.addFilter("sanitizeHtml", function(htmlContent) {
+  eleventyConfig.addFilter("sanitizeHtml", function (htmlContent) {
     if (!htmlContent) return "";
     return sanitizeHtml(htmlContent, {
       allowedTags: [
-        "p", "br", "strong", "em", "u", "s", "code", "pre",
-        "h1", "h2", "h3", "h4", "h5", "h6",
-        "ul", "ol", "li", "dl", "dt", "dd",
-        "blockquote", "hr",
-        "a", "img", "figure", "figcaption",
-        "table", "thead", "tbody", "tr", "th", "td",
-        "div", "span",
-        "figure", "figcaption",
-        "section", "article", "header", "footer",
-        "nav", "aside", "main"
+        "p",
+        "br",
+        "strong",
+        "em",
+        "u",
+        "s",
+        "code",
+        "pre",
+        "h1",
+        "h2",
+        "h3",
+        "h4",
+        "h5",
+        "h6",
+        "ul",
+        "ol",
+        "li",
+        "dl",
+        "dt",
+        "dd",
+        "blockquote",
+        "hr",
+        "a",
+        "img",
+        "figure",
+        "figcaption",
+        "table",
+        "thead",
+        "tbody",
+        "tr",
+        "th",
+        "td",
+        "div",
+        "span",
+        "figure",
+        "figcaption",
+        "section",
+        "article",
+        "header",
+        "footer",
+        "nav",
+        "aside",
+        "main",
       ],
       allowedAttributes: {
-        "a": ["href", "title", "target", "rel"],
-        "img": ["src", "alt", "title", "width", "height", "loading", "decoding"],
-        "code": ["class"],
-        "pre": ["class"],
-        "div": ["class"],
-        "span": ["class"],
-        "blockquote": ["cite"],
-        "th": ["scope"],
-        "td": ["colspan", "rowspan"],
-        "*": ["class", "id", "style"]
+        a: ["href", "title", "target", "rel"],
+        img: ["src", "alt", "title", "width", "height", "loading", "decoding"],
+        code: ["class"],
+        pre: ["class"],
+        div: ["class"],
+        span: ["class"],
+        blockquote: ["cite"],
+        th: ["scope"],
+        td: ["colspan", "rowspan"],
+        "*": ["class", "id", "style"],
       },
       allowedSchemes: ["http", "https", "mailto", "tel"],
       allowedSchemesByTag: {},
       allowedSchemesAppliedToAttributes: ["href", "src"],
       selfClosing: ["img", "br", "hr"],
       enforceHtmlBoundary: true,
-      parserOptions: { lowerCaseTags: true }
+      parserOptions: { lowerCaseTags: true },
+    });
+  });
+  eleventyConfig.addFilter("stripHtml", function (htmlContent) {
+    if (!htmlContent) return "";
+    return sanitizeHtml(htmlContent, {
+      allowedTags: [],
+      allowedAttributes: {},
     });
   });
 
   // ==========================================
   // 🗜️ [完全圧縮処理] HTML/CSS/JS圧縮
   // ==========================================
-  eleventyConfig.addTransform("htmlmin", function(content) {
+  eleventyConfig.addTransform("htmlmin", function (content) {
     if ((this.page.outputPath || "").endsWith(".html")) {
       try {
         return htmlmin.minify(content, {
@@ -91,14 +144,14 @@ module.exports = function (eleventyConfig) {
   async function processImage(srcUrl) {
     if (!srcUrl) return null;
     return await Image(srcUrl, {
-      widths: ["auto"], 
-      formats: ["webp"], 
-      outputDir: "./_site/img/", 
-      urlPath: "/img/", 
+      widths: ["auto"],
+      formats: ["webp"],
+      outputDir: "./_site/img/",
+      urlPath: "/img/",
       cacheOptions: {
-        duration: "1d", 
-        directory: ".cache", 
-        removeUrlQueryParams: false, 
+        duration: "1d",
+        directory: ".cache",
+        removeUrlQueryParams: false,
       },
     });
   }
@@ -122,7 +175,7 @@ module.exports = function (eleventyConfig) {
 
     const imgRegex = /<img[^>]+src=["']([^"']+)["'][^>]*>/g;
     const matches = [...htmlContent.matchAll(imgRegex)];
-    const uniqueSrcs = [...new Set(matches.map(m => m[1]))];
+    const uniqueSrcs = [...new Set(matches.map((m) => m[1]))];
 
     const replacementMap = await pMap(uniqueSrcs, async (remoteSrc) => {
       try {
@@ -140,8 +193,8 @@ module.exports = function (eleventyConfig) {
       if (metadata) {
         const imageHtml = Image.generateHTML(metadata, {
           alt: "ブログ本文の画像",
-          loading: "lazy", 
-          decoding: "async"
+          loading: "lazy",
+          decoding: "async",
         });
         replacements[remoteSrc] = imageHtml;
       }
@@ -149,9 +202,16 @@ module.exports = function (eleventyConfig) {
 
     let updatedHtml = htmlContent;
     for (const [remoteSrc, imageHtml] of Object.entries(replacements)) {
-      updatedHtml = updatedHtml.split(`src="${remoteSrc}"`).join(`src="${imageHtml.match(/src="([^"]+)"/)?.[1] || remoteSrc}"`);
-      updatedHtml = updatedHtml.split(`src='${remoteSrc}'`).join(`src='${imageHtml.match(/src="([^"]+)"/)?.[1] || remoteSrc}'`);
-      const imgTagRegex = new RegExp(`<img[^>]+src=["']${remoteSrc.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}["'][^>]*>`, 'g');
+      updatedHtml = updatedHtml
+        .split(`src="${remoteSrc}"`)
+        .join(`src="${imageHtml.match(/src="([^"]+)"/)?.[1] || remoteSrc}"`);
+      updatedHtml = updatedHtml
+        .split(`src='${remoteSrc}'`)
+        .join(`src='${imageHtml.match(/src="([^"]+)"/)?.[1] || remoteSrc}'`);
+      const imgTagRegex = new RegExp(
+        `<img[^>]+src=["']${remoteSrc.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}["'][^>]*>`,
+        "g",
+      );
       updatedHtml = updatedHtml.replace(imgTagRegex, imageHtml);
     }
 
@@ -173,7 +233,7 @@ module.exports = function (eleventyConfig) {
     try {
       const response = await fetch(
         `https://${apiDomain}.microcms.io/api/v1/blogs`,
-        { headers: { "X-MICROCMS-API-KEY": apiKey } }
+        { headers: { "X-MICROCMS-API-KEY": apiKey } },
       );
       const data = await response.json();
 
@@ -201,14 +261,28 @@ module.exports = function (eleventyConfig) {
   });
 
   // パススルー
-  ["CNAME", "_redirects", "_headers", "css", "images", "js", "fonts", ".well-known"]
-    .forEach(p => eleventyConfig.addPassthroughCopy(p));
+  [
+    "CNAME",
+    "_redirects",
+    "_headers",
+    "css",
+    "images",
+    "js",
+    "fonts",
+    ".well-known",
+    { "static/comments": "comments" },
+  ].forEach((p) => eleventyConfig.addPassthroughCopy(p));
 
   return {
     pathPrefix: "/",
     markdownTemplateEngine: "njk",
     htmlTemplateEngine: "njk",
     dataTemplateEngine: "njk",
-    dir: { input: ".", includes: "_includes", layouts: "_layouts", output: "_site" },
+    dir: {
+      input: ".",
+      includes: "_includes",
+      layouts: "_layouts",
+      output: "_site",
+    },
   };
 };

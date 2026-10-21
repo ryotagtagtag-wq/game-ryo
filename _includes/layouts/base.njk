@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  {% include "partials/head.njk" %}
+  {% block head_extra %}{% endblock %}
+</head>
+<body>
+  {% block banner %}{% include "partials/banner.njk" %}{% endblock %}
+  {% block background %}{% endblock %}
+  {% block header %}{% include "partials/header.njk" %}{% endblock %}
+  <main>
+    {% block main %}{{ content | safe }}{% endblock %}
+  </main>
+  {% block footer %}
+    <div class="container">
+      {% include "partials/footer.njk" %}
+    </div>
+  {% endblock %}
+  <!-- TEMPLATE_MARKER_BASE_NJK_v1 -->
+<script src="/js/i18n.js" defer></script>
+<script src="/js/main.js" defer></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

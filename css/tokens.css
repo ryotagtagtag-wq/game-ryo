@@ -1,0 +1,47 @@
+/* Design Tokens — game-ryo.is-a.dev redesign (mock compliant) */
+:root {
+  /* Colors — extracted from mock */
+  --bg: #0f1117;
+  --bg-card: #161a23;
+  --bg-term: #0a0c10;
+  --border: #242a36;
+  --border-strong: #2a2f3b;
+  --text: #e8eaf0;
+  --text-body: #c5cad6;
+  --text-muted: #a6adbb;
+  --text-dim: #7d8594;
+  --accent: #7ce38b;
+  --accent-2: #ffb86b;
+
+  /* Gradients */
+  --grad-accent: linear-gradient(135deg, var(--accent), var(--accent-2));
+
+  /* Radii */
+  --r-chip: 999px;
+  --r-card: 14px;
+  --r-field: 10px;
+  --r-btn: 8px;
+
+  /* Typography */
+  --font-mono:
+    "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --font-sans:
+    "Noto Sans JP", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+
+  /* Layout */
+  --w-max: 960px;
+  --pad-x: 24px;
+  --lh: 1.75;
+
+  /* Spacing scale (8px base) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+}

@@ -1,0 +1,18 @@
+{# コメント欄 #}
+<section class="comments-section" aria-labelledby="comments-heading">
+  <h2 id="comments-heading" class="section-title mono" data-i18n="comments_title">Comments</h2>
+
+  <div id="comments-container"
+       data-api-path="{{ comments.apiPath }}"
+       data-turnstile-site-key="{{ comments.turnstileSiteKey }}"
+       data-page-path="{{ page.url }}"
+       data-max-comments="{{ comments.maxCommentsPerPage }}">
+  </div>
+</section>
+
+{# Turnstileスクリプト #}
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+{# コメント用CSS・JS #}
+<link rel="stylesheet" href="/comments/comments.css" />
+<script src="/comments/comments.js" defer></script>

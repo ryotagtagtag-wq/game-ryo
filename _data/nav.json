@@ -1,0 +1,10 @@
+[
+  {
+    "label": "ryopcホーム",
+    "url": "https://ryopc.f5.si",
+    "external": true,
+    "i18n": "nav_ryopchome"
+  },
+  { "label": "ホーム", "url": "/", "i18n": "nav_home" },
+  { "label": "ブログ", "url": "/blog/", "i18n": "nav_blog" }
+]

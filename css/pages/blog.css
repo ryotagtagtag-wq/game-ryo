@@ -1,0 +1,74 @@
+/* Blog list page specific styles */
+@import "tokens.css";
+
+/* Page header */
+.page-header {
+  text-align: center;
+  margin-bottom: var(--space-8);
+  animation: fadeIn 1s ease-out;
+}
+
+.page-title {
+  margin: 0 0 var(--space-3);
+  font-size: clamp(40px, 6vw, 56px);
+  line-height: 1.1;
+  font-weight: 900;
+}
+
+.page-subtitle {
+  margin: 0;
+  color: var(--text-muted);
+}
+
+/* Blog list */
+.blog-list-section {
+  padding: var(--space-2) 0 var(--space-7);
+}
+
+/* Blog card override for list page - matches mock */
+.blog-list .blog-card {
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+}
+.blog-list .card {
+  padding: 24px;
+}
+.blog-list .blog-date {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-bottom: var(--space-2);
+}
+.blog-list .blog-title {
+  margin: 8px 0 8px;
+  font-size: 21px;
+  line-height: 1.5;
+  font-weight: 700;
+}
+.blog-list .blog-excerpt {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+/* Empty fallback */
+.empty-fallback {
+  text-align: center;
+  padding: var(--space-7);
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-top: var(--space-7);
+  flex-wrap: wrap;
+}
+.pagination-info {
+  display: flex;
+  align-items: center;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}

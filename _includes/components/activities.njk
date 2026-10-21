@@ -1,0 +1,27 @@
+<section class="section" style="padding:48px 0;border-top:1px solid var(--border)">
+  <p class="label mono">// activity</p>
+  <h2 class="section-title" style="margin:0 0 20px;font-size:24px" data-i18n="activity_title">活動内容</h2>
+
+  <div class="card" style="margin-bottom:24px">
+    <ul class="activity-list" style="margin:0;padding-left:20px;line-height:2">
+      {% for item in activity.items %}
+      <li style="font-size:15px;color:var(--text)">{{ item }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+<section class="section" style="padding:48px 0;border-top:1px solid var(--border)">
+  <p class="label mono">// ssh chat</p>
+  <div class="card command-card">
+    <h3 style="margin:0 0 8px;font-size:18px" data-i18n="activity_ssh_title">SSH チャット鯖</h3>
+    <p style="margin:0 0 16px;font-size:14px;color:var(--text-muted)" data-i18n="activity_ssh_description">ユーザー名を入力すると、接続コマンドが自動で更新されます。</p>
+    <label for="ssh-username" class="command-label" style="display:block;font-size:13px;color:var(--text-muted);margin-bottom:6px" data-i18n="activity_ssh_user_label">ユーザー名</label>
+    <input id="ssh-username" class="field mono" type="text" value="{{ activity.defaultUser }}" placeholder="game_ryo" style="margin-bottom:16px">
+    <div class="terminal">
+      <span class="terminal-prompt mono">$</span>
+      <code class="terminal-code mono" id="ssh-command" data-host="{{ activity.sshHost }}" data-port="{{ activity.sshPort }}">ssh {{ activity.defaultUser }}@{{ activity.sshHost }} -p {{ activity.sshPort }}</code>
+      <button type="button" class="btn btn-secondary copy-btn" id="ssh-copy-btn" data-i18n="activity_ssh_copy" style="padding:6px 12px;font-size:13px;border-radius:8px;">コピー</button>
+    </div>
+  </div>
+</section>

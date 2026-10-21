@@ -1,0 +1,12 @@
+{% extends "layouts/page.njk" %}
+
+{% block main %}
+  <div class="container article-page">
+    {{ super() }}
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+  <script src="/js/zapthreads.iife.js" defer></script>
+{% endblock %}

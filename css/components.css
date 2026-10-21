@@ -1,0 +1,292 @@
+/* Components — card, chip, field, button, terminal, grid */
+@import "tokens.css";
+
+/* Card */
+.card {
+  border: 1px solid var(--border);
+  border-radius: var(--r-card);
+  background: var(--bg-card);
+  padding: var(--space-6);
+  display: block;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+.card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+.card-link {
+  text-decoration: none;
+}
+.card-link:hover .card {
+  border-color: var(--accent);
+}
+
+/* Chip */
+.chip {
+  display: inline-block;
+  padding: 6px 14px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-chip);
+  font-size: 14px;
+  color: var(--text-body);
+  background: var(--bg-card);
+  transition:
+    border-color 0.15s,
+    color 0.15s;
+}
+.chip:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.chip-link {
+  text-decoration: none;
+}
+.chip-link:hover .chip {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Form field */
+.field {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-field);
+  background: var(--bg);
+  color: var(--text);
+}
+.field:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.field::placeholder {
+  color: var(--text-dim);
+}
+
+/* Button */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  border: 0;
+  border-radius: var(--r-btn);
+  padding: 12px 24px;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    color 0.15s,
+    transform 0.05s;
+}
+.btn:active {
+  transform: scale(0.98);
+}
+.btn-primary {
+  background: var(--accent);
+  color: var(--bg);
+}
+.btn-primary:hover {
+  background: #8fe89c;
+}
+.btn-secondary {
+  border: 1px solid var(--border-strong);
+  background: transparent;
+  color: var(--text-body);
+}
+.btn-secondary:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--text-muted);
+}
+.btn-ghost:hover {
+  color: var(--accent);
+}
+
+/* Terminal box (SSH command display) */
+.terminal {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  background: var(--bg-term);
+  border: 1px solid var(--border);
+  border-radius: var(--r-field);
+  padding: 14px 16px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+.terminal-prompt {
+  color: var(--accent);
+}
+.terminal-code {
+  flex: 1;
+  min-width: 200px;
+  color: var(--text);
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+/* Grid — auto-fit for blog cards / latest posts */
+.grid-auto {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-4);
+}
+
+/* Blog card (list page) */
+.blog-card {
+  text-decoration: none;
+  color: inherit;
+}
+.blog-card .card {
+  padding: var(--space-6);
+}
+.blog-date {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-bottom: var(--space-2);
+}
+.blog-title {
+  margin: var(--space-2) 0;
+  font-size: 21px;
+  line-height: 1.5;
+  font-weight: 700;
+}
+.blog-excerpt {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+/* Post card (homepage latest 3) */
+.post-card {
+  text-decoration: none;
+  color: inherit;
+}
+.post-card .card {
+  padding: var(--space-6);
+}
+.post-date {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-bottom: var(--space-2);
+}
+.post-title {
+  margin: var(--space-2) 0 0;
+  font-size: 17px;
+  line-height: 1.5;
+  font-weight: 700;
+}
+
+/* Link card (mutual links) */
+.link-card {
+  list-style: none;
+}
+.link-card .card {
+  padding: 18px 20px;
+}
+.link-title {
+  font-weight: 700;
+  color: var(--text);
+}
+.link-desc {
+  display: block;
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-top: var(--space-1);
+}
+
+/* Social chips (homepage hero) */
+.social-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  font-size: 14px;
+}
+.social-chips .chip {
+  font-weight: 500;
+}
+
+/* Hero avatar (logo circle) */
+.avatar-circle {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.avatar-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.avatar-circle-small {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.avatar-circle-small img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Hero title */
+.hero-title {
+  margin: 0 0 var(--space-2);
+  font-size: clamp(40px, 6vw, 64px);
+  line-height: 1.1;
+  font-weight: 900;
+}
+.hero-role {
+  margin: 0 0 var(--space-6);
+  font-size: 18px;
+  color: var(--accent);
+}
+.hero-greeting {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-dim);
+  margin: 0 0 var(--space-2);
+}
+
+/* Sponsor section */
+.sponsor-section {
+  padding: var(--space-5) 0;
+  text-align: center;
+}
+
+.sponsor-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+  margin-bottom: var(--space-3);
+  display: block;
+}
+
+.sponsor-widget {
+  min-height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

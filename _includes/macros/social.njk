@@ -1,0 +1,22 @@
+{# Social link macros #}
+
+{# Single social link with SVG icon #}
+{% macro socialLink(name, url, icon, label) %}
+<a href="{{ url }}" target="_blank" rel="noopener" class="social-btn" aria-label="{{ label }}" title="{{ label }}">
+  {% include "icons/" + icon + ".svg" %}
+</a>
+{% endmacro %}
+
+{# Social chips (text-based, for hero) #}
+{% macro socialChip(name, url) %}
+<a href="{{ url }}" target="_blank" rel="noopener" class="chip">{{ name }}</a>
+{% endmacro %}
+
+{# All social links as chips #}
+{% macro socialChips(social) %}
+<div class="social-chips">
+  {% for s in social %}
+    <a href="{{ s.url }}" target="_blank" rel="noopener" class="chip">{{ s.name }}</a>
+  {% endfor %}
+</div>
+{% endmacro %}

@@ -1,0 +1,8 @@
+---
+permalink: /js/i18n.js
+eleventyExcludeFromCollections: true
+---
+window.__I18N__ = {
+  ja: {{ i18n.ja | dump | safe }},
+  en: {{ i18n.en | dump | safe }}
+};

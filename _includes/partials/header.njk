@@ -1,0 +1,13 @@
+<header class="header">
+  <div class="container">
+    <a href="/" class="brand mono">
+      game_ryo<span class="brand-accent mono">_</span>
+    </a>
+    <nav class="nav mono" aria-label="Main navigation">
+      {% for item in nav %}
+      <a href="{{ item.url }}" {% if item.external %}target="_blank" rel="noopener"{% endif %} {% if page.url == item.url or (item.url != "/" and page.url.indexOf(item.url) === 0) %}class="current" aria-current="page"{% endif %} data-i18n="{{ item.i18n }}">{{ item.label }}</a>
+      {% endfor %}
+      {% include "partials/lang-switch.njk" %}
+    </nav>
+  </div>
+</header>

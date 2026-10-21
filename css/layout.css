@@ -1,0 +1,111 @@
+/* Layout — container, header, nav, section, footer */
+@import "tokens.css";
+
+/* Container */
+.container {
+  width: 100%;
+  max-width: var(--w-max);
+  margin: 0 auto;
+  padding: 0 var(--pad-x);
+  box-sizing: border-box;
+}
+
+/* Header / Nav — shared between home & blog list */
+.header {
+  padding: var(--space-1) 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.header .container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.brand {
+  font-family: var(--font-mono);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  text-decoration: none;
+}
+.brand:hover {
+  color: var(--accent);
+}
+.brand-accent {
+  color: var(--accent);
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-7);
+  font-size: 14px;
+  color: var(--text-muted);
+}
+.nav a {
+  color: var(--text-muted);
+}
+.nav a:hover {
+  color: var(--accent);
+}
+.nav .current {
+  color: var(--accent);
+}
+
+/* Language switch pill */
+.lang-pill {
+  display: inline-flex;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-chip);
+  overflow: hidden;
+}
+.lang-btn {
+  border: 0;
+  padding: 6px 12px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  cursor: pointer;
+  background: transparent;
+  color: var(--text-muted);
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+.lang-btn.active {
+  background: var(--accent);
+  color: var(--bg);
+}
+.lang-btn:not(.active):hover {
+  color: var(--text);
+}
+
+/* Section */
+.section {
+  padding: var(--space-7) 0;
+  border-top: 1px solid var(--border);
+}
+.section:first-of-type {
+  border-top: none;
+}
+
+/* Footer */
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-6) 0 var(--space-8);
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--text-dim);
+}
+.footer a {
+  color: var(--text-dim);
+}
+.footer a:hover {
+  color: var(--accent);
+}

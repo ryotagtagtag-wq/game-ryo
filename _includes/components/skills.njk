@@ -1,0 +1,9 @@
+<section class="section">
+  <p class="label mono">// skills</p>
+  <h2 class="section-title" style="margin:0 0 20px;font-size:24px" data-i18n="skills_title">スキル・興味</h2>
+  <div style="display:flex;flex-wrap:wrap;gap:10px">
+    {% for skill in skills %}
+    <span class="chip">{{ skill }}</span>
+    {% endfor %}
+  </div>
+</section>

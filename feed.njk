@@ -1,0 +1,28 @@
+---
+permalink: /feed.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>{{ site.title }}</title>
+    <description>{{ site.description }}</description>
+    <link>https://game-ryo.is-a.dev/</link>
+    <atom:link href="https://game-ryo.is-a.dev/feed.xml" rel="self" type="application/rss+xml" />
+    <language>ja</language>
+    {% if collections.blog and collections.blog.length > 0 %}
+    <lastBuildDate>{{ collections.blog | first | dateRfc822 }}</lastBuildDate>
+    {% for post in collections.blog %}
+    <item>
+      <title>{{ post.data.title }}</title>
+      <description>{{ post.data.content | sanitizeHtml | truncate(200) }}</description>
+      <link>https://game-ryo.is-a.dev{{ post.url }}</link>
+      <guid isPermaLink="true">https://game-ryo.is-a.dev{{ post.url }}</guid>
+      <pubDate>{{ post.date | dateRfc822 }}</pubDate>
+    </item>
+    {% endfor %}
+    {% else %}
+    <lastBuildDate>{{ buildDate }}</lastBuildDate>
+    {% endif %}
+  </channel>
+</rss>

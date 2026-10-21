@@ -1,0 +1,14 @@
+name = "game-ryo-comments"
+compatibility_date = "2026-10-21"
+pages_build_output_dir = "_site"
+
+[[kv_namespaces]]
+binding = "COMMENTS_KV"
+id = "REPLACE_WITH_KV_NAMESPACE_ID"
+preview_id = "REPLACE_WITH_PREVIEW_KV_NAMESPACE_ID"
+
+[env.production]
+name = "game-ryo-comments-production"
+
+[env.preview]
+name = "game-ryo-comments-preview"

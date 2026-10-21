@@ -1,0 +1,18 @@
+<section id="ssh-chat" class="section">
+  <p class="label mono">// ssh</p>
+  <h2 class="section-title" data-i18n="ssh_title">SSH チャット鯖</h2>
+  <div class="card command-card">
+    <div class="command-grid">
+      <label for="ssh-username" class="command-label" data-i18n="ssh_user_label">ユーザー名</label>
+      <input id="ssh-username" class="ssh-input field mono" type="text" value="{{ activity.defaultUser }}" placeholder="game_ryo" autocomplete="off" spellcheck="false">
+    </div>
+
+    <div class="terminal">
+      <span class="terminal-prompt mono">$</span>
+      <code class="terminal-code mono" id="ssh-command" data-host="{{ activity.sshHost }}" data-port="{{ activity.sshPort }}">ssh {{ activity.defaultUser }}@{{ activity.sshHost }} -p {{ activity.sshPort }}</code>
+      <button type="button" class="btn btn-secondary copy-btn" id="ssh-copy-btn" data-i18n="ssh_copy" style="padding:6px 12px;font-size:13px;border-radius:8px;">コピー</button>
+    </div>
+
+    <p class="terminal-description" data-i18n="ssh_description"></p>
+  </div>
+</section>

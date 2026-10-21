@@ -5,13 +5,21 @@ eleventyExcludeFromCollections: true
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://game-ryo.f5.si/</loc>
+    <loc>https://game-ryo.is-a.dev/</loc>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://game-ryo.f5.si/blog/</loc>
+    <loc>https://game-ryo.is-a.dev/blog/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
+  {% for post in collections.blog %}
+  <url>
+    <loc>https://game-ryo.is-a.dev{{ post.url }}</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    {% if post.date %}<lastmod>{{ post.date | dateIso }}</lastmod>{% endif %}
+  </url>
+  {% endfor %}
 </urlset>

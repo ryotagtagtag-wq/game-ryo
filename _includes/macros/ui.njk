@@ -1,0 +1,65 @@
+{# UI macros — reusable component generators #}
+
+{# Section wrapper with label and h2 #}
+{% macro section(label, title, content) %}
+<section class="section">
+  <p class="label mono">{{ label }}</p>
+  <h2 style="margin: 0 0 16px; font-size: 24px;">{{ title }}</h2>
+  {{ content | safe }}
+</section>
+{% endmacro %}
+
+{# Card wrapper #}
+{% macro card(content, modifiers="") %}
+<div class="card {{ modifiers }}">
+  {{ content | safe }}
+</div>
+{% endmacro %}
+
+{# Chip #}
+{% macro chip(text, url="", modifiers="") %}
+{% if url %}
+  <a href="{{ url }}" class="chip {{ modifiers }}">{{ text }}</a>
+{% else %}
+  <span class="chip {{ modifiers }}">{{ text }}</span>
+{% endif %}
+{% endmacro %}
+
+{# Form field with label #}
+{% macro field(id, label, type="text", required=false, placeholder="", value="") %}
+<div>
+  <label for="{{ id }}" style="display:block;font-size:13px;color:var(--text-muted);margin-bottom:6px;">{{ label }}</label>
+  <input id="{{ id }}" class="field" type="{{ type }}" {% if required %}required{% endif %} {% if placeholder %}placeholder="{{ placeholder }}"{% endif %} {% if value %}value="{{ value }}"{% endif %}>
+</div>
+{% endmacro %}
+
+{# Textarea field #}
+{% macro textarea(id, label, required=false, placeholder="", rows=5) %}
+<div>
+  <label for="{{ id }}" style="display:block;font-size:13px;color:var(--text-muted);margin-bottom:6px;">{{ label }}</label>
+  <textarea id="{{ id }}" class="field" rows="{{ rows }}" style="resize:vertical;" {% if required %}required{% endif %} {% if placeholder %}placeholder="{{ placeholder }}"{% endif %}></textarea>
+</div>
+{% endmacro %}
+
+{# Button #}
+{% macro button(text, type="button", modifiers="btn-primary", onclick="") %}
+<button type="{{ type }}" class="btn {{ modifiers }}" {% if onclick %}onclick="{{ onclick }}"{% endif %}>{{ text }}</button>
+{% endmacro %}
+
+{# Terminal box (SSH command) #}
+{% macro terminal(prompt, code, copyBtnText="コピー", copyBtnId="") %}
+<div class="terminal">
+  <span class="terminal-prompt mono">{{ prompt }}</span>
+  <code class="terminal-code mono">{{ code }}</code>
+  <button type="button" class="btn btn-secondary" style="padding:6px 12px;font-size:13px;border-radius:8px;" {% if copyBtnId %}id="{{ copyBtnId }}"{% endif %}>{{ copyBtnText }}</button>
+</div>
+{% endmacro %}
+
+{# Grid auto-fit #}
+{% macro gridAuto(items) %}
+<div class="grid-auto">
+  {% for item in items %}
+    {{ item | safe }}
+  {% endfor %}
+</div>
+{% endmacro %}
