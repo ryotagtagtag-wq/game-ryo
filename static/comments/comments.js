@@ -253,26 +253,67 @@
    * @param {string} containerId
    */
   function renderTurnstile(form, containerId) {
-    if (typeof turnstile !== "undefined" && turnstileSiteKey) {
-      const turnstileContainer = form.querySelector(`#${containerId}`);
-      if (turnstileContainer) {
-        turnstileWidgetId = turnstile.render(containerId, {
-          sitekey: turnstileSiteKey,
-          theme: "auto",
-          callback: (token) => {
-            const tokenInput = form.querySelector(
-              'input[name="turnstile_token"]',
-            );
-            if (tokenInput) tokenInput.value = token;
-          },
-          "expired-callback": () => {
-            const tokenInput = form.querySelector(
-              'input[name="turnstile_token"]',
-            );
-            if (tokenInput) tokenInput.value = "";
-          },
-        });
-      }
+    console.log("[Comments] renderTurnstile called:", {
+      containerId,
+      turnstileDefined: typeof turnstile !== "undefined",
+      hasSiteKey: !!turnstileSiteKey,
+    });
+
+    if (typeof turnstile === "undefined") {
+      console.warn("[Comments] Turnstile not loaded yet, will retry in 500ms");
+      setTimeout(() => renderTurnstile(form, containerId), 500);
+      return;
+    }
+
+    if (!turnstileSiteKey) {
+      console.error("[Comments] Turnstile site key is missing!");
+      return;
+    }
+
+    const turnstileContainer = form.querySelector(`#${containerId}`);
+    if (!turnstileContainer) {
+      console.error("[Comments] Turnstile container not found:", containerId);
+      return;
+    }
+
+    try {
+      turnstileWidgetId = turnstile.render(containerId, {
+        sitekey: turnstileSiteKey,
+        theme: "auto",
+        callback: (token) => {
+          console.log(
+            "[Comments] Turnstile token received:",
+            token.substring(0, 20) + "...",
+          );
+          const tokenInput = form.querySelector(
+            'input[name="turnstile_token"]',
+          );
+          if (tokenInput) tokenInput.value = token;
+        },
+        "expired-callback": () => {
+          console.log("[Comments] Turnstile token expired");
+          const tokenInput = form.querySelector(
+            'input[name="turnstile_token"]',
+          );
+          if (tokenInput) tokenInput.value = "";
+          setTimeout(() => renderTurnstile(form, containerId), 1000);
+        },
+        "error-callback": (error) => {
+          console.error("[Comments] Turnstile error:", error);
+          const tokenInput = form.querySelector(
+            'input[name="turnstile_token"]',
+          );
+          if (tokenInput) tokenInput.value = "";
+          setTimeout(() => renderTurnstile(form, containerId), 2000);
+        },
+      });
+      console.log(
+        "[Comments] Turnstile rendered successfully, widgetId:",
+        turnstileWidgetId,
+      );
+    } catch (error) {
+      console.error("[Comments] Turnstile render failed:", error);
+      setTimeout(() => renderTurnstile(form, containerId), 1000);
     }
   }
 
