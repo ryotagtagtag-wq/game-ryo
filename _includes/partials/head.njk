@@ -3,19 +3,30 @@
 <title>{% if title %}{{ title }} | {% endif %}game_ryo - Developer Profile</title>
 <meta name="google-site-verification" content="HLm6TR-aDtEEILkEpa46zFpAsMdvRdFnwn-GkwTEU98" />
 <link rel="icon" type="image/png" href="/images/favicon.png" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
+
+{# Preload critical fonts #}
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Noto+Sans+JP:wght@400;500;700&display=swap"></noscript>
+
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" />
+
 <link rel="me" href="https://github.com/ryotagtagtag-wq" />
 <link rel="me" href="https://mstdn.maud.io/@game_ryo" />
 <meta name="adring-site-verification" content="adring_vrf_a8yWQ_K6MFTsavQJY9LJymDAjivMqs_-" />
+
 {% if env.NODE_ENV === "production" %}
 <!-- Cloudflare Web Analytics -->
 <script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "a0053a763aa049bab4f930160dc54c7a"}'></script>
 <!-- End Cloudflare Web Analytics -->
 {% endif %}
-<link rel="stylesheet" href="/css/tokens.css" />
-<link rel="stylesheet" href="/css/base.css" />
-<link rel="stylesheet" href="/css/layout.css" />
-<link rel="stylesheet" href="/css/components.css" />
+
+{# Critical CSS inlined #}
+<style>{% include "css/critical.css" %}</style>
+
+{# Non-critical CSS loaded asynchronously #}
+<link rel="preload" as="style" href="/css/layout.css" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="/css/layout.css"></noscript>
+<link rel="preload" as="style" href="/css/components.css" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="/css/components.css"></noscript>
+
 {% block head_css %}{% endblock %}

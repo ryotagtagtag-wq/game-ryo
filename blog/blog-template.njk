@@ -25,6 +25,22 @@ tags: blog
   <h1>{{ post.title }}</h1>
 </header>
 
+{% if post.eyecatch and post.eyecatch.metadata %}
+<figure class="article-eyecatch">
+  {{ generateHTML(post.eyecatch.metadata, {
+    alt: post.title,
+    loading: "eager",
+    decoding: "async",
+    sizes: "(max-width: 720px) 100vw, (max-width: 1200px) 90vw, 720px",
+    class: "eyecatch-img"
+  }) | safe }}
+</figure>
+{% elif post.eyecatch and post.eyecatch.url %}
+<figure class="article-eyecatch">
+  <img src="{{ post.eyecatch.url }}" alt="{{ post.title }}" loading="eager" decoding="async" class="eyecatch-img">
+</figure>
+{% endif %}
+
 <div class="container article-container">
   <aside class="toc-sidebar" id="toc-sidebar">
     <nav class="toc" id="toc">

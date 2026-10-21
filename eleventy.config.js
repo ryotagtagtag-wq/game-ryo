@@ -7,6 +7,9 @@ const sanitizeHtml = require("sanitize-html");
 const CONCURRENCY_LIMIT = 5;
 
 module.exports = function (eleventyConfig) {
+  // Expose Image and generateHTML to templates
+  eleventyConfig.addNunjucksGlobal("Image", Image);
+  eleventyConfig.addNunjucksGlobal("generateHTML", Image.generateHTML);
   if (!fs.existsSync("./_site/img/")) {
     fs.mkdirSync("./_site/img/", { recursive: true });
   }
@@ -139,17 +142,17 @@ module.exports = function (eleventyConfig) {
   });
 
   // ==========================================
-  // 💡 画像処理関数（キャッシュ活用）
+  // 💡 画像処理関数（キャッシュ活用・レスポンシブ対応）
   // ==========================================
   async function processImage(srcUrl) {
     if (!srcUrl) return null;
     return await Image(srcUrl, {
-      widths: ["auto"],
-      formats: ["webp"],
+      widths: [400, 800, 1200, "auto"],
+      formats: ["webp", "avif"],
       outputDir: "./_site/img/",
       urlPath: "/img/",
       cacheOptions: {
-        duration: "1d",
+        duration: "30d",
         directory: ".cache",
         removeUrlQueryParams: false,
       },
@@ -168,7 +171,7 @@ module.exports = function (eleventyConfig) {
   }
 
   // ==========================================
-  // 💡 本文画像の一括置換（並列化）
+  // 💡 本文画像の一括置換（並列化・レスポンシブ対応）
   // ==========================================
   async function downloadAndReplaceImages(htmlContent) {
     if (!htmlContent) return "";
@@ -195,6 +198,7 @@ module.exports = function (eleventyConfig) {
           alt: "ブログ本文の画像",
           loading: "lazy",
           decoding: "async",
+          sizes: "(max-width: 720px) 100vw, (max-width: 1200px) 90vw, 720px",
         });
         replacements[remoteSrc] = imageHtml;
       }
@@ -244,13 +248,20 @@ module.exports = function (eleventyConfig) {
         if (blog.eyecatch && blog.eyecatch.url) {
           try {
             const metadata = await processImage(blog.eyecatch.url);
-            blog.eyecatch.url = metadata.webp[0].url;
+            // Store full metadata for responsive image generation in template
+            blog.eyecatch.metadata = metadata;
+            blog.eyecatch.url = metadata.webp[0].url; // fallback
           } catch (e) {
             console.error(`❌ アイキャッチ失敗: ${e.message}`);
           }
         }
         return blog;
       });
+
+      // 新しい順（publishedAt降順）でソート
+      processed.sort(
+        (a, b) => new Date(b.publishedAt) - new Date(a.publishedAt),
+      );
 
       console.log(`✅ ${processed.length}件取得・並列処理完了`);
       return processed;

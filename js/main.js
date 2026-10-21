@@ -104,23 +104,25 @@
   const drawer = document.getElementById("mobile-drawer");
   const overlay = document.getElementById("drawer-overlay");
 
-  if (!hamburger || !drawer) return;
+  if (!hamburger || !drawer || !overlay) return;
 
   function toggleDrawer(open) {
-    drawer.classList.toggle("open", open);
-    overlay?.classList.toggle("open", open);
-    hamburger.setAttribute("aria-expanded", open);
-    document.body.style.overflow = open ? "hidden" : "";
+    const isOpen =
+      typeof open === "boolean" ? open : !drawer.classList.contains("open");
+    drawer.classList.toggle("open", isOpen);
+    overlay.classList.toggle("open", isOpen);
+    hamburger.setAttribute("aria-expanded", isOpen);
+    drawer.setAttribute("aria-hidden", !isOpen);
+    overlay.setAttribute("aria-hidden", !isOpen);
+    document.body.style.overflow = isOpen ? "hidden" : "";
   }
 
-  hamburger.addEventListener("click", () =>
-    toggleDrawer(!drawer.classList.contains("open")),
-  );
-  overlay?.addEventListener("click", () => toggleDrawer(false));
+  hamburger.addEventListener("click", () => toggleDrawer());
+  overlay.addEventListener("click", () => toggleDrawer(false));
 
   // Close on link click
   drawer
-    ?.querySelectorAll("a")
+    .querySelectorAll("a")
     .forEach((a) => a.addEventListener("click", () => toggleDrawer(false)));
 
   // Close on Escape

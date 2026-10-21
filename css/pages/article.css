@@ -1,6 +1,18 @@
 /* Article page specific styles */
 @import "../tokens.css";
 
+/* Eyecatch image */
+.article-eyecatch {
+  margin: var(--space-7) 0;
+  border-radius: var(--r-card);
+  overflow: hidden;
+}
+.article-eyecatch .eyecatch-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
 /* Scroll progress bar */
 #scroll-progress {
   position: fixed;

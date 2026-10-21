@@ -521,12 +521,12 @@
     // 新規投稿フォーム
     const formContainer = document.createElement("div");
     formContainer.id = "comments-form-container";
-    const form = createCommentForm();
+    const form = createCommentForm(null);
     formContainer.appendChild(form);
     container.appendChild(formContainer);
 
     // Turnstileレンダリング（フォームがDOMに追加された後で実行）
-    const turnstileContainerId = `turnstile-${parentId || "new"}`;
+    const turnstileContainerId = `turnstile-new`;
     renderTurnstile(form, turnstileContainerId);
 
     // 読み込み

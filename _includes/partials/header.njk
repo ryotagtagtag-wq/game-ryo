@@ -3,11 +3,30 @@
     <a href="/" class="brand mono">
       game_ryo<span class="brand-accent mono">_</span>
     </a>
-    <nav class="nav mono" aria-label="Main navigation">
+    
+    {# Hamburger button (mobile only) #}
+    <button class="hamburger-btn" id="hamburger-btn" aria-label="メニューを開く" aria-expanded="false" aria-controls="mobile-drawer">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+    
+    <nav class="nav mono" aria-label="Main navigation" id="main-nav">
       {% for item in nav %}
       <a href="{{ item.url }}" {% if item.external %}target="_blank" rel="noopener"{% endif %} {% if page.url == item.url or (item.url != "/" and page.url.indexOf(item.url) === 0) %}class="current" aria-current="page"{% endif %} data-i18n="{{ item.i18n }}">{{ item.label }}</a>
       {% endfor %}
       {% include "partials/lang-switch.njk" %}
     </nav>
+    
+    {# Mobile drawer #}
+    <div class="drawer-overlay" id="drawer-overlay" aria-hidden="true"></div>
+    <div class="mobile-drawer" id="mobile-drawer" role="dialog" aria-label="メニュー" aria-hidden="true">
+      <nav class="mobile-nav mono" aria-label="Mobile navigation">
+        {% for item in nav %}
+        <a href="{{ item.url }}" {% if item.external %}target="_blank" rel="noopener"{% endif %} {% if page.url == item.url or (item.url != "/" and page.url.indexOf(item.url) === 0) %}class="current" aria-current="page"{% endif %} data-i18n="{{ item.i18n }}">{{ item.label }}</a>
+        {% endfor %}
+        {% include "partials/lang-switch.njk" %}
+      </nav>
+    </div>
   </div>
 </header>

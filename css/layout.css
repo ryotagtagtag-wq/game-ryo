@@ -38,6 +38,41 @@
   color: var(--accent);
 }
 
+/* Hamburger button (mobile only) */
+.hamburger-btn {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  z-index: 200;
+}
+.hamburger-line {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition:
+    transform 0.2s,
+    opacity 0.2s;
+}
+.hamburger-btn[aria-expanded="true"] .hamburger-line:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.hamburger-btn[aria-expanded="true"] .hamburger-line:nth-child(2) {
+  opacity: 0;
+}
+.hamburger-btn[aria-expanded="true"] .hamburger-line:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Nav — desktop */
 .nav {
   display: flex;
   flex-wrap: wrap;
@@ -81,6 +116,85 @@
 }
 .lang-btn:not(.active):hover {
   color: var(--text);
+}
+
+/* Mobile drawer */
+.drawer-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 150;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.drawer-overlay.open {
+  display: block;
+  opacity: 1;
+}
+
+.mobile-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 280px;
+  max-width: 85vw;
+  background: var(--bg);
+  border-left: 1px solid var(--border);
+  padding: var(--space-6) var(--space-5) var(--space-8);
+  z-index: 200;
+  transform: translateX(100%);
+  transition: transform 0.25s ease;
+  overflow-y: auto;
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.3);
+}
+.mobile-drawer.open {
+  transform: translateX(0);
+}
+
+.mobile-nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.mobile-nav a {
+  display: block;
+  padding: var(--space-3) var(--space-4);
+  font-size: 16px;
+  color: var(--text-body);
+  border-radius: var(--r-field);
+  transition:
+    background 0.1s,
+    color 0.1s;
+}
+.mobile-nav a:hover,
+.mobile-nav a.current {
+  background: var(--bg-card);
+  color: var(--accent);
+}
+.mobile-nav .lang-pill {
+  margin-top: var(--space-4);
+  align-self: flex-start;
+}
+
+/* Responsive: Mobile drawer */
+@media (max-width: 768px) {
+  .hamburger-btn {
+    display: flex;
+  }
+
+  .nav {
+    display: none;
+  }
+
+  .lang-pill {
+    display: none;
+  }
+
+  .header .container {
+    gap: var(--space-3);
+  }
 }
 
 /* Section */
