@@ -1,5 +1,5 @@
 /* Comments System Styles */
-@import "../../css/tokens.css";
+@import "/css/tokens.css";
 
 /* Container */
 #comments-container {

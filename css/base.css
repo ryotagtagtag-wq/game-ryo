@@ -1,5 +1,5 @@
 /* Base styles — reset, typography, global utilities */
-@import "tokens.css";
+@import "/css/tokens.css";
 
 /* Reset */
 *,

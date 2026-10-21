@@ -1,5 +1,5 @@
 /* Critical CSS — inlined in head for above-the-fold content */
-@import "tokens.css";
+@import "/css/tokens.css";
 
 /* Reset */
 *,

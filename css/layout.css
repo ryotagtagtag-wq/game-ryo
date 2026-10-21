@@ -1,5 +1,5 @@
 /* Layout — container, header, nav, section, footer */
-@import "tokens.css";
+@import "/css/tokens.css";
 
 /* Container */
 .container {

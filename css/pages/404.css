@@ -1,5 +1,5 @@
 /* 404 page specific styles */
-@import "../tokens.css";
+@import "/css/tokens.css";
 
 /* 404 Hero */
 .error-container {

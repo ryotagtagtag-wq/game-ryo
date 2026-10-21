@@ -251,17 +251,27 @@
    * Turnstileウィジェットをレンダリング
    * @param {HTMLFormElement} form
    * @param {string} containerId
+   * @param {number} [attempt=0] - 再試行回数
    */
-  function renderTurnstile(form, containerId) {
+  function renderTurnstile(form, containerId, attempt = 0) {
+    const MAX_ATTEMPTS = 20; // 最大再試行回数（約2秒）
+
     console.log("[Comments] renderTurnstile called:", {
       containerId,
       turnstileDefined: typeof turnstile !== "undefined",
       hasSiteKey: !!turnstileSiteKey,
+      attempt,
     });
 
     if (typeof turnstile === "undefined") {
-      console.warn("[Comments] Turnstile not loaded yet, will retry in 500ms");
-      setTimeout(() => renderTurnstile(form, containerId), 500);
+      if (attempt >= MAX_ATTEMPTS) {
+        console.error(
+          "[Comments] Turnstile script not loaded after max attempts",
+        );
+        return;
+      }
+      console.warn("[Comments] Turnstile not loaded yet, will retry in 100ms");
+      setTimeout(() => renderTurnstile(form, containerId, attempt + 1), 100);
       return;
     }
 
@@ -270,18 +280,37 @@
       return;
     }
 
-    // コンテナ要素がドキュメントに存在するか確認（Turnstileはdocument.getElementByIdを使用）
+    // コンテナ要素がドキュメントに存在するか確認
     const turnstileContainer = document.getElementById(containerId);
     if (!turnstileContainer) {
+      if (attempt >= MAX_ATTEMPTS) {
+        console.error(
+          "[Comments] Turnstile container not found after max attempts:",
+          containerId,
+        );
+        return;
+      }
       console.warn(
-        "[Comments] Turnstile container not in document yet, retrying in 100ms:",
+        "[Comments] Turnstile container not in document yet, retrying in 50ms:",
+        containerId,
+        "attempt",
+        attempt + 1,
+      );
+      setTimeout(() => renderTurnstile(form, containerId, attempt + 1), 50);
+      return;
+    }
+
+    // 既に描画済みかチェック（二重描画防止）
+    if (turnstileContainer.dataset.turnstileRendered === "true") {
+      console.log(
+        "[Comments] Turnstile already rendered, skipping:",
         containerId,
       );
-      setTimeout(() => renderTurnstile(form, containerId), 100);
       return;
     }
 
     try {
+      // 要素そのものを渡す（TurnstileはHTMLElementも受け付ける）
       turnstileWidgetId = turnstile.render(turnstileContainer, {
         sitekey: turnstileSiteKey,
         theme: "auto",
@@ -301,7 +330,7 @@
             'input[name="turnstile_token"]',
           );
           if (tokenInput) tokenInput.value = "";
-          setTimeout(() => renderTurnstile(form, containerId), 1000);
+          // 期限切れ時は再レンダリングせず、ユーザー操作を待つ
         },
         "error-callback": (error) => {
           console.error("[Comments] Turnstile error:", error);
@@ -309,16 +338,20 @@
             'input[name="turnstile_token"]',
           );
           if (tokenInput) tokenInput.value = "";
-          setTimeout(() => renderTurnstile(form, containerId), 2000);
+          // エラー時は再試行しない（ユーザーの再操作を待つ）
         },
       });
+      // 描画済みマークを付ける
+      turnstileContainer.dataset.turnstileRendered = "true";
       console.log(
         "[Comments] Turnstile rendered successfully, widgetId:",
         turnstileWidgetId,
       );
     } catch (error) {
       console.error("[Comments] Turnstile render failed:", error);
-      setTimeout(() => renderTurnstile(form, containerId), 1000);
+      if (attempt < MAX_ATTEMPTS) {
+        setTimeout(() => renderTurnstile(form, containerId, attempt + 1), 100);
+      }
     }
   }
 

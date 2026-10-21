@@ -1,5 +1,5 @@
 /* Components — card, chip, field, button, terminal, grid */
-@import "tokens.css";
+@import "/css/tokens.css";
 
 /* Card */
 .card {

@@ -1,5 +1,5 @@
 /* Article page specific styles */
-@import "../tokens.css";
+@import "/css/tokens.css";
 
 /* Eyecatch image */
 .article-eyecatch {
