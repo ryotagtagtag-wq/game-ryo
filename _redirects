@@ -4,5 +4,17 @@
 # API functions
 /api/* /api/:splat 200
 
-# SPA fallback (if needed)
+# Static assets - pass through
+/css/* /css/:splat 200
+/images/* /images/:splat 200
+/js/* /js/:splat 200
+/fonts/* /fonts/:splat 200
+/img/* /img/:splat 200
+/comments/* /comments/:splat 200
+/.well-known/* /.well-known/:splat 200
+/favicon.ico /favicon.ico 200
+/robots.txt /robots.txt 200
+/sitemap.xml /sitemap.xml 200
+
+# SPA fallback (if needed) - only for HTML routes
 /* /index.html 200
