@@ -1,4 +1,4 @@
-/* Layout — container, header, nav, section, footer */
+/* Layout — container, header, nav, section, footer, blog list, pagination, buttons, footer */
 @import "/css/tokens.css";
 
 /* Container */
@@ -204,6 +204,135 @@
 }
 .section:first-of-type {
   border-top: none;
+}
+
+/* Page title */
+.page-title {
+  margin: 0 0 12px;
+  font-size: clamp(40px, 6vw, 56px);
+  line-height: 1.1;
+  font-weight: 900;
+}
+.page-subtitle {
+  margin: 0;
+  color: var(--text-muted);
+}
+
+/* Blog list */
+.blog-list-section {
+  padding: var(--space-7) 0 var(--space-9);
+}
+.grid-auto {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-4);
+}
+.blog-card {
+  text-decoration: none;
+  color: inherit;
+}
+.blog-card .card {
+  padding: var(--space-6);
+}
+.blog-date {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-bottom: var(--space-2);
+}
+.blog-title {
+  margin: var(--space-2) 0;
+  font-size: 21px;
+  line-height: 1.5;
+  font-weight: 700;
+}
+.blog-excerpt {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+/* Blog image */
+.blog-img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--r-field);
+}
+
+/* Card hover effects (non-critical) */
+.card-link {
+  text-decoration: none;
+}
+.card-link:hover .card {
+  border-color: var(--accent);
+}
+.card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+.card {
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-top: var(--space-7);
+  flex-wrap: wrap;
+}
+.pagination a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  border: 0;
+  border-radius: var(--r-btn);
+  padding: 12px 24px;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    color 0.15s,
+    transform 0.05s;
+}
+.btn:active {
+  transform: scale(0.98);
+}
+.btn-primary {
+  background: var(--accent);
+  color: var(--bg);
+}
+.btn-primary:hover {
+  background: #8fe89c;
+}
+.btn-secondary {
+  border: 1px solid var(--border-strong);
+  background: transparent;
+  color: var(--text-body);
+}
+.btn-secondary:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--text-muted);
+}
+.btn-ghost:hover {
+  color: var(--accent);
 }
 
 /* Footer */

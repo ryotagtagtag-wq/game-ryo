@@ -19,8 +19,8 @@
     </nav>
     
     {# Mobile drawer #}
-    <div class="drawer-overlay" id="drawer-overlay" aria-hidden="true"></div>
-    <div class="mobile-drawer" id="mobile-drawer" role="dialog" aria-label="メニュー" aria-hidden="true">
+    <div class="drawer-overlay" id="drawer-overlay" aria-hidden="true" tabindex="-1"></div>
+    <div class="mobile-drawer" id="mobile-drawer" role="dialog" aria-label="メニュー" aria-hidden="true" inert>
       <nav class="mobile-nav mono" aria-label="Mobile navigation">
         {% for item in nav %}
         <a href="{{ item.url }}" {% if item.external %}target="_blank" rel="noopener"{% endif %} {% if page.url == item.url or (item.url != "/" and page.url.indexOf(item.url) === 0) %}class="current" aria-current="page"{% endif %} data-i18n="{{ item.i18n }}">{{ item.label }}</a>

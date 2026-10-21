@@ -1,0 +1,60 @@
+# Security Headers
+# Content Security Policy - allows necessary resources including ad widget
+Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://static.cloudflareinsights.com https://ar-cdn.net https://formsubmit.co https://wiiring.jeith.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.microcms.io https://static.cloudflareinsights.com https://ar-cdn.net; frame-src https://wiiring.jeith.com https://formsubmit.co https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://www.google.com https://pagead2.googlesyndication.com; object-src 'none'; base-uri 'self'; form-action 'self' https://formsubmit.co; frame-ancestors 'none'; upgrade-insecure-requests
+
+# Strict Transport Security - 1 year, include subdomains, preload
+Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+
+# Cross-Origin Opener Policy - isolate browsing context
+Cross-Origin-Opener-Policy: same-origin
+
+# Cross-Origin Embedder Policy - use credentialless to allow third-party widgets without CORP
+Cross-Origin-Embedder-Policy: credentialless
+
+# X-Frame-Options - prevent clickjacking
+X-Frame-Options: DENY
+
+# X-Content-Type-Options - prevent MIME sniffing
+X-Content-Type-Options: nosniff
+
+# Referrer Policy - strict origin when cross-origin
+Referrer-Policy: strict-origin-when-cross-origin
+
+# Permissions Policy - restrict powerful features
+Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=(), interest-cohort=()
+
+# Trusted Types - prevent DOM XSS
+Trusted-Types: default
+
+# Cache Control for static assets
+/cache/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/css/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/js/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/images/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/img/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/favicon.ico
+  Cache-Control: public, max-age=31536000, immutable
+
+/robots.txt
+  Cache-Control: public, max-age=86400
+
+/sitemap.xml
+  Cache-Control: public, max-age=86400
+
+# HTML pages - no cache, must revalidate
+/*
+  Cache-Control: public, max-age=0, must-revalidate
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://static.cloudflareinsights.com https://ar-cdn.net https://formsubmit.co https://wiiring.jeith.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.microcms.io https://static.cloudflareinsights.com https://ar-cdn.net; frame-src https://wiiring.jeith.com https://formsubmit.co https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://www.google.com https://pagead2.googlesyndication.com; object-src 'none'; base-uri 'self'; form-action 'self' https://formsubmit.co; frame-ancestors 'none'; upgrade-insecure-requests

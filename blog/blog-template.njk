@@ -32,12 +32,14 @@ tags: blog
     loading: "eager",
     decoding: "async",
     sizes: "(max-width: 720px) 100vw, (max-width: 1200px) 90vw, 720px",
-    class: "eyecatch-img"
+    class: "eyecatch-img",
+    width: 1200,
+    height: 675
   }) | safe }}
 </figure>
 {% elif post.eyecatch and post.eyecatch.url %}
 <figure class="article-eyecatch">
-  <img src="{{ post.eyecatch.url }}" alt="{{ post.title }}" loading="eager" decoding="async" class="eyecatch-img">
+  <img src="{{ post.eyecatch.url }}" alt="{{ post.title }}" loading="eager" decoding="async" class="eyecatch-img" width="1200" height="675">
 </figure>
 {% endif %}
 
@@ -60,9 +62,9 @@ tags: blog
     {% include "comments.njk" %}
 
     <!-- Sponsor Widget -->
-    <section class="sponsor-section" aria-label="スポンサー">
+    <section class="sponsor-section" aria-label="スポンサー" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r-card); padding: var(--space-5); text-align: center;">
       <div class="sponsor-label" data-i18n="sponsor_label">Sponsored</div>
-      <div class="sponsor-widget">
+      <div class="sponsor-widget" style="min-height: 90px;">
         <script async src="https://ar-cdn.net/widget/v1.js" 
                 data-site-id="505f611f-55b4-4968-914f-faf32ef5e8c7" 
                 data-variant="leaderboard">

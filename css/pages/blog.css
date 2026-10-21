@@ -5,7 +5,6 @@
 .page-header {
   text-align: center;
   margin-bottom: var(--space-8);
-  animation: fadeIn 1s ease-out;
 }
 
 .page-title {

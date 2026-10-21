@@ -1,12 +1,12 @@
 <section class="section hero-section" style="display:flex;flex-wrap:wrap;align-items:center;gap:40px;padding:72px 0 56px;border-top:none">
-  <div class="avatar-circle" style="width:160px;height:160px;border-radius:50%;overflow:hidden;flex-shrink:0" aria-hidden="true">
-    <img src="/images/logo.png" alt="Profile" style="width:100%;height:100%;object-fit:cover">
+  <div class="avatar-circle" aria-hidden="true">
+    <img src="/images/logo.png" alt="" width="160" height="160" style="width:160px;height:160px;object-fit:cover" fetchpriority="high">
   </div>
   <div style="min-width:260px;flex:1">
-    <p class="hero-greeting mono" style="margin:0 0 8px;font-size:13px;color:var(--text-dim)">hello, world.</p>
-    <h1 class="hero-title" style="margin:0 0 8px;font-size:clamp(40px,6vw,64px);line-height:1.1;font-weight:900">game_ryo</h1>
-    <p class="hero-role" data-i18n="role" style="margin:0 0 24px;font-size:18px;color:var(--accent)">趣味エンジニア</p>
-    <div class="social-chips" style="display:flex;flex-wrap:wrap;gap:10px;font-size:14px">
+    <p class="hero-greeting mono" data-i18n="hero_greeting">hello, world.</p>
+    <h1 class="hero-title">game_ryo</h1>
+    <p class="hero-role" data-i18n="role">趣味エンジニア</p>
+    <div class="social-chips">
       {% for s in social %}
         <a href="{{ s.url }}" target="_blank" rel="noopener" class="chip">{{ s.name }}</a>
       {% endfor %}

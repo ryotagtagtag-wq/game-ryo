@@ -1,18 +1,35 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>{% if title %}{{ title }} | {% endif %}game_ryo - Developer Profile</title>
+<meta name="description" content="パソコンとかスマホいじるのが好きで、サーバー作ったりアプリ作ったりしてる人。Scratchでちょっといろいろやったり、チャットとかSNSっぽいの作ったりして遊んでます。AIとかも好きで、いろいろ試して「これ動くじゃん」ってなるのが楽しいタイプ。" />
 <meta name="google-site-verification" content="HLm6TR-aDtEEILkEpa46zFpAsMdvRdFnwn-GkwTEU98" />
 <link rel="icon" type="image/png" href="/images/favicon.png" />
+<link rel="preload" as="image" href="/images/logo.png" fetchpriority="high" />
 
-{# Preload critical fonts #}
+{# Preload critical fonts with font-display: swap #}
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Noto+Sans+JP:wght@400;500;700&display=swap"></noscript>
 
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="dns-prefetch" href="https://fonts.gstatic.com" />
 
 <link rel="me" href="https://github.com/ryotagtagtag-wq" />
 <link rel="me" href="https://mstdn.maud.io/@game_ryo" />
 <meta name="adring-site-verification" content="adring_vrf_a8yWQ_K6MFTsavQJY9LJymDAjivMqs_-" />
+
+{# Trusted Types policy for DOM XSS prevention #}
+<script>
+  if (window.trustedTypes && trustedTypes.createPolicy) {
+    trustedTypes.createPolicy('default', {
+      createHTML: (s) => s,
+      createScript: (s) => s,
+      createScriptURL: (s) => s
+    });
+  }
+</script>
+
+{# Preload hero image for LCP #}
+<link rel="preload" as="image" href="/images/logo.png" fetchpriority="high" imagesrcset="/images/logo.png 1x" imagesizes="160px">
 
 {% if env.NODE_ENV === "production" %}
 <!-- Cloudflare Web Analytics -->

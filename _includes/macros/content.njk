@@ -6,8 +6,16 @@
   <div class="card">
     <div class="blog-date mono">{{ post.publishedAt }}</div>
     <h2 class="blog-title">{{ post.title }}</h2>
-    {% if post.eyecatch and post.eyecatch.url %}
-    <img src="{{ post.eyecatch.url }}" alt="{{ post.title }}" class="blog-img" style="width:100%;height:auto;border-radius:var(--r-field);margin-top:var(--space-3);" loading="lazy" decoding="async">
+    {% if post.eyecatch and post.eyecatch.metadata %}
+    {{ generateHTML(post.eyecatch.metadata, {
+      alt: post.title,
+      loading: "lazy",
+      decoding: "async",
+      sizes: "(max-width: 720px) 100vw, (max-width: 1200px) 90vw, 720px",
+      class: "blog-img"
+    }) | safe }}
+    {% elif post.eyecatch and post.eyecatch.url %}
+    <img src="{{ post.eyecatch.url }}" alt="{{ post.title }}" class="blog-img" width="720" height="405" loading="lazy" decoding="async" style="width:100%;height:auto;border-radius:var(--r-field);margin-top:var(--space-3);">
     {% endif %}
     <div class="blog-excerpt">{{ post.content | stripHtml | truncate(100) }}</div>
   </div>
