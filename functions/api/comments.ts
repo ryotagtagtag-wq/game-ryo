@@ -1,35 +1,53 @@
 import { Turnstile } from "./turnstile";
 
-// 定数
-const MAX_COMMENT_LENGTH = parseInt(ENV.MAX_COMMENT_LENGTH || "2000", 10);
-const MAX_NAME_LENGTH = 30;
-const MAX_PATH_LENGTH = 200;
-const MAX_COMMENTS_PER_PAGE = 200;
-const HASH_SALT = ENV.COMMENT_HASH_SALT;
-const ALLOWED_ORIGIN = ENV.ALLOWED_ORIGIN;
-const TURNSTILE_SECRET_KEY = ENV.TURNSTILE_SECRET_KEY;
+// 環境変数から設定を組み立て
+interface Env {
+  COMMENTS_KV: KVNamespace;
+  ALLOWED_ORIGIN: string;
+  TURNSTILE_SECRET_KEY: string;
+  COMMENT_HASH_SALT: string;
+  MAX_COMMENT_LENGTH?: string;
+}
 
-// レート制限設定（環境変数で上書き可能）
-const RATE_LIMIT_MAX_REQUESTS = parseInt(
-  ENV.RATE_LIMIT_MAX_REQUESTS || "10",
-  10,
-);
-const RATE_LIMIT_WINDOW_SECONDS = parseInt(
-  ENV.RATE_LIMIT_WINDOW_SECONDS || "60",
-  10,
-);
-const RATE_LIMIT_KEY_PREFIX = "rl:comment:";
+interface Config {
+  maxCommentLength: number;
+  maxNameLength: number;
+  maxPathLength: number;
+  maxCommentsPerPage: number;
+  hashSalt: string;
+  allowedOrigin: string;
+  turnstileSecretKey: string;
+  // レート制限設定
+  rateLimitMaxRequests: number;
+  rateLimitWindowSeconds: number;
+  rateLimitKeyPrefix: string;
+}
+
+function getConfig(env: Env): Config {
+  return {
+    maxCommentLength: parseInt(env.MAX_COMMENT_LENGTH || "2000", 10),
+    maxNameLength: 30,
+    maxPathLength: 200,
+    maxCommentsPerPage: 200,
+    hashSalt: env.COMMENT_HASH_SALT,
+    allowedOrigin: env.ALLOWED_ORIGIN,
+    turnstileSecretKey: env.TURNSTILE_SECRET_KEY,
+    rateLimitMaxRequests: parseInt(env.RATE_LIMIT_MAX_REQUESTS || "10", 10),
+    rateLimitWindowSeconds: parseInt(env.RATE_LIMIT_WINDOW_SECONDS || "60", 10),
+    rateLimitKeyPrefix: "rl:comment:",
+  };
+}
 
 // KVキーのプレフィックスを生成
-async function getKeyPrefix(path: string): Promise<string> {
-  const hash = await hashPath(path);
+async function getKeyPrefix(hashSalt: string, path: string): Promise<string> {
+  const hash = await hashPath(hashSalt, path);
   return `c:${hash}:`;
 }
 
 // パスをハッシュ化（ソルト付き）
-async function hashPath(path: string): Promise<string> {
+async function hashPath(hashSalt: string, path: string): Promise<string> {
   const encoder = new TextEncoder();
-  const data = encoder.encode(`${HASH_SALT}:${path}`);
+  const data = encoder.encode(`${hashSalt}:${path}`);
   const hashBuffer = await crypto.subtle.digest("SHA-256", data);
   const hashArray = Array.from(new Uint8Array(hashBuffer));
   return hashArray
@@ -59,7 +77,11 @@ interface ValidationResult {
   error?: string;
 }
 
-function validateInput(body: unknown): ValidationResult {
+function validateInput(
+  body: unknown,
+  maxCommentLength: number,
+  maxPathLength: number,
+): ValidationResult {
   if (!body || typeof body !== "object") {
     return { valid: false, error: "無効なリクエストです" };
   }
@@ -77,30 +99,27 @@ function validateInput(body: unknown): ValidationResult {
     !path ||
     typeof path !== "string" ||
     !path.startsWith("/") ||
-    path.length > MAX_PATH_LENGTH
+    path.length > maxPathLength
   ) {
     return { valid: false, error: "無効なパスです" };
   }
 
   // content
   const trimmedContent = typeof content === "string" ? content.trim() : "";
-  if (
-    trimmedContent.length === 0 ||
-    trimmedContent.length > MAX_COMMENT_LENGTH
-  ) {
+  if (trimmedContent.length === 0 || trimmedContent.length > maxCommentLength) {
     return {
       valid: false,
-      error: `本文は1文字以上${MAX_COMMENT_LENGTH}文字以内で入力してください`,
+      error: `本文は1文字以上${maxCommentLength}文字以内で入力してください`,
     };
   }
 
   // name
   if (name !== undefined && name !== null) {
     const nameStr = String(name).trim();
-    if (nameStr.length > MAX_NAME_LENGTH) {
+    if (nameStr.length > 30) {
       return {
         valid: false,
-        error: `名前は${MAX_NAME_LENGTH}文字以内で入力してください`,
+        error: `名前は30文字以内で入力してください`,
       };
     }
   }
@@ -136,14 +155,28 @@ function validateInput(body: unknown): ValidationResult {
   return { valid: true };
 }
 
+// 親コメントの存在確認
+async function verifyParentComment(
+  kv: KVNamespace,
+  hashSalt: string,
+  path: string,
+  parentId: string,
+): Promise<boolean> {
+  const prefix = await getKeyPrefix(hashSalt, path);
+  const parentKey = `${prefix}${parentId}`;
+  const parentComment = await kv.get(parentKey, "json");
+  return parentComment !== null;
+}
+
 // レート制限チェック
 async function checkRateLimit(
   kv: KVNamespace,
+  config: Config,
   identifier: string,
 ): Promise<{ allowed: boolean; remaining: number; resetTime: number }> {
-  const key = `${RATE_LIMIT_KEY_PREFIX}${identifier}`;
+  const key = `${config.rateLimitKeyPrefix}${identifier}`;
   const now = Math.floor(Date.now() / 1000);
-  const windowStart = now - RATE_LIMIT_WINDOW_SECONDS;
+  const windowStart = now - config.rateLimitWindowSeconds;
 
   // 現在のカウントを取得
   const data = (await kv.get(key, "json")) as {
@@ -168,30 +201,18 @@ async function checkRateLimit(
     key,
     JSON.stringify({ count, windowStart: currentWindowStart }),
     {
-      expirationTtl: RATE_LIMIT_WINDOW_SECONDS + 10,
+      expirationTtl: config.rateLimitWindowSeconds + 10,
     },
   );
 
-  const remaining = Math.max(0, RATE_LIMIT_MAX_REQUESTS - count);
-  const resetTime = currentWindowStart + RATE_LIMIT_WINDOW_SECONDS;
+  const remaining = Math.max(0, config.rateLimitMaxRequests - count);
+  const resetTime = currentWindowStart + config.rateLimitWindowSeconds;
 
   return {
-    allowed: count <= RATE_LIMIT_MAX_REQUESTS,
+    allowed: count <= config.rateLimitMaxRequests,
     remaining,
     resetTime,
   };
-}
-
-// 親コメントの存在確認
-async function verifyParentComment(
-  kv: KVNamespace,
-  path: string,
-  parentId: string,
-): Promise<boolean> {
-  const prefix = await getKeyPrefix(path);
-  const parentKey = `${prefix}${parentId}`;
-  const parentComment = await kv.get(parentKey, "json");
-  return parentComment !== null;
 }
 
 // コメントの型
@@ -205,10 +226,8 @@ interface Comment {
 }
 
 // GET /api/comments
-export async function onRequestGet(
-  context: EventContext<Env, any, any>,
-): Promise<Response> {
-  const { request, env } = context;
+export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
+  const config = getConfig(env);
   const url = new URL(request.url);
   const path = url.searchParams.get("path");
 
@@ -220,10 +239,10 @@ export async function onRequestGet(
   }
 
   try {
-    const prefix = await getKeyPrefix(path);
+    const prefix = await getKeyPrefix(config.hashSalt, path);
     const listResult = await env.COMMENTS_KV.list({
       prefix,
-      limit: MAX_COMMENTS_PER_PAGE,
+      limit: config.maxCommentsPerPage,
     });
 
     const comments: Comment[] = [];
@@ -254,17 +273,15 @@ export async function onRequestGet(
       },
     );
   }
-}
+};
 
 // POST /api/comments
-export async function onRequestPost(
-  context: EventContext<Env, any, any>,
-): Promise<Response> {
-  const { request, env } = context;
+export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
+  const config = getConfig(env);
 
   // Origin検証
   const origin = request.headers.get("Origin");
-  if (!origin || origin !== ALLOWED_ORIGIN) {
+  if (!origin || origin !== config.allowedOrigin) {
     console.warn("Origin検証失敗:", origin);
     return new Response(
       JSON.stringify({ error: "許可されていないオリジンです" }),
@@ -286,7 +303,11 @@ export async function onRequestPost(
   }
 
   // 入力検証
-  const validation = validateInput(body);
+  const validation = validateInput(
+    body,
+    config.maxCommentLength,
+    config.maxPathLength,
+  );
   if (!validation.valid) {
     if (validation.error === "honeybot") {
       // ハニーポット検知: 成功を装って破棄
@@ -312,7 +333,7 @@ export async function onRequestPost(
 
   // Turnstile検証
   const clientIp = request.headers.get("CF-Connecting-IP") || "unknown";
-  const turnstile = new Turnstile(TURNSTILE_SECRET_KEY);
+  const turnstile = new Turnstile(config.turnstileSecretKey);
   const turnstileResult = await turnstile.verify(turnstile_token, clientIp);
 
   if (!turnstileResult.success) {
@@ -327,7 +348,11 @@ export async function onRequestPost(
   }
 
   // レート制限チェック（Turnstile成功後、IPベース）
-  const rateLimitResult = await checkRateLimit(env.COMMENTS_KV, clientIp);
+  const rateLimitResult = await checkRateLimit(
+    env.COMMENTS_KV,
+    config,
+    clientIp,
+  );
   if (!rateLimitResult.allowed) {
     console.warn("レート制限超過:", clientIp);
     return new Response(
@@ -352,6 +377,7 @@ export async function onRequestPost(
   if (parent_id) {
     const parentExists = await verifyParentComment(
       env.COMMENTS_KV,
+      config.hashSalt,
       path,
       parent_id,
     );
@@ -365,7 +391,7 @@ export async function onRequestPost(
       );
     }
     // 親がすでに返信の場合はネストを許可しない（1段階まで）
-    const parentKey = `${await getKeyPrefix(path)}${parent_id}`;
+    const parentKey = `${await getKeyPrefix(config.hashSalt, path)}${parent_id}`;
     const parentComment = await env.COMMENTS_KV.get(parentKey, "json");
     if (parentComment && (parentComment as Comment).parent_id) {
       return new Response(
@@ -389,27 +415,11 @@ export async function onRequestPost(
     created_at: new Date().toISOString(),
   };
 
-  const key = `${await getKeyPrefix(path)}${commentId}`;
+  const key = `${await getKeyPrefix(config.hashSalt, path)}${commentId}`;
   await env.COMMENTS_KV.put(key, JSON.stringify(comment));
 
   return new Response(JSON.stringify(comment), {
     status: 201,
     headers: { "Content-Type": "application/json" },
   });
-}
-
-// Cloudflare Workersの型定義
-interface Env {
-  COMMENTS_KV: KVNamespace;
-  ALLOWED_ORIGIN: string;
-  TURNSTILE_SECRET_KEY: string;
-  COMMENT_HASH_SALT: string;
-  MAX_COMMENT_LENGTH?: string;
-}
-
-interface EventContext<Env, Params, Data> {
-  request: Request;
-  env: Env;
-  params: Params;
-  data: Data;
-}
+};
