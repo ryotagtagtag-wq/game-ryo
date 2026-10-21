@@ -1,9 +1,9 @@
-------formdata-undici-051675802764
+------formdata-undici-066500221033
 Content-Disposition: form-data; name="metadata"
 
-{"main_module":"functionsWorker-0.023629685490332952.js"}
-------formdata-undici-051675802764
-Content-Disposition: form-data; name="functionsWorker-0.023629685490332952.js"; filename="functionsWorker-0.023629685490332952.js"
+{"main_module":"functionsWorker-0.6136598929277038.js"}
+------formdata-undici-066500221033
+Content-Disposition: form-data; name="functionsWorker-0.6136598929277038.js"; filename="functionsWorker-0.6136598929277038.js"
 Content-Type: application/javascript+module
 
 var __defProp = Object.defineProperty;
@@ -258,7 +258,11 @@ var onRequestPost = /* @__PURE__ */ __name(async ({ request, env }) => {
       }
     );
   }
-  const rateLimitResult = await checkRateLimit(env.COMMENTS_KV, config, clientIp);
+  const rateLimitResult = await checkRateLimit(
+    env.COMMENTS_KV,
+    config,
+    clientIp
+  );
   if (!rateLimitResult.allowed) {
     console.warn("\u30EC\u30FC\u30C8\u5236\u9650\u8D85\u904E:", clientIp);
     return new Response(
@@ -270,7 +274,9 @@ var onRequestPost = /* @__PURE__ */ __name(async ({ request, env }) => {
         status: 429,
         headers: {
           "Content-Type": "application/json",
-          "Retry-After": String(rateLimitResult.resetTime - Math.floor(Date.now() / 1e3))
+          "Retry-After": String(
+            rateLimitResult.resetTime - Math.floor(Date.now() / 1e3)
+          )
         }
       }
     );
@@ -320,7 +326,7 @@ var onRequestPost = /* @__PURE__ */ __name(async ({ request, env }) => {
   });
 }, "onRequestPost");
 
-// ../.wrangler/tmp/pages-twSWf2/functionsRoutes-0.6016273138752493.mjs
+// ../.wrangler/tmp/pages-GW6M6X/functionsRoutes-0.7648910279505039.mjs
 var routes = [
   {
     routePath: "/api/comments",
@@ -787,4 +793,4 @@ export {
   pages_template_worker_default as default
 };
 
-------formdata-undici-051675802764--
+------formdata-undici-066500221033--

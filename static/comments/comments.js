@@ -437,6 +437,20 @@
    * 初期化
    */
   function init() {
+    // ローディング表示
+    const loadingEl = document.createElement("div");
+    loadingEl.id = "comments-loading";
+    loadingEl.className = "comments-loading";
+    loadingEl.textContent = "コメントを読み込み中...";
+    container.appendChild(loadingEl);
+
+    // エラー表示用
+    const errorEl = document.createElement("div");
+    errorEl.id = "comments-error";
+    errorEl.className = "comments-error";
+    errorEl.style.display = "none";
+    container.appendChild(errorEl);
+
     // コメント一覧エリア作成
     const listContainer = document.createElement("div");
     listContainer.id = "comments-list";
@@ -453,18 +467,12 @@
     loadComments();
   }
 
-  // Turnstileスクリプト読み込み完了後に初期化
-  if (typeof turnstile !== "undefined") {
-    init();
+  // 初期化実行（Turnstileの読み込みを待たずに即実行）
+  // Turnstileウィジェットはフォーム作成時に遅延レンダリングされる
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
   } else {
-    // Turnstileスクリプトの読み込みを待つ
-    const script = document.querySelector('script[src*="turnstile"]');
-    if (script) {
-      script.addEventListener("load", init);
-    } else {
-      // フォールバック
-      setTimeout(init, 100);
-    }
+    init();
   }
 })();
 
