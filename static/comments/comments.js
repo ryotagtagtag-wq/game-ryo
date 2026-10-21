@@ -26,7 +26,7 @@
   }
 
   /**
-   * リンク要素の生成
+   * リンク要素の生成（外部リンク確認付き）
    * @param {string} href
    * @param {string} text
    * @returns {HTMLAnchorElement}
@@ -37,6 +37,15 @@
     a.textContent = text;
     a.rel = "nofollow noopener noreferrer";
     a.target = "_blank";
+    a.className = "external-link";
+    a.addEventListener("click", (e) => {
+      const confirmed = confirm(
+        "外部サイトへ移動します。リンク先の内容は保証されていません。\n\n続行しますか？",
+      );
+      if (!confirmed) {
+        e.preventDefault();
+      }
+    });
     return a;
   }
 
@@ -181,12 +190,12 @@
     nameGroup.appendChild(nameInput);
     form.appendChild(nameGroup);
 
-    // リンク
+    // プロフィールリンク
     const linkGroup = document.createElement("div");
     linkGroup.className = "form-group";
     const linkLabel = document.createElement("label");
     linkLabel.htmlFor = `comment-link-${parentId || "new"}`;
-    linkLabel.textContent = "リンク（任意）";
+    linkLabel.textContent = "プロフィールリンク（任意）";
     const linkInput = document.createElement("input");
     linkInput.type = "url";
     linkInput.id = `comment-link-${parentId || "new"}`;
@@ -388,6 +397,11 @@
 
     if (!listEl) return;
 
+    // 確実にローディングを非表示にするヘルパー
+    const hideLoading = () => {
+      if (loadingEl) loadingEl.style.display = "none";
+    };
+
     try {
       if (loadingEl) loadingEl.style.display = "block";
       if (errorEl) errorEl.style.display = "none";
@@ -433,14 +447,24 @@
 
       // 描画
       listEl.innerHTML = "";
-      for (const parent of parentComments) {
-        const wrapper = createCommentElement(parent, 0);
-        listEl.appendChild(wrapper);
 
-        // 返信がある場合
-        const parentReplies = repliesByParent.get(parent.id) || [];
-        for (const reply of parentReplies) {
-          wrapper.appendChild(createCommentElement(reply, 1));
+      if (parentComments.length === 0) {
+        // コメントがない場合のメッセージ
+        const emptyMsg = document.createElement("p");
+        emptyMsg.className = "comments-empty";
+        emptyMsg.textContent =
+          "コメントはまだありません。最初のコメントを投稿してみましょう。";
+        listEl.appendChild(emptyMsg);
+      } else {
+        for (const parent of parentComments) {
+          const wrapper = createCommentElement(parent, 0);
+          listEl.appendChild(wrapper);
+
+          // 返信がある場合
+          const parentReplies = repliesByParent.get(parent.id) || [];
+          for (const reply of parentReplies) {
+            wrapper.appendChild(createCommentElement(reply, 1));
+          }
         }
       }
 
@@ -465,7 +489,8 @@
       }
       console.error("コメント読み込みエラー:", err);
     } finally {
-      if (loadingEl) loadingEl.style.display = "none";
+      // 確実にローディングを非表示
+      hideLoading();
     }
   }
 
