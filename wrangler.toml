@@ -4,11 +4,13 @@ pages_build_output_dir = "_site"
 
 [[kv_namespaces]]
 binding = "COMMENTS_KV"
-id = "REPLACE_WITH_KV_NAMESPACE_ID"
-preview_id = "REPLACE_WITH_PREVIEW_KV_NAMESPACE_ID"
+id = "d1aa468a8224415f9724ddfe64ae821e"
+preview_id = "d1aa468a8224415f9724ddfe64ae821e"
 
-[env.production]
-name = "game-ryo-comments-production"
+[[env.production.kv_namespaces]]
+binding = "COMMENTS_KV"
+id = "d1aa468a8224415f9724ddfe64ae821e"
 
-[env.preview]
-name = "game-ryo-comments-preview"
+[[env.preview.kv_namespaces]]
+binding = "COMMENTS_KV"
+id = "d1aa468a8224415f9724ddfe64ae821e"

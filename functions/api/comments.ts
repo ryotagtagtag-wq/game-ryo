@@ -9,8 +9,19 @@ const HASH_SALT = ENV.COMMENT_HASH_SALT;
 const ALLOWED_ORIGIN = ENV.ALLOWED_ORIGIN;
 const TURNSTILE_SECRET_KEY = ENV.TURNSTILE_SECRET_KEY;
 
+// レート制限設定（環境変数で上書き可能）
+const RATE_LIMIT_MAX_REQUESTS = parseInt(
+  ENV.RATE_LIMIT_MAX_REQUESTS || "10",
+  10,
+);
+const RATE_LIMIT_WINDOW_SECONDS = parseInt(
+  ENV.RATE_LIMIT_WINDOW_SECONDS || "60",
+  10,
+);
+const RATE_LIMIT_KEY_PREFIX = "rl:comment:";
+
 // KVキーのプレフィックスを生成
-function getKeyPrefix(path: string): string {
+async function getKeyPrefix(path: string): Promise<string> {
   const hash = await hashPath(path);
   return `c:${hash}:`;
 }
@@ -123,6 +134,52 @@ function validateInput(body: unknown): ValidationResult {
   }
 
   return { valid: true };
+}
+
+// レート制限チェック
+async function checkRateLimit(
+  kv: KVNamespace,
+  identifier: string,
+): Promise<{ allowed: boolean; remaining: number; resetTime: number }> {
+  const key = `${RATE_LIMIT_KEY_PREFIX}${identifier}`;
+  const now = Math.floor(Date.now() / 1000);
+  const windowStart = now - RATE_LIMIT_WINDOW_SECONDS;
+
+  // 現在のカウントを取得
+  const data = (await kv.get(key, "json")) as {
+    count: number;
+    windowStart: number;
+  } | null;
+
+  let count = 0;
+  let currentWindowStart = now;
+
+  if (data && data.windowStart >= windowStart) {
+    // 同一ウィンドウ内
+    count = data.count;
+    currentWindowStart = data.windowStart;
+  }
+
+  // カウント増加
+  count++;
+
+  // 保存（TTLはウィンドウ秒数 + 余裕）
+  await kv.put(
+    key,
+    JSON.stringify({ count, windowStart: currentWindowStart }),
+    {
+      expirationTtl: RATE_LIMIT_WINDOW_SECONDS + 10,
+    },
+  );
+
+  const remaining = Math.max(0, RATE_LIMIT_MAX_REQUESTS - count);
+  const resetTime = currentWindowStart + RATE_LIMIT_WINDOW_SECONDS;
+
+  return {
+    allowed: count <= RATE_LIMIT_MAX_REQUESTS,
+    remaining,
+    resetTime,
+  };
 }
 
 // 親コメントの存在確認
@@ -265,6 +322,28 @@ export async function onRequestPost(
       {
         status: 400,
         headers: { "Content-Type": "application/json" },
+      },
+    );
+  }
+
+  // レート制限チェック（Turnstile成功後、IPベース）
+  const rateLimitResult = await checkRateLimit(env.COMMENTS_KV, clientIp);
+  if (!rateLimitResult.allowed) {
+    console.warn("レート制限超過:", clientIp);
+    return new Response(
+      JSON.stringify({
+        error:
+          "短時間に多くの投稿が行われました。しばらく時間をおいてから再度お試しください",
+        retryAfter: rateLimitResult.resetTime - Math.floor(Date.now() / 1000),
+      }),
+      {
+        status: 429,
+        headers: {
+          "Content-Type": "application/json",
+          "Retry-After": String(
+            rateLimitResult.resetTime - Math.floor(Date.now() / 1000),
+          ),
+        },
       },
     );
   }

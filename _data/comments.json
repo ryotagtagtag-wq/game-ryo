@@ -1,5 +1,5 @@
 {
-  "turnstileSiteKey": "REPLACE_WITH_TURNSTILE_SITE_KEY",
+  "turnstileSiteKey": "0x4AAAAAAFewXlHoIOvxlwLY",
   "apiPath": "/api/comments",
   "maxCommentsPerPage": 200
 }
