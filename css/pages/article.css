@@ -1,5 +1,5 @@
 /* Article page specific styles */
-@import "tokens.css";
+@import "../tokens.css";
 
 /* Scroll progress bar */
 #scroll-progress {

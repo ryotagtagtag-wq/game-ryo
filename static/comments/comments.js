@@ -132,6 +132,11 @@
 
     const form = createCommentForm(parentId);
     parentWrapper.appendChild(form);
+
+    // Turnstileレンダリング（フォームがDOMに追加された後で実行）
+    const turnstileContainerId = `turnstile-${parentId}`;
+    renderTurnstile(form, turnstileContainerId);
+
     form.querySelector("textarea")?.focus();
   }
 
@@ -230,21 +235,36 @@
     // 送信処理
     form.addEventListener("submit", (e) => handleSubmit(e, form, parentId));
 
-    // Turnstileレンダリング
-    if (typeof turnstile !== "undefined" && turnstileSiteKey) {
-      turnstileWidgetId = turnstile.render(turnstileContainer.id, {
-        sitekey: turnstileSiteKey,
-        theme: "auto",
-        callback: (token) => {
-          tokenInput.value = token;
-        },
-        "expired-callback": () => {
-          tokenInput.value = "";
-        },
-      });
-    }
-
     return form;
+  }
+
+  /**
+   * Turnstileウィジェットをレンダリング
+   * @param {HTMLFormElement} form
+   * @param {string} containerId
+   */
+  function renderTurnstile(form, containerId) {
+    if (typeof turnstile !== "undefined" && turnstileSiteKey) {
+      const turnstileContainer = form.querySelector(`#${containerId}`);
+      if (turnstileContainer) {
+        turnstileWidgetId = turnstile.render(containerId, {
+          sitekey: turnstileSiteKey,
+          theme: "auto",
+          callback: (token) => {
+            const tokenInput = form.querySelector(
+              'input[name="turnstile_token"]',
+            );
+            if (tokenInput) tokenInput.value = token;
+          },
+          "expired-callback": () => {
+            const tokenInput = form.querySelector(
+              'input[name="turnstile_token"]',
+            );
+            if (tokenInput) tokenInput.value = "";
+          },
+        });
+      }
+    }
   }
 
   /**
@@ -372,15 +392,24 @@
       if (loadingEl) loadingEl.style.display = "block";
       if (errorEl) errorEl.style.display = "none";
 
+      // タイムアウト付きfetch（10秒）
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000);
+
       const response = await fetch(
         `${apiPath}?path=${encodeURIComponent(pagePath)}`,
         {
           credentials: "same-origin",
+          signal: controller.signal,
         },
       );
 
+      clearTimeout(timeoutId);
+
       if (!response.ok) {
-        throw new Error("コメントの読み込みに失敗しました");
+        throw new Error(
+          `コメントの読み込みに失敗しました (HTTP ${response.status})`,
+        );
       }
 
       /** @type {{ comments: CommentData[] }} */
@@ -422,12 +451,19 @@
       }
     } catch (err) {
       if (errorEl) {
-        errorEl.textContent =
-          err instanceof Error
-            ? err.message
-            : "コメントの読み込みに失敗しました";
+        let msg = "コメントの読み込みに失敗しました";
+        if (err instanceof Error) {
+          if (err.name === "AbortError") {
+            msg =
+              "読み込みがタイムアウトしました。ネットワークを確認してください。";
+          } else {
+            msg = err.message;
+          }
+        }
+        errorEl.textContent = msg;
         errorEl.style.display = "block";
       }
+      console.error("コメント読み込みエラー:", err);
     } finally {
       if (loadingEl) loadingEl.style.display = "none";
     }
@@ -460,8 +496,13 @@
     // 新規投稿フォーム
     const formContainer = document.createElement("div");
     formContainer.id = "comments-form-container";
-    formContainer.appendChild(createCommentForm());
+    const form = createCommentForm();
+    formContainer.appendChild(form);
     container.appendChild(formContainer);
+
+    // Turnstileレンダリング（フォームがDOMに追加された後で実行）
+    const turnstileContainerId = `turnstile-${parentId || "new"}`;
+    renderTurnstile(form, turnstileContainerId);
 
     // 読み込み
     loadComments();

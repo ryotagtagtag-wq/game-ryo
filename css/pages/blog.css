@@ -1,5 +1,5 @@
 /* Blog list page specific styles */
-@import "tokens.css";
+@import "../tokens.css";
 
 /* Page header */
 .page-header {
