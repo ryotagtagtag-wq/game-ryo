@@ -282,7 +282,7 @@
     }
 
     try {
-      turnstileWidgetId = turnstile.render(containerId, {
+      turnstileWidgetId = turnstile.render(turnstileContainer, {
         sitekey: turnstileSiteKey,
         theme: "auto",
         callback: (token) => {
