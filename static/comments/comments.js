@@ -270,9 +270,14 @@
       return;
     }
 
-    const turnstileContainer = form.querySelector(`#${containerId}`);
+    // コンテナ要素がドキュメントに存在するか確認（Turnstileはdocument.getElementByIdを使用）
+    const turnstileContainer = document.getElementById(containerId);
     if (!turnstileContainer) {
-      console.error("[Comments] Turnstile container not found:", containerId);
+      console.warn(
+        "[Comments] Turnstile container not in document yet, retrying in 100ms:",
+        containerId,
+      );
+      setTimeout(() => renderTurnstile(form, containerId), 100);
       return;
     }
 
