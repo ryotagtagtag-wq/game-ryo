@@ -1,20 +1,14 @@
 {
   "hardware": [
-    { "name": "MacBook Pro 14\" (M3 Pro, 2023)", "desc": "メイン開発機 / 18GB RAM / 512GB SSD" },
-    { "name": "iPhone 15 Pro", "desc": "検証・撮影・モバイル開発確認" },
-    { "name": "Keychron Q1 (Gateron Red, ISO-JIS)", "desc": "メインキーボード / VIA設定済み" },
-    { "name": "Logitech MX Master 3S", "desc": "マウス / Flow で複数機種間移動" },
-    { "name": "Dell U2723QE 27\" 4K", "desc": "メインモニタ / USB-C ハブ内蔵" },
-    { "name": "HHKB Professional HYBRID Type-S", "desc": "サブキーボード / 持ち運び用" }
+    { "name": "MacBook Pro 14\" (M2 Pro, 2023)", "desc": "メイン開発機 / 16GB RAM / 512GB SSD" },
+    { "name": "Amazon Echo Show 5", "desc": "スマートスピーカー / ビデオ通話 / ホームオートメーション" }
   ],
   "software": [
-    { "name": "VS Code (Insiders)", "desc": "エディタ / Extensions: Biome, Tailwind, GitLens, Thunder Client" },
+    { "name": "VS Code", "desc": "エディタ / Extensions: Biome, Tailwind, GitLens, Thunder Client" },
     { "name": "Warp + zsh (Oh My Zsh)", "desc": "ターミナル / Starship prompt / fzf, zoxide, eza" },
-    { "name": "Raycast (Pro)", "desc": "ランチャー / Clipboard, Window, Snippets, AI Chat" },
-    { "name": "Obsidian", "desc": "ナレッジ管理 / Daily notes, Canvas, Dataview" },
+    { "name": "Raycast", "desc": "ランチャー / Clipboard, Window, Snippets, AI Chat" },
+    { "name": "zenn", "desc": "ナレッジ管理 / Daily notes, Canvas, Dataview" },
     { "name": "Figma", "desc": "デザイン / プロトタイプ・デザインシステム" },
-    { "name": "TablePlus", "desc": "DB クライアント / PostgreSQL, MySQL, SQLite" },
-    { "name": "Postman / Thunder Client", "desc": "API テスト / コレクション共有" },
     { "name": "Docker Desktop / OrbStack", "desc": "コンテナ / ローカル開発環境" }
   ],
   "cloud": [
@@ -24,12 +18,10 @@
     { "name": "Vercel", "desc": "プレビューデプロイ / Next.js検証用" },
     { "name": "Netlify", "desc": "フォーム受信 / エッジ関数検証" },
     { "name": "Cloudinary", "desc": "画像最適化・配信 / アバター・OGP画像" },
-    { "name": "Sentry (Free)", "desc": "エラートラッキング / パフォーマンス監視" }
-  ],
+    { "name": "Supabase", "desc": "データベース / 認証・ストレージ・Edge Functions" },
+    { "name": "Notion", "desc": "ナレッジ管理 / ドキュメント・タスク管理" },
+    { "name": "Google Workspace (Gmail / Drive / Docs / Sheets / Slides)", "desc": "メール・ドキュメント・スプレッドシート" }],
   "gaming": [
-    { "name": "Steam Deck OLED", "desc": "携帯ゲーミングPC / 寝ながらFactorio" },
-    { "name": "Nintendo Switch OLED", "desc": "ゼルダ・スプラ・インディー" },
-    { "name": "Meta Quest 3", "desc": "VR開発検証 / Beat Saber" },
-    { "name": "Keychron M1 (Mouse)", "desc": "モバイル用マウス / 静音" }
+    { "name": "Nintendo Switch 2", "desc": "ゼルダ・マリカ・リズム天国" }
   ]
 }
