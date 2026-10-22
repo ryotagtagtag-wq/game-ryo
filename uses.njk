@@ -2,6 +2,8 @@
 layout: page.njk
 permalink: /uses/
 title: Uses
+eleventyComputed:
+  usesData: "uses"
 ---
 {% block head_css %}
 <link rel="stylesheet" href="/css/pages/uses.css" />
@@ -16,129 +18,28 @@ title: Uses
   <p class="page-subtitle" style="margin:0;color:var(--text-muted)">日常的に使っているツール・環境・ガジェット (<a href="https://uses.tech/" target="_blank" rel="noopener" style="color:var(--accent)">uses.tech</a> 形式)</p>
 </section>
 
+{% for category in ["hardware", "software", "cloud", "gaming"] %}
+{% set items = usesData[category] %}
+{% if items and items.length > 0 %}
 <section class="section">
-  <h2 class="section-title" style="margin:0 0 20px;font-size:24px">💻 Hardware</h2>
+  <h2 class="section-title" style="margin:0 0 20px;font-size:24px">
+    {% if category == "hardware" %}💻 Hardware
+    {% elseif category == "software" %}🛠 Software / Development
+    {% elseif category == "cloud" %}☁️ Cloud & Services
+    {% elseif category == "gaming" %}🎮 Gaming & Others
+    {% endif %}
+  </h2>
   <div class="grid-auto">
+    {% for item in items %}
     <div class="card">
-      <strong>MacBook Pro 14" (M3 Pro, 2023)</strong>
-      <p style="margin:8px 0 0;font-size:14px;color:var(--text-muted)">メイン開発機 / 18GB RAM / 512GB SSD</p>
+      <strong>{{ item.name }}</strong>
+      <p style="margin:8px 0 0;font-size:14px;color:var(--text-muted)">{{ item.desc }}</p>
     </div>
-    <div class="card">
-      <strong>iPhone 15 Pro</strong>
-      <p style="margin:8px 0 0;font-size:14px;color:var(--text-muted)">検証・撮影・モバイル開発確認</p>
-    </div>
-    <div class="card">
-      <strong>Keychron Q1 (Gateron Red, ISO-JIS)</strong>
-      <p style="margin:8px 0 0;font-size:14px;color:var(--text-muted)">メインキーボード / VIA設定済み</p>
-    </div>
-    <div class="card">
-      <strong>Logitech MX Master 3S</strong>
-      <p style="margin:8px 0 0;font-size:14px;color:var(--text-muted)">マウス / Flow で複数機種間移動</p>
-    </div>
-    <div class="card">
-      <strong>Dell U2723QE 27" 4K</strong>
-      <p style="margin:8px 0 0;font-size:14px;color:var(--text-muted)">メインモニタ / USB-C ハブ内蔵</p>
-    </div>
-    <div class="card">
-      <strong>HHKB Professional HYBRID Type-S</strong>
-      <p style="margin:8px 0 0;font-size:14px;color:var(--text-muted)">サブキーボード / 持ち運び用</p>
-    </div>
+    {% endfor %}
   </div>
 </section>
-
-<section class="section">
-  <h2 class="section-title" style="margin:0 0 20px;font-size:24px">🛠 Software / Development</h2>
-  <div class="grid-auto">
-    <div class="card">
-      <strong>VS Code (Insiders)</strong>
-      <p style="margin:8px 0 0;font-size:14px;color:var(--text-muted)">エディタ / Extensions: Biome, Tailwind, GitLens, Thunder Client</p>
-    </div>
-    <div class="card">
-      <strong>Warp + zsh (Oh My Zsh)</strong>
-      <p style="margin:8px 0 0;font-size:14px;color:var(--text-muted)">ターミナル / Starship prompt / fzf, zoxide, eza</p>
-    </div>
-    <div class="card">
-      <strong>Raycast (Pro)</strong>
-      <p style="margin:8px 0 0;font-size:14px;color:var(--text-muted)">ランチャー / Clipboard, Window, Snippets, AI Chat</p>
-    </div>
-    <div class="card">
-      <strong>Obsidian</strong>
-      <p style="margin:8px 0 0;font-size:14px;color:var(--text-muted)">ナレッジ管理 / Daily notes, Canvas, Dataview</p>
-    </div>
-    <div class="card">
-      <strong>Figma</strong>
-      <p style="margin:8px 0 0;font-size:14px;color:var(--text-muted)">デザイン / プロトタイプ・デザインシステム</p>
-    </div>
-    <div class="card">
-      <strong>TablePlus</strong>
-      <p style="margin:8px 0 0;font-size:14px;color:var(--text-muted)">DB クライアント / PostgreSQL, MySQL, SQLite</p>
-    </div>
-    <div class="card">
-      <strong>Postman / Thunder Client</strong>
-      <p style="margin:8px 0 0;font-size:14px;color:var(--text-muted)">API テスト / コレクション共有</p>
-    </div>
-    <div class="card">
-      <strong>Docker Desktop / OrbStack</strong>
-      <p style="margin:8px 0 0;font-size:14px;color:var(--text-muted)">コンテナ / ローカル開発環境</p>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <h2 class="section-title" style="margin:0 0 20px;font-size:24px">☁️ Cloud & Services</h2>
-  <div class="grid-auto">
-    <div class="card">
-      <strong>Cloudflare (Workers / Pages / R2 / KV / D1 / Vectorize / Queues / Turnstile)</strong>
-      <p style="margin:8px 0 0;font-size:14px;color:var(--text-muted)">ホスティング・エッジ・ストレージ・AI 全般</p>
-    </div>
-    <div class="card">
-      <strong>GitHub (Actions / Projects / Codespaces / Packages)</strong>
-      <p style="margin:8px 0 0;font-size:14px;color:var(--text-muted)">Git / CI-CD / Issue管理 / コンテナレジストリ</p>
-    </div>
-    <div class="card">
-      <strong>microCMS</strong>
-      <p style="margin:8px 0 0;font-size:14px;color:var(--text-muted)">ヘッドレスCMS / ブログコンテンツ管理</p>
-    </div>
-    <div class="card">
-      <strong>Vercel</strong>
-      <p style="margin:8px 0 0;font-size:14px;color:var(--text-muted)">プレビューデプロイ / Next.js検証用</p>
-    </div>
-    <div class="card">
-      <strong>Netlify</strong>
-      <p style="margin:8px 0 0;font-size:14px;color:var(--text-muted)">フォーム受信 / エッジ関数検証</p>
-    </div>
-    <div class="card">
-      <strong>Cloudinary</strong>
-      <p style="margin:8px 0 0;font-size:14px;color:var(--text-muted)">画像最適化・配信 / アバター・OGP画像</p>
-    </div>
-    <div class="card">
-      <strong>Sentry (Free)</strong>
-      <p style="margin:8px 0 0;font-size:14px;color:var(--text-muted)">エラートラッキング / パフォーマンス監視</p>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <h2 class="section-title" style="margin:0 0 20px;font-size:24px">🎮 Gaming & Others</h2>
-  <div class="grid-auto">
-    <div class="card">
-      <strong>Steam Deck OLED</strong>
-      <p style="margin:8px 0 0;font-size:14px;color:var(--text-muted)">携帯ゲーミングPC / 寝ながらFactorio</p>
-    </div>
-    <div class="card">
-      <strong>Nintendo Switch OLED</strong>
-      <p style="margin:8px 0 0;font-size:14px;color:var(--text-muted)">ゼルダ・スプラ・インディー</p>
-    </div>
-    <div class="card">
-      <strong>Meta Quest 3</strong>
-      <p style="margin:8px 0 0;font-size:14px;color:var(--text-muted)">VR開発検証 / Beat Saber</p>
-    </div>
-    <div class="card">
-      <strong>Keychron M1 (Mouse)</strong>
-      <p style="margin:8px 0 0;font-size:14px;color:var(--text-muted)">モバイル用マウス / 静音</p>
-    </div>
-  </div>
-</section>
+{% endif %}
+{% endfor %}
 
 <section class="section" style="border-top:1px solid var(--border);padding-top:32px">
   <p style="margin:0;color:var(--text-muted);font-size:14px;text-align:center">

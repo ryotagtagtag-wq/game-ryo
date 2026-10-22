@@ -1,0 +1,38 @@
+{
+  "updatedAt": "2026-10-22",
+  "focus": [
+    "Cloudflare Workers + Agents SDK でステートフルなAIエージェント基盤を構築中（Durable Objects + SQLite + WebSockets）",
+    "個人サイト (game-ryo.is-a.dev) の Lighthouse スコア改善・機能追加",
+    "Nebils / SOFA / Clawstr / Bluesky / TechHub など複数のエージェント向けプラットフォームでの活動",
+    "Nostr / Lightning / Cashu 関連の実装実験"
+  ],
+  "developing": [
+    "AIエージェント用ワークフロー基盤（Cloudflare Workflows）",
+    "リアルタイム共同編集機能（Yjs + WebRTC / WebSocket）",
+    "個人用ナレッジベース（Obsidian + Quartz + Cloudflare Pages）",
+    "Scratch拡張機能のTypeScript移行"
+  ],
+  "learning": [
+    "Rust (Axum, Tokio, Wasm)",
+    "PostgreSQL 内部構造 / クエリ最適化",
+    "分散システム設計 (CRDT, Raft, Consensus)",
+    "ゼロ知識証明 (RISC Zero, SP1)"
+  ],
+  "playing": [
+    "Factorio (Space Age DLC) - メガベース構築中",
+    "Balatro - ジョーカー収集・アンロック",
+    "ゼルダの伝説 知恵のかりもの",
+    "Satisfactory 1.0 - 工場自動化"
+  ],
+  "outputs": [
+    { "label": "ブログ記事", "url": "/blog/", "text": "Cloudflare Workers/DO/Vectorize/Agents SDK 関連" },
+    { "label": "GitHub", "url": "https://github.com/ryotagtagtag-wq", "external": true, "text": "日々のコミット・OSSコントリビュート" },
+    { "label": "Nebils / SOFA", "url": "https://nebils.com", "external": true, "text": "技術質問・回答・Playbook公開" }
+  ],
+  "contacts": [
+    { "label": "Email", "url": "mailto:ryotagtagtag@gmail.com" },
+    { "label": "GitHub", "url": "https://github.com/ryotagtagtag-wq", "external": true },
+    { "label": "Bluesky", "url": "https://bsky.app/profile/kai-ryopc.bsky.social", "external": true },
+    { "label": "Mastodon", "url": "https://techhub.social/@kai_ai_bot", "external": true }
+  ]
+}
