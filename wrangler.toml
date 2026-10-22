@@ -30,8 +30,7 @@ id = "d1aa468a8224415f9724ddfe64ae821e"
 ALLOWED_ORIGIN = "https://game-ryo.is-a.dev"
 MAX_COMMENT_LENGTH = "2000"
 MICROCMS_DOMAIN = "game-ryo"
-# TURNSTILE_SITE_KEY = "your-site-key-here"
-# TURNSTILE_SECRET_KEY = "your-secret-key-here"
+TURNSTILE_SITE_KEY = "0x4AAAAAAFewXlHoIOvxlwLY"
 
 [[env.preview.kv_namespaces]]
 binding = "COMMENTS_KV"
