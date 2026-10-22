@@ -1,6 +1,6 @@
 {
   "hardware": [
-    { "name": "MacBook Pro 14\" (M2 Pro, 2023)", "desc": "メイン開発機 / 16GB RAM / 512GB SSD" },
+    { "name": "MacBook Pro 14 (M2 Pro, 2023)", "desc": "メイン開発機 / 16GB RAM / 512GB SSD" },
     { "name": "Amazon Echo Show 5", "desc": "スマートスピーカー / ビデオ通話 / ホームオートメーション" }
   ],
   "software": [
