@@ -7,7 +7,7 @@ ALLOWED_ORIGIN = "https://game-ryo.is-a.dev"
 MICROCMS_DOMAIN = "game-ryo"
 MAX_COMMENT_LENGTH = "2000"
 # Get from Cloudflare Dashboard > Turnstile > Create widget
-# TURNSTILE_SITE_KEY = "your-site-key-here"
+TURNSTILE_SITE_KEY = "0x4AAAAAAFewXlHoIOvxlwLY"
 # TURNSTILE_SECRET_KEY = "your-secret-key-here"
 
 [[kv_namespaces]]
