@@ -6,6 +6,9 @@ pages_build_output_dir = "_site"
 ALLOWED_ORIGIN = "https://game-ryo.is-a.dev"
 MICROCMS_DOMAIN = "game-ryo"
 MAX_COMMENT_LENGTH = "2000"
+# Get from Cloudflare Dashboard > Turnstile > Create widget
+# TURNSTILE_SITE_KEY = "your-site-key-here"
+# TURNSTILE_SECRET_KEY = "your-secret-key-here"
 
 [[kv_namespaces]]
 binding = "COMMENTS_KV"
@@ -16,6 +19,8 @@ preview_id = "d1aa468a8224415f9724ddfe64ae821e"
 ALLOWED_ORIGIN = "https://game-ryo.is-a.dev"
 MICROCMS_DOMAIN = "game-ryo"
 MAX_COMMENT_LENGTH = "2000"
+# TURNSTILE_SITE_KEY = "your-site-key-here"
+# TURNSTILE_SECRET_KEY = "your-secret-key-here"
 
 [[env.production.kv_namespaces]]
 binding = "COMMENTS_KV"
@@ -25,6 +30,8 @@ id = "d1aa468a8224415f9724ddfe64ae821e"
 ALLOWED_ORIGIN = "https://game-ryo.is-a.dev"
 MAX_COMMENT_LENGTH = "2000"
 MICROCMS_DOMAIN = "game-ryo"
+# TURNSTILE_SITE_KEY = "your-site-key-here"
+# TURNSTILE_SECRET_KEY = "your-secret-key-here"
 
 [[env.preview.kv_namespaces]]
 binding = "COMMENTS_KV"

@@ -18,7 +18,28 @@
       <textarea id="form-message" class="field" name="message" rows="5" required style="resize:vertical"></textarea>
     </div>
     <div>
-      <button type="submit" class="btn btn-primary" style="border:0;border-radius:10px;padding:12px 24px;background:var(--accent);color:#0F1117;font:inherit;font-weight:700;cursor:pointer" data-i18n="contact_submit">送信する</button>
+      <div class="cf-turnstile" data-sitekey="{{ env.TURNSTILE_SITE_KEY }}" data-callback="onTurnstileSuccess" data-error-callback="onTurnstileError" data-expired-callback="onTurnstileExpired"></div>
+      <input type="hidden" name="cf-turnstile-response" id="cf-turnstile-response">
+      <p id="turnstile-error" style="color:var(--accent);font-size:13px;margin-top:8px;display:none" data-i18n="turnstile_error">ロボットでないことを確認してください</p>
+    </div>
+    <div>
+      <button type="submit" class="btn btn-primary" style="border:0;border-radius:10px;padding:12px 24px;background:var(--accent);color:#0F1117;font:inherit;font-weight:700;cursor:pointer" data-i18n="contact_submit" disabled>送信する</button>
     </div>
   </form>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  <script>
+    function onTurnstileSuccess(token) {
+      document.getElementById('cf-turnstile-response').value = token;
+      document.querySelector('#contact-form button[type="submit"]').disabled = false;
+      document.getElementById('turnstile-error').style.display = 'none';
+    }
+    function onTurnstileError() {
+      document.querySelector('#contact-form button[type="submit"]').disabled = true;
+      document.getElementById('turnstile-error').style.display = 'block';
+    }
+    function onTurnstileExpired() {
+      document.querySelector('#contact-form button[type="submit"]').disabled = true;
+      document.getElementById('turnstile-error').style.display = 'block';
+    }
+  </script>
 </section>

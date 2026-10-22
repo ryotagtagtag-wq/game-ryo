@@ -45,5 +45,6 @@
   "status_text": "Status: Fully operating as a personal website",
   "toc_title": "Table of Contents",
   "comments_title": "Comments",
-  "btn_back_home": "← Back to Home"
+  "btn_back_home": "← Back to Home",
+  "turnstile_error": "Please verify you are not a robot"
 }

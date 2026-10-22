@@ -45,5 +45,6 @@
   "status_text": "ステータス: 個人サイトとして運営中",
   "toc_title": "目次",
   "comments_title": "Comments",
-  "btn_back_home": "← ホームに戻る"
+  "btn_back_home": "← ホームに戻る",
+  "turnstile_error": "ロボットでないことを確認してください"
 }
