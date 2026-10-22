@@ -2,8 +2,6 @@
 layout: page.njk
 permalink: /uses/
 title: Uses
-eleventyComputed:
-  usesData: "uses"
 ---
 {% block head_css %}
 <link rel="stylesheet" href="/css/pages/uses.css" />
@@ -19,7 +17,7 @@ eleventyComputed:
 </section>
 
 {% for category in ["hardware", "software", "cloud", "gaming"] %}
-{% set items = usesData[category] %}
+{% set items = uses[category] %}
 {% if items and items.length > 0 %}
 <section class="section">
   <h2 class="section-title" style="margin:0 0 20px;font-size:24px" data-i18n="uses_{{ category }}">

@@ -2,8 +2,6 @@
 layout: page.njk
 permalink: /now/
 title: Now
-eleventyComputed:
-  nowData: "now"
 ---
 {% block head_css %}
 <link rel="stylesheet" href="/css/pages/now.css" />
@@ -20,9 +18,9 @@ eleventyComputed:
 
 <section class="section">
   <div class="card" style="max-width:720px">
-    <h2 class="section-title" style="margin:0 0 16px;font-size:24px" data-i18n="now_focus">🎯 現在のフォーカス ({{ nowData.updatedAt or buildDate }})</h2>
+    <h2 class="section-title" style="margin:0 0 16px;font-size:24px" data-i18n="now_focus">🎯 現在のフォーカス ({{ now.updatedAt or buildDate }})</h2>
     <ul style="margin:0;padding-left:20px;line-height:2;color:var(--text-body)">
-      {% for item in nowData.focus %}
+      {% for item in now.focus %}
       <li><strong>{{ item }}</strong></li>
       {% endfor %}
     </ul>
@@ -34,7 +32,7 @@ eleventyComputed:
     <div class="card">
       <h3 style="margin:0 0 12px;font-size:16px;color:var(--accent)" data-i18n="now_developing">💻 開発中</h3>
       <ul style="margin:0;padding-left:20px;line-height:1.8;font-size:14px;color:var(--text-body)">
-        {% for item in nowData.developing %}
+        {% for item in now.developing %}
         <li>{{ item }}</li>
         {% endfor %}
       </ul>
@@ -42,7 +40,7 @@ eleventyComputed:
     <div class="card">
       <h3 style="margin:0 0 12px;font-size:16px;color:var(--accent)" data-i18n="now_learning">📚 学習中</h3>
       <ul style="margin:0;padding-left:20px;line-height:1.8;font-size:14px;color:var(--text-body)">
-        {% for item in nowData.learning %}
+        {% for item in now.learning %}
         <li>{{ item }}</li>
         {% endfor %}
       </ul>
@@ -50,7 +48,7 @@ eleventyComputed:
     <div class="card">
       <h3 style="margin:0 0 12px;font-size:16px;color:var(--accent)" data-i18n="now_playing">🎮 プレイ中</h3>
       <ul style="margin:0;padding-left:20px;line-height:1.8;font-size:14px;color:var(--text-body)">
-        {% for item in nowData.playing %}
+        {% for item in now.playing %}
         <li>{{ item }}</li>
         {% endfor %}
       </ul>
@@ -62,7 +60,7 @@ eleventyComputed:
   <div class="card" style="max-width:720px">
     <h3 style="margin:0 0 12px;font-size:16px;color:var(--accent)" data-i18n="now_outputs">📝 最近のアウトプット</h3>
     <ul style="margin:0;padding-left:20px;line-height:1.8;font-size:14px;color:var(--text-body)">
-      {% for item in nowData.outputs %}
+      {% for item in now.outputs %}
       <li>
         <a href="{{ item.url }}" {% if item.external %}target="_blank" rel="noopener"{% endif %} style="color:var(--accent)">{{ item.label }}</a>
         {% if item.text %} — {{ item.text }}{% endif %}
@@ -76,7 +74,7 @@ eleventyComputed:
   <div class="card" style="max-width:720px;text-align:center">
     <p style="margin:0 0 12px;color:var(--text-muted);font-size:14px" data-i18n="now_updated">最終更新: {{ buildDate }}</p>
     <p style="margin:0;font-size:14px;color:var(--text-body)">
-      {% for contact in nowData.contacts %}
+      {% for contact in now.contacts %}
       <a href="{{ contact.url }}" {% if contact.external %}target="_blank" rel="noopener"{% endif %} style="color:var(--accent)">{{ contact.label }}</a>
       {% if not loop.last %} / {% endif %}
       {% endfor %}
