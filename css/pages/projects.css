@@ -1,0 +1,80 @@
+/* Projects page specific styles */
+@import "/css/tokens.css";
+
+/* Filter buttons */
+.projects-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-6);
+}
+
+.filter-btn {
+  padding: 8px 16px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-chip);
+  background: var(--bg-card);
+  color: var(--text-body);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.filter-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.filter-btn.active {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--bg);
+}
+
+/* Project cards */
+.project-card {
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.project-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.project-name a:hover {
+  color: var(--accent) !important;
+}
+
+.project-desc {
+  line-height: 1.6;
+}
+
+.project-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.project-topics .chip {
+  font-size: 11px;
+  padding: 3px 8px;
+}
+
+/* Empty state */
+.empty-fallback {
+  text-align: center;
+  padding: var(--space-9) var(--space-6);
+}
+
+.projects-note a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .projects-filters {
+    justify-content: center;
+  }
+  .filter-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}

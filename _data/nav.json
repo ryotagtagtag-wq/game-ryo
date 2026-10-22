@@ -6,5 +6,8 @@
     "i18n": "nav_ryopchome"
   },
   { "label": "ホーム", "url": "/", "i18n": "nav_home" },
-  { "label": "ブログ", "url": "/blog/", "i18n": "nav_blog" }
+  { "label": "ブログ", "url": "/blog/", "i18n": "nav_blog" },
+  { "label": "Projects", "url": "/projects/", "i18n": "nav_projects" },
+  { "label": "Uses", "url": "/uses/", "i18n": "nav_uses" },
+  { "label": "Now", "url": "/now/", "i18n": "nav_now" }
 ]

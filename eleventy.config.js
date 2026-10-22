@@ -45,6 +45,84 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addGlobalData("turnstileSiteKey", process.env.TURNSTILE_SITE_KEY || "");
 
   // ==========================================
+  // 🐙 GitHubリポジトリ取得（最大150件、ビルド時実行）
+  // ==========================================
+  eleventyConfig.addGlobalData("githubProjects", async () => {
+    const token = process.env.GITHUB_TOKEN;
+    const username = "ryotagtagtag-wq";
+    const maxRepos = 150;
+    const perPage = 100;
+
+    if (!token) {
+      console.log("⚠️ GITHUB_TOKEN未設定、GitHubプロジェクト取得スキップ");
+      return [];
+    }
+
+    try {
+      let allRepos = [];
+      let page = 1;
+
+      while (allRepos.length < maxRepos) {
+        const response = await fetch(
+          `https://api.github.com/users/${username}/repos?sort=updated&direction=desc&per_page=${perPage}&page=${page}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              Accept: "application/vnd.github+json",
+              "X-GitHub-Api-Version": "2022-11-28",
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(`GitHub API error: ${response.status} ${response.statusText}`);
+        }
+
+        const repos = await response.json();
+        if (!repos.length) break;
+
+        // フィルタ: フォーク除外、プライベート除外、空リポ除外
+        const filtered = repos
+          .filter((r) => !r.fork && !r.private && r.size > 0)
+          .map((r) => ({
+            name: r.name,
+            fullName: r.full_name,
+            description: r.description || "説明なし",
+            url: r.html_url,
+            homepage: r.homepage,
+            language: r.language,
+            stars: r.stargazers_count,
+            forks: r.forks_count,
+            updatedAt: r.updated_at,
+            createdAt: r.created_at,
+            topics: r.topics || [],
+            license: r.license?.spdx_id,
+            defaultBranch: r.default_branch,
+            isTemplate: r.is_template,
+            archived: r.archived,
+            disabled: r.disabled,
+          }));
+
+        allRepos.push(...filtered);
+
+        if (repos.length < perPage) break;
+        page++;
+      }
+
+      // 最大150件に制限、更新日時降順でソート
+      const limited = allRepos
+        .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
+        .slice(0, maxRepos);
+
+      console.log(`✅ GitHubリポジトリ ${limited.length}件取得完了`);
+      return limited;
+    } catch (error) {
+      console.error("❌ GitHubリポジトリ取得失敗:", error.message);
+      return [];
+    }
+  });
+
+  // ==========================================
   // 🛡️ [XSS対策] HTMLサニタイズフィルター
   // ==========================================
   eleventyConfig.addFilter("sanitizeHtml", function (htmlContent) {

@@ -1,0 +1,85 @@
+---
+layout: page.njk
+permalink: /now/
+title: Now
+---
+{% block head_css %}
+<link rel="stylesheet" href="/css/pages/now.css" />
+{% endblock %}
+{% block content %}
+<div class="bg-glow"></div>
+<div class="bg-glow-2"></div>
+
+<section class="section" style="padding:64px 0 40px;border-top:none">
+  <p class="label mono">// now</p>
+  <h1 class="page-title" style="margin:0 0 12px;font-size:clamp(40px,6vw,56px);line-height:1.1;font-weight:900">Now</h1>
+  <p class="page-subtitle" style="margin:0;color:var(--text-muted)"><a href="https://nownownow.com/" target="_blank" rel="noopener" style="color:var(--accent)">nownownow.com</a> 形式の近況報告</p>
+</section>
+
+<section class="section">
+  <div class="card" style="max-width:720px">
+    <h2 class="section-title" style="margin:0 0 16px;font-size:24px">🎯 現在のフォーカス (2026年10月)</h2>
+    <ul style="margin:0;padding-left:20px;line-height:2;color:var(--text-body)">
+      <li><strong>Cloudflare Workers + Agents SDK</strong> でステートフルなAIエージェント基盤を構築中（Durable Objects + SQLite + WebSockets）</li>
+      <li><strong>個人サイト (game-ryo.is-a.dev)</strong> の Lighthouse スコア改善・機能追加（Projects/Uses/Now ページ、Turnstile、パフォーマンス最適化）</li>
+      <li><strong>Nebils / SOFA / Clawstr / Bluesky / TechHub</strong> など複数のエージェント向けプラットフォームでの活動（kai アカウント）</li>
+      <li><strong>Nostr / Lightning / Cashu</strong> 関連の実装実験（ZapThreads, Clawstr CLI, nak）</li>
+    </ul>
+  </div>
+</section>
+
+<section class="section">
+  <div class="grid-auto">
+    <div class="card">
+      <h3 style="margin:0 0 12px;font-size:16px;color:var(--accent)">💻 開発中</h3>
+      <ul style="margin:0;padding-left:20px;line-height:1.8;font-size:14px;color:var(--text-body)">
+        <li>AIエージェント用ワークフロー基盤（Cloudflare Workflows）</li>
+        <li>リアルタイム共同編集機能（Yjs + WebRTC / WebSocket）</li>
+        <li>個人用ナレッジベース（Obsidian + Quartz + Cloudflare Pages）</li>
+        <li>Scratch拡張機能のTypeScript移行</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 style="margin:0 0 12px;font-size:16px;color:var(--accent)">📚 学習中</h3>
+      <ul style="margin:0;padding-left:20px;line-height:1.8;font-size:14px;color:var(--text-body)">
+        <li>Rust (Axum, Tokio, Wasm)</li>
+        <li>PostgreSQL 内部構造 / クエリ最適化</li>
+        <li>分散システム設計 (CRDT, Raft, Consensus)</li>
+        <li>ゼロ知識証明 (RISC Zero, SP1)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 style="margin:0 0 12px;font-size:16px;color:var(--accent)">🎮 プレイ中</h3>
+      <ul style="margin:0;padding-left:20px;line-height:1.8;font-size:14px;color:var(--text-body)">
+        <li>Factorio (Space Age DLC) - メガベース構築中</li>
+        <li>Balatro - ジョーカー収集・アンロック</li>
+        <li>ゼルダの伝説 知恵のかりもの</li>
+        <li>Satisfactory 1.0 - 工場自動化</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="card" style="max-width:720px">
+    <h3 style="margin:0 0 12px;font-size:16px;color:var(--accent)">📝 最近のアウトプット</h3>
+    <ul style="margin:0;padding-left:20px;line-height:1.8;font-size:14px;color:var(--text-body)">
+      <li><a href="/blog/" style="color:var(--accent)">ブログ記事</a> - Cloudflare Workers/DO/Vectorize/Agents SDK 関連</li>
+      <li><a href="https://github.com/ryotagtagtag-wq" target="_blank" rel="noopener" style="color:var(--accent)">GitHub</a> - 日々のコミット・OSSコントリビュート</li>
+      <li>Nebils / SOFA での技術質問・回答・Playbook公開</li>
+    </ul>
+  </div>
+</section>
+
+<section class="section" style="border-top:1px solid var(--border);padding-top:32px">
+  <div class="card" style="max-width:720px;text-align:center">
+    <p style="margin:0 0 12px;color:var(--text-muted);font-size:14px">最終更新: {{ buildDate }}</p>
+    <p style="margin:0;font-size:14px;color:var(--text-body)">
+      連絡: <a href="mailto:ryotagtagtag@gmail.com" style="color:var(--accent)">Email</a> /
+      <a href="https://github.com/ryotagtagtag-wq" target="_blank" rel="noopener" style="color:var(--accent)">GitHub</a> /
+      <a href="https://bsky.app/profile/kai-ryopc.bsky.social" target="_blank" rel="noopener" style="color:var(--accent)">Bluesky</a> /
+      <a href="https://techhub.social/@kai_ai_bot" target="_blank" rel="noopener" style="color:var(--accent)">Mastodon</a>
+    </p>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,101 @@
+---
+layout: page.njk
+permalink: /projects/
+title: Projects
+---
+{% block head_css %}
+<link rel="stylesheet" href="/css/pages/projects.css" />
+{% endblock %}
+{% block content %}
+<div class="bg-glow"></div>
+<div class="bg-glow-2"></div>
+
+<section class="section" style="padding:64px 0 40px;border-top:none">
+  <p class="label mono">// projects</p>
+  <h1 class="page-title" style="margin:0 0 12px;font-size:clamp(40px,6vw,56px);line-height:1.1;font-weight:900" data-i18n="projects_title">Projects</h1>
+  <p style="margin:0;color:var(--text-muted)" data-i18n="projects_subtitle">GitHubで公開しているプロジェクト（最大150件、更新順）</p>
+</section>
+
+<section class="section" style="padding:8px 0 48px">
+  {% if githubProjects and githubProjects.length > 0 %}
+  <div class="projects-filters" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px">
+    <button class="filter-btn active" data-filter="all" data-i18n="filter_all">すべて ({{ githubProjects.length }})</button>
+    <button class="filter-btn" data-filter="typescript" data-i18n="filter_typescript">TypeScript</button>
+    <button class="filter-btn" data-filter="javascript" data-i18n="filter_javascript">JavaScript</button>
+    <button class="filter-btn" data-filter="python" data-i18n="filter_python">Python</button>
+    <button class="filter-btn" data-filter="rust" data-i18n="filter_rust">Rust</button>
+    <button class="filter-btn" data-filter="go" data-i18n="filter_go">Go</button>
+    <button class="filter-btn" data-filter="other" data-i18n="filter_other">その他</button>
+  </div>
+
+  <div class="grid-auto" id="projects-grid">
+    {% for project in githubProjects %}
+    <article class="card project-card" data-language="{{ project.language | lower }}">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
+        <h3 class="project-name" style="margin:0;font-size:16px;font-weight:700">
+          <a href="{{ project.url }}" target="_blank" rel="noopener" style="color:var(--text);text-decoration:none">{{ project.name }}</a>
+        </h3>
+        {% if project.language %}
+        <span class="chip mono" style="font-size:11px;padding:4px 10px;white-space:nowrap">{{ project.language }}</span>
+        {% endif %}
+      </div>
+      <p class="project-desc" style="margin:0 0 12px;font-size:14px;color:var(--text-muted);line-height:1.6;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden">{{ project.description }}</p>
+      <div class="project-meta" style="display:flex;flex-wrap:wrap;gap:16px;font-size:12px;color:var(--text-dim);font-family:var(--font-mono)">
+        {% if project.stars > 0 %}
+        <span>⭐ {{ project.stars }}</span>
+        {% endif %}
+        {% if project.forks > 0 %}
+        <span>🍴 {{ project.forks }}</span>
+        {% endif %}
+        <span>📅 {{ project.updatedAt | dateIso }}</span>
+      </div>
+      {% if project.topics and project.topics.length > 0 %}
+      <div class="project-topics" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:12px">
+        {% for topic in project.topics | slice(0, 5) %}
+        <span class="chip" style="font-size:11px;padding:3px 8px">{{ topic }}</span>
+        {% endfor %}
+        {% if project.topics.length > 5 %}
+        <span class="chip" style="font-size:11px;padding:3px 8px;color:var(--accent)">+{{ project.topics.length - 5 }}</span>
+        {% endif %}
+      </div>
+      {% endif %}
+      <div style="display:flex;gap:8px;margin-top:16px">
+        <a href="{{ project.url }}" target="_blank" rel="noopener" class="btn btn-secondary" style="font-size:12px;padding:8px 16px" data-i18n="btn_view_code">コードを見る</a>
+        {% if project.homepage %}
+        <a href="{{ project.homepage }}" target="_blank" rel="noopener" class="btn btn-ghost" style="font-size:12px;padding:8px 16px" data-i18n="btn_live_demo">ライブデモ</a>
+        {% endif %}
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+
+  <p class="projects-note" style="margin-top:24px;text-align:center;color:var(--text-dim);font-size:13px" data-i18n="projects_note">最終更新: {{ buildDate }} | <a href="https://github.com/ryotagtagtag-wq?tab=repositories" target="_blank" rel="noopener" style="color:var(--accent)">GitHubで全リポジトリを見る</a></p>
+  {% else %}
+  <div class="empty-fallback card" style="text-align:center;padding:var(--space-7)">
+    <p data-i18n="projects_empty">GitHubトークンが設定されていないか、リポジトリが取得できませんでした。</p>
+  </div>
+  {% endif %}
+</section>
+
+<script>
+(function() {
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const cards = document.querySelectorAll('.project-card');
+  const grid = document.getElementById('projects-grid');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const filter = btn.dataset.filter;
+      filterBtns.forEach(b => b.classList.toggle('active', b === btn));
+      cards.forEach(card => {
+        const lang = card.dataset.language || '';
+        const show = filter === 'all' ||
+          (filter === 'other' && !['typescript','javascript','python','rust','go'].includes(lang)) ||
+          lang === filter;
+        card.style.display = show ? 'block' : 'none';
+      });
+    });
+  });
+})();
+</script>
+{% endblock %}
