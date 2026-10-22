@@ -18,7 +18,7 @@
       <textarea id="form-message" class="field" name="message" rows="5" required style="resize:vertical"></textarea>
     </div>
     <div>
-      <div class="cf-turnstile" data-sitekey="{{ env.TURNSTILE_SITE_KEY }}" data-callback="onTurnstileSuccess" data-error-callback="onTurnstileError" data-expired-callback="onTurnstileExpired"></div>
+      <div class="cf-turnstile" data-sitekey="{{ turnstileSiteKey }}" data-callback="onTurnstileSuccess" data-error-callback="onTurnstileError" data-expired-callback="onTurnstileExpired"></div>
       <input type="hidden" name="cf-turnstile-response" id="cf-turnstile-response">
       <p id="turnstile-error" style="color:var(--accent);font-size:13px;margin-top:8px;display:none" data-i18n="turnstile_error">ロボットでないことを確認してください</p>
     </div>

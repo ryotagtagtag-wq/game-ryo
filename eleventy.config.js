@@ -41,6 +41,9 @@ module.exports = function (eleventyConfig) {
   // ビルド日時をグローバルデータとして追加
   eleventyConfig.addGlobalData("buildDate", new Date().toUTCString());
 
+  // Turnstile site key (from env)
+  eleventyConfig.addGlobalData("turnstileSiteKey", process.env.TURNSTILE_SITE_KEY || "");
+
   // ==========================================
   // 🛡️ [XSS対策] HTMLサニタイズフィルター
   // ==========================================
