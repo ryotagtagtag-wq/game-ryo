@@ -14,15 +14,15 @@ eleventyComputed:
 
 <section class="section" style="padding:64px 0 40px;border-top:none">
   <p class="label mono">// uses</p>
-  <h1 class="page-title" style="margin:0 0 12px;font-size:clamp(40px,6vw,56px);line-height:1.1;font-weight:900">Uses</h1>
-  <p class="page-subtitle" style="margin:0;color:var(--text-muted)">日常的に使っているツール・環境・ガジェット (<a href="https://uses.tech/" target="_blank" rel="noopener" style="color:var(--accent)">uses.tech</a> 形式)</p>
+  <h1 class="page-title" style="margin:0 0 12px;font-size:clamp(40px,6vw,56px);line-height:1.1;font-weight:900" data-i18n="uses_title">Uses</h1>
+  <p class="page-subtitle" style="margin:0;color:var(--text-muted)" data-i18n="uses_subtitle">日常的に使っているツール・環境・ガジェット (<a href="https://uses.tech/" target="_blank" rel="noopener" style="color:var(--accent)">uses.tech</a> 形式)</p>
 </section>
 
 {% for category in ["hardware", "software", "cloud", "gaming"] %}
 {% set items = usesData[category] %}
 {% if items and items.length > 0 %}
 <section class="section">
-  <h2 class="section-title" style="margin:0 0 20px;font-size:24px">
+  <h2 class="section-title" style="margin:0 0 20px;font-size:24px" data-i18n="uses_{{ category }}">
     {% if category == "hardware" %}💻 Hardware
     {% elseif category == "software" %}🛠 Software / Development
     {% elseif category == "cloud" %}☁️ Cloud & Services

@@ -19,7 +19,7 @@ title: Projects
 <section class="section" style="padding:8px 0 48px">
   {% if githubProjects and githubProjects.length > 0 %}
   <div class="projects-filters" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px">
-    <button class="filter-btn active" data-filter="all" data-i18n="filter_all">すべて ({{ githubProjects.length }})</button>
+    <button class="filter-btn active" data-filter="all" data-i18n="filter_all" data-i18n-count="{{ githubProjects.length }}">すべて ({{ githubProjects.length }})</button>
     <button class="filter-btn" data-filter="typescript" data-i18n="filter_typescript">TypeScript</button>
     <button class="filter-btn" data-filter="javascript" data-i18n="filter_javascript">JavaScript</button>
     <button class="filter-btn" data-filter="python" data-i18n="filter_python">Python</button>

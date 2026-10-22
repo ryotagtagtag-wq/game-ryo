@@ -21,10 +21,15 @@
     document.querySelectorAll("[data-i18n]").forEach((el) => {
       const key = el.getAttribute("data-i18n");
       if (dict[lang][key]) {
+        let text = dict[lang][key];
+        // Handle count placeholder
+        if (el.dataset.i18nCount !== undefined) {
+          text = text.replace("{{count}}", el.dataset.i18nCount);
+        }
         if (el.tagName === "INPUT" || el.tagName === "TEXTAREA") {
-          el.placeholder = dict[lang][key];
+          el.placeholder = text;
         } else {
-          el.innerHTML = dict[lang][key];
+          el.innerHTML = text;
         }
       }
     });
