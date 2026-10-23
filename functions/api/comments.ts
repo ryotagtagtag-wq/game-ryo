@@ -333,8 +333,28 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
 
   // Turnstile検証
   const clientIp = request.headers.get("CF-Connecting-IP") || "unknown";
+
+  // シークレットキーの存在確認
+  if (!config.turnstileSecretKey) {
+    console.error("TURNSTILE_SECRET_KEY is not set in environment variables");
+    return new Response(
+      JSON.stringify({
+        error: "サーバー設定エラー: Turnstile設定が不足しています",
+      }),
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      },
+    );
+  }
+
   const turnstile = new Turnstile(config.turnstileSecretKey);
+  console.log(
+    "[Turnstile] Verifying token:",
+    turnstile_token?.substring(0, 20) + "...",
+  );
   const turnstileResult = await turnstile.verify(turnstile_token, clientIp);
+  console.log("[Turnstile] Verification result:", turnstileResult);
 
   if (!turnstileResult.success) {
     console.warn("Turnstile検証失敗:", turnstileResult["error-codes"]);

@@ -381,13 +381,29 @@
     }
 
     const formData = new FormData(form);
+    const turnstileToken = tokenInput?.value || "";
+
+    if (!turnstileToken) {
+      if (errorDiv) {
+        errorDiv.textContent =
+          "認証が完了していません。チェックボックスをクリックしてください。";
+        errorDiv.style.display = "block";
+      }
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = parentId ? "返信を送信" : "コメントを送信";
+      }
+      isSubmitting = false;
+      return;
+    }
+
     const body = {
       path: pagePath,
       name: formData.get("name") || null,
       link: formData.get("link") || null,
       content: formData.get("content"),
       parent_id: parentId,
-      turnstile_token: tokenInput?.value || "",
+      turnstile_token: turnstileToken,
       website: formData.get("website") || "",
     };
 
