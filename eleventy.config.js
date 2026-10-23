@@ -357,6 +357,12 @@ module.exports = function (eleventyConfig) {
     }
   });
 
+  // Turnstile設定をグローバルデータとして追加
+  eleventyConfig.addGlobalData(
+    "turnstileSiteKey",
+    () => process.env.TURNSTILE_SITE_KEY || "0x4AAAAAAFewXlHoIOvxlwLY",
+  );
+
   // パススルー
   [
     "CNAME",
