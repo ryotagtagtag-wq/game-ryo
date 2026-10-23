@@ -1,26 +1,57 @@
 {
   "hardware": [
-    { "name": "MacBook Pro 14 (M2 Pro, 2023)", "desc": "メイン開発機 / 16GB RAM / 512GB SSD" },
-    { "name": "Amazon Echo Show 5", "desc": "スマートスピーカー / ビデオ通話 / ホームオートメーション" }
+    {
+      "name": "MacBook Pro 14 (M2 Pro, 2023)",
+      "desc": "メイン開発機 / 16GB RAM / 512GB SSD"
+    },
+    {
+      "name": "Amazon Echo Show 5",
+      "desc": "スマートスピーカー / ビデオ通話 / ホームオートメーション"
+    }
   ],
   "software": [
-    { "name": "VS Code", "desc": "エディタ / Extensions: Biome, Tailwind, GitLens, Thunder Client" },
-    { "name": "Warp + zsh (Oh My Zsh)", "desc": "ターミナル / Starship prompt / fzf, zoxide, eza" },
-    { "name": "Raycast", "desc": "ランチャー / Clipboard, Window, Snippets, AI Chat" },
+    {
+      "name": "VS Code",
+      "desc": "エディタ / Extensions: Biome, Tailwind, GitLens, Thunder Client"
+    },
+    {
+      "name": "Warp + zsh (Oh My Zsh)",
+      "desc": "ターミナル / Starship prompt / fzf, zoxide, eza"
+    },
+    {
+      "name": "Raycast",
+      "desc": "ランチャー / Clipboard, Window, Snippets, AI Chat"
+    },
     { "name": "zenn", "desc": "ナレッジ管理 / Daily notes, Canvas, Dataview" },
     { "name": "Figma", "desc": "デザイン / プロトタイプ・デザインシステム" },
-    { "name": "Docker Desktop / OrbStack", "desc": "コンテナ / ローカル開発環境" }
+    {
+      "name": "Docker Desktop / OrbStack",
+      "desc": "コンテナ / ローカル開発環境"
+    }
   ],
   "cloud": [
-    { "name": "Cloudflare (Workers / Pages / R2 / KV / D1 / Vectorize / Queues / Turnstile)", "desc": "ホスティング・エッジ・ストレージ・AI 全般" },
-    { "name": "GitHub (Actions / Projects / Codespaces / Packages)", "desc": "Git / CI-CD / Issue管理 / コンテナレジストリ" },
+    {
+      "name": "Cloudflare (Workers / Pages / R2 / KV / D1 / Vectorize / Queues / Turnstile)",
+      "desc": "ホスティング・エッジ・ストレージ・AI 全般"
+    },
+    {
+      "name": "GitHub (Actions / Projects / Codespaces / Packages)",
+      "desc": "Git / CI-CD / Issue管理 / コンテナレジストリ"
+    },
     { "name": "microCMS", "desc": "ヘッドレスCMS / ブログコンテンツ管理" },
     { "name": "Vercel", "desc": "プレビューデプロイ / Next.js検証用" },
     { "name": "Netlify", "desc": "フォーム受信 / エッジ関数検証" },
     { "name": "Cloudinary", "desc": "画像最適化・配信 / アバター・OGP画像" },
-    { "name": "Supabase", "desc": "データベース / 認証・ストレージ・Edge Functions" },
+    {
+      "name": "Supabase",
+      "desc": "データベース / 認証・ストレージ・Edge Functions"
+    },
     { "name": "Notion", "desc": "ナレッジ管理 / ドキュメント・タスク管理" },
-    { "name": "Google Workspace (Gmail / Drive / Docs / Sheets / Slides)", "desc": "メール・ドキュメント・スプレッドシート" }],
+    {
+      "name": "Google Workspace (Gmail / Drive / Docs / Sheets / Slides)",
+      "desc": "メール・ドキュメント・スプレッドシート"
+    }
+  ],
   "gaming": [
     { "name": "Nintendo Switch 2", "desc": "ゼルダ・マリカ・リズム天国" }
   ]

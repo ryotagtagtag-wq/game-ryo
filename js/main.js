@@ -118,10 +118,13 @@
   hamburger.addEventListener("click", () => toggleDrawer());
   overlay.addEventListener("click", () => toggleDrawer(false));
 
-  drawer.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => toggleDrawer(false)));
+  drawer
+    .querySelectorAll("a")
+    .forEach((a) => a.addEventListener("click", () => toggleDrawer(false)));
 
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && drawer.classList.contains("open")) toggleDrawer(false);
+    if (e.key === "Escape" && drawer.classList.contains("open"))
+      toggleDrawer(false);
   });
 })();
 

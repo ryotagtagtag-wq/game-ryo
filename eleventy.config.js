@@ -42,7 +42,10 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addGlobalData("buildDate", new Date().toUTCString());
 
   // Turnstile site key (from env)
-  eleventyConfig.addGlobalData("turnstileSiteKey", process.env.TURNSTILE_SITE_KEY || "");
+  eleventyConfig.addGlobalData(
+    "turnstileSiteKey",
+    process.env.TURNSTILE_SITE_KEY || "",
+  );
 
   // ==========================================
   // 🐙 GitHubリポジトリ取得（最大150件、ビルド時実行）
@@ -71,11 +74,13 @@ module.exports = function (eleventyConfig) {
               Accept: "application/vnd.github+json",
               "X-GitHub-Api-Version": "2022-11-28",
             },
-          }
+          },
         );
 
         if (!response.ok) {
-          throw new Error(`GitHub API error: ${response.status} ${response.statusText}`);
+          throw new Error(
+            `GitHub API error: ${response.status} ${response.statusText}`,
+          );
         }
 
         const repos = await response.json();

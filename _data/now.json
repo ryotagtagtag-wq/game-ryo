@@ -25,15 +25,42 @@
     "マリオカートワールド - 練習中"
   ],
   "outputs": [
-    { "label": "ブログ記事", "url": "/blog/", "text": "Cloudflare Workers/DO/Vectorize/Agents SDK 関連" },
-    { "label": "GitHub", "url": "https://github.com/ryotagtagtag-wq", "external": true, "text": "日々のコミット・OSSコントリビュート" },
-    { "label": "Zenn", "url": "https://zenn.dev/game_ryo", "external": true, "text": "技術記事・チュートリアル" },
-    { "label": "Qiita", "url": "https://qiita.com/ryotagtagtag-wq", "external": true, "text": "技術記事・チュートリアル" }
+    {
+      "label": "ブログ記事",
+      "url": "/blog/",
+      "text": "Cloudflare Workers/DO/Vectorize/Agents SDK 関連"
+    },
+    {
+      "label": "GitHub",
+      "url": "https://github.com/ryotagtagtag-wq",
+      "external": true,
+      "text": "日々のコミット・OSSコントリビュート"
+    },
+    {
+      "label": "Zenn",
+      "url": "https://zenn.dev/game_ryo",
+      "external": true,
+      "text": "技術記事・チュートリアル"
+    },
+    {
+      "label": "Qiita",
+      "url": "https://qiita.com/ryotagtagtag-wq",
+      "external": true,
+      "text": "技術記事・チュートリアル"
+    }
   ],
   "contacts": [
     { "label": "Email", "url": "mailto:ryotagtagtag@gmail.com" },
-    { "label": "GitHub", "url": "https://github.com/ryotagtagtag-wq", "external": true },
+    {
+      "label": "GitHub",
+      "url": "https://github.com/ryotagtagtag-wq",
+      "external": true
+    },
     { "label": "Zenn", "url": "https://zenn.dev/game_ryo", "external": true },
-    { "label": "Qiita", "url": "https://qiita.com/ryotagtagtag-wq", "external": true }
+    {
+      "label": "Qiita",
+      "url": "https://qiita.com/ryotagtagtag-wq",
+      "external": true
+    }
   ]
 }
