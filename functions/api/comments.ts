@@ -86,11 +86,14 @@ function validateInput(
     return { valid: false, error: "無効なリクエストです" };
   }
 
-  const { path, name, link, content, parent_id, turnstile_token, website } =
+  const { path, name, link, content, parent_id, turnstile_token, website, email_address } =
     body as Record<string, unknown>;
 
   // ハニーポット
   if (website !== undefined && website !== "") {
+    return { valid: true, error: "honeybot" }; // 成功を装って破棄
+  }
+  if (email_address !== undefined && email_address !== "") {
     return { valid: true, error: "honeybot" }; // 成功を装って破棄
   }
 

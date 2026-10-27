@@ -165,7 +165,7 @@
     tokenInput.name = "turnstile_token";
     form.appendChild(tokenInput);
 
-    // ハニーポット
+    // ハニーポット (website チェックボックス)
     const honeyInput = document.createElement("input");
     honeyInput.type = "checkbox";
     honeyInput.name = "website";
@@ -173,6 +173,15 @@
     honeyInput.tabIndex = -1;
     honeyInput.autocomplete = "off";
     form.appendChild(honeyInput);
+
+    // ハニーポット (email_address テキストフィールド - クラシック)
+    const emailHoneyInput = document.createElement("input");
+    emailHoneyInput.type = "text";
+    emailHoneyInput.name = "email_address";
+    emailHoneyInput.style.display = "none !important";
+    emailHoneyInput.tabIndex = -1;
+    emailHoneyInput.autocomplete = "off";
+    form.appendChild(emailHoneyInput);
 
     // 名前
     const nameGroup = document.createElement("div");
